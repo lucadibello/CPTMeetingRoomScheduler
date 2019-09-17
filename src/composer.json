@@ -1,0 +1,12 @@
+{
+    "name": "lucadibello/cptmeetingroomscheduler",
+    "description": "This project will be used to book the 4th floor's meeting room",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Luca Di Bello",
+            "email": "luca.dibello@samtrevano.ch"
+        }
+    ],
+    "require": {}
+}
