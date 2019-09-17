@@ -17,4 +17,4 @@ ini_set("display_errors", 1);
 /**
  * Configurazione di : URL del progetto
  */
-define('URL', 'http://localhost:8123/Repo/AutoCloudTech/');
+define('URL', 'http://localhost:8123/Repo/CPTMeetingRoomScheduler/scr/');
