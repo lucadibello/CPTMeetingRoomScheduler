@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Auto Cloud Tech</title>
+    <title>CPTMeetingRoomScheduler - Resource not found</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
@@ -23,7 +23,7 @@
     <style>
         .al-404 {
             background-attachment: fixed;
-            background-image: linear-gradient( rgba(22, 0, 10, .2), rgba(252, 68, 69, .3)), url('https://source.unsplash.com/1024x768/?thunderstorm');
+            background-image: linear-gradient( rgba(22, 0, 10, .2), rgba(252, 68, 69, .3)), url('https://source.unsplash.com/1024x768/?switzerland');
             background-position: center bottom;
             background-size: cover;
             font-family: 'Poppins', sans-serif;
@@ -46,7 +46,8 @@
                 <div class="col d-table">
                     <div class="al-404 text-center d-table-cell align-middle animated slideInDown">
                         <h2 class="font-weight-bold mb-4">oops!</h2>
-                        <p>the page you are looking for doesn't exist, please go back to our homepage.</p>
+                        <p>la pagina che stai cercando non esiste.
+                            Puoi utilizzare il pulsante sottostante per tornare alla home!</p>
                         <a class="btn btn-danger mt-4" href="home">Homepage</a>
                     </div>
                 </div>
