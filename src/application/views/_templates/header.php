@@ -44,7 +44,3 @@
             </ul>
         </div>
     </nav>
-</body>
-
-<!-- JQuery -->
-<script type="text/javascript" src="./application/assets/mdb/js/jquery-3.4.1.min.js"></script>

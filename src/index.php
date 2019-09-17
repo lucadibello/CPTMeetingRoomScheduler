@@ -15,6 +15,9 @@ require 'application/libs/notifier.php';
 // carico le liberie di composer
 require 'vendor/autoload.php';
 
+// carico la classe che permette l'autenticazione semplificata di un utente
+require 'application/libs/auth.php';
+
 // faccio partire il notifier
 $GLOBALS["NOTIFIER"] = new Notifier();
 

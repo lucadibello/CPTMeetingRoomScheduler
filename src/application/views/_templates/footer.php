@@ -15,26 +15,6 @@
                     <a class="fb-ic" href="https://www.facebook.com/AutoFactorsDirect/">
                         <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
                     </a>
-                    <!-- Twitter -->
-                    <!--
-                    <a class="tw-ic">
-                        <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                    </a>
-                    -->
-
-                    <!-- Google +-->
-                    <!--
-                    <a class="gplus-ic">
-                        <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                    </a>
-                    -->
-
-                    <!--Linkedin -->
-                    <!--
-                    <a class="li-ic">
-                        <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-                    </a>
-                    -->
 
                     <!--Instagram-->
                     <a class="ins-ic" href="https://www.instagram.com/autofactorsdirect/">
@@ -59,7 +39,7 @@
 
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3">© 2019 Copyright:
-        <a href="https://mdbootstrap.com/education/bootstrap/"> AutoCloudTech</a>
+        <a href="https://mdbootstrap.com/education/bootstrap/"> Luca Di Bello</a>
     </div>
     <!-- Copyright -->
 
@@ -81,8 +61,8 @@
 <!-- Navbar js script -->
 <script src="./application/assets/js/navbar.js"></script>
 
-<!-- More text js script -->
-<script src="./application/assets/js/more.js"></script>
+<!-- JQuery -->
+<script type="text/javascript" src="./application/assets/mdb/js/jquery-3.4.1.min.js"></script>
 
 <!-- Smooth scroll -->
 <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15.0/dist/smooth-scroll.polyfills.min.js"></script>
@@ -90,8 +70,6 @@
 
 <script>
     $(document).ready(function() {
-        console.log($(".jarallax"));
-
         //initialize parallax background
         $(".jarallax").jarallax({
             speed: 0.2,
