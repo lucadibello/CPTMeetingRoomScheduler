@@ -3,7 +3,7 @@
 class Auth {
 
   public static function isAuthenticated() {
-    if(isset($_SESSION["auth"]))
+    if(isset($_SESSION["auth"]) && $_SESSION["auth"])
     {
       return true;
     }

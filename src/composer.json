@@ -8,5 +8,7 @@
             "email": "luca.dibello@samtrevano.ch"
         }
     ],
-    "require": {}
+    "require": {
+        "sergeytsalkov/meekrodb": "2.3"
+    }
 }

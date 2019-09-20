@@ -18,3 +18,8 @@ ini_set("display_errors", 1);
  * Configurazione di : URL del progetto
  */
 define('URL', 'http://localhost:8123/Repo/CPTMeetingRoomScheduler/scr/');
+
+/* Configurazione per la connessione al database */
+define('DATABASE_USERNAME', 'root');
+define('DATABASE_PASSWORD', 'root');
+define('DATABASE_NAME', 'cptmrs');

@@ -24,11 +24,9 @@
     <!-- Personal style file -->
     <link href="./application/assets/css/style.css" rel="stylesheet">
 
-    <style>
+    <!-- Page title -->
+    <title>CPT MRS - Login</title>
 
-
-
-    </style>
 </head>
 
 <body>
@@ -36,17 +34,29 @@
         <div class="row">
             <div id="left-column" class="col-lg-7 vh-100 z-depth-5">
                 <p></p>
+                <!-- Check if there are notifications -->
+                <?php if(count($GLOBALS["NOTIFIER"]->getNotifications()) != 0): ?>
+                    <!-- Write notifications one by one -->
+                    <?php foreach ($GLOBALS["NOTIFIER"]->getNotifications() as $notification): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $notification ?>
+                        </div>
+                    <?php endforeach; ?>
+                    <!-- Clear notifications -->
+                    <?php $GLOBALS["NOTIFIER"]->clear(); ?>
+                <?php endif; ?>
+
                 <!-- Default form login -->
-                <form class="text-center p-5" action="#!">
+                <form class="text-center p-5" action="login/auth" method="post">
 
                     <p class="h1 mb-4 light-title">Accedi</p>
                     <br class="h4">
 
                     <!-- Email -->
-                    <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+                    <input type="text" name="username" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
 
                     <!-- Password -->
-                    <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+                    <input type="password" name="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
 
                     <!-- Sign in button -->
                     <button class="btn btn-info btn-block my-4 button-login" type="submit">Accedi</button>
