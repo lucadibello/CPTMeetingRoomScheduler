@@ -25,6 +25,6 @@
 </head>
 <body>
 
-    <?php var_dump($_SESSION["permissions"]) ?>
+    <?php var_dump($_SESSION); var_dump($_SESSION["permissions"]) ?>
 </body>
 </html>

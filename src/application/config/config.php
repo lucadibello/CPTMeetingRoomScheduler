@@ -23,3 +23,6 @@ define('URL', 'http://localhost:8123/Repo/CPTMeetingRoomScheduler/scr/');
 define('DATABASE_USERNAME', 'root');
 define('DATABASE_PASSWORD', 'root');
 define('DATABASE_NAME', 'cptmrs');
+
+// Setup default timezone
+date_default_timezone_set('Europe/Zurich');

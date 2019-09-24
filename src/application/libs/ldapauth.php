@@ -41,8 +41,10 @@ class LdapAuth
 
         // verify user and password
         if($bind = @ldap_bind($ldap, $user.$ldap_usr_dom, $password)) {
-            echo "Valid user and password";
-            // valid
+
+            // Group check currently disabled...
+            return true;
+
             // check presence in groups
             $filter = "(sAMAccountName=".$user.")";
             $attr = array("memberof");

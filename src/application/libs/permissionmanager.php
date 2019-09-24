@@ -8,14 +8,24 @@
 
 class PermissionManager
 {
-    public function __construct(string $perm_key)
+    public function __construct(String $username)
     {
-        $this->PERM_KEY = $perm_key;
+        $this->PERM_KEY = $this->getUserPermissionGroup($username);
     }
 
     public function getPermissions(): Permissions{
         $data = $this->read_from_database();
         return $this->parse_data($data);
+    }
+
+    private function getUserPermissionGroup($username){
+        $result = DB::query("SELECT tipo_utente FROM utente WHERE username=%s", $username);
+
+        if(count($result)>0){
+            return $result[0]["tipo_utente"];
+        }
+
+        throw new InvalidArgumentException("Cannot find user group for this username: " . $username);
     }
 
     private function read_from_database(){

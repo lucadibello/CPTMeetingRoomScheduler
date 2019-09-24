@@ -12,9 +12,18 @@ class Login
     public function index()
     {
         if (Auth::isAuthenticated()) {
-            // If the user is logged in
-            //ViewLoader::load_full("home/index");
-            Header("Location: home");
+
+            if(isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]) {
+                $this->changePassword();
+                exit();
+            }
+            else{
+                // If the user is logged in
+                //ViewLoader::load_full("home/index");
+                Header("Location: home");
+            }
+
+
         } else {
             // If the user is not logged in the controller redirect him to the login page.
             ViewLoader::load("login/index");
@@ -26,31 +35,62 @@ class Login
         if ($_SERVER["REQUEST_METHOD"] == "POST" && $this->validate_login($_POST)) {
             //Require login model
             require_once("application/models/loginmodel.php");
-            $auth = new LoginModel($_POST["username"], $_POST["password"]);
 
-            // if it detects a professor
-            if ($auth->ldapLogin()) {
-                // Check if user is enabled
-                $_SESSION["auth"] = $auth->isUserEnabled();
+            // Clear data
+            $username = filter_input(INPUT_POST, 'username', FILTER_DEFAULT);
+            $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
 
-                if (Auth::isAuthenticated()) {
-                    // Get user permissions
-                    $_SESSION["permissions"] = (new PermissionManager($auth->user_data["tipo_utente"]))->getPermissions();
+            // Create auth object
+            $auth = new LoginModel($username, $password);
 
-                    //Redirect al controller home
-                    Header("Location: ../home");
-                } else {
-                    $GLOBALS["NOTIFIER"]->add("Sembra che il tuo account non sia abilitato per 
-                    accedere a questo servizio, contatta l'amministratore");
+            var_dump($auth->localLogin());
+            var_dump($auth->ldapLogin());
 
-                    //Redirect al controller login
-                    Header("Location: ../login");
-                }
-            } else {
+            // Try to login with Local database
+            if(($status = $auth->localLogin()) && $status["status"]){
+                $_SESSION["auth"] = $status["status"];
+                $_SESSION["username"] = $username;
+                $_SESSION["default_password_changed"] = $status["extra_information"]["default_password_changed"];
+                $_SESSION["login_type_used"] = "LOCAL";
+            }
+            // Try to login with ldap
+            elseif(($_SESSION["auth"] = $auth->ldapLogin())){
+                // Save login type
+                $_SESSION["login_type_used"] = "LDAP";
+            }
+            // Cannot login
+            else{
                 $GLOBALS["NOTIFIER"]->add("Email o password sbagliate. Controlla le credenziali.");
+            }
+
+            if(Auth::isAuthenticated()){
+                $_SESSION["permissions"] = (new PermissionManager($username))->getPermissions();
+
+                if(isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]){
+                    // Send email with confirmation id
+                    $this->changePassword();
+
+
+                    // User have to change password
+                    Header("Location: ../changepassword");
+                }
+                else{
+                    // User has all right
+                    Header("Location: ../home");
+                }
+            }
+            else{
                 Header("Location: ../login");
             }
         }
+    }
+
+    private function changePassword(){
+        require_once("./application/models/passwordchangemodel.php");
+        $a = new PasswordChangeModel();
+
+        // Generate custom URL and save it to database
+        $a->generateUrl($_SESSION["username"]);
     }
 
     private function validate_login(array $array): bool
