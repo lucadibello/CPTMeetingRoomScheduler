@@ -18,9 +18,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
-    <!-- Swiper Js Stylesheet -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
-
     <!-- Personal style file -->
     <link href="./application/assets/css/style.css" rel="stylesheet">
 
@@ -34,6 +31,7 @@
         <div class="row">
             <div id="left-column" class="col-lg-7 vh-100 z-depth-5">
                 <p></p>
+
                 <!-- Check if there are notifications -->
                 <?php if(count($GLOBALS["NOTIFIER"]->getNotifications()) != 0): ?>
                     <!-- Write notifications one by one -->
@@ -45,6 +43,8 @@
                     <!-- Clear notifications -->
                     <?php $GLOBALS["NOTIFIER"]->clear(); ?>
                 <?php endif; ?>
+
+                <?php var_dump($_SESSION) ?>
 
                 <!-- Default form login -->
                 <form class="text-center p-5" action="login/auth" method="post">
@@ -73,15 +73,46 @@
         </div>
     </div>
 
+    <!-- Central Modal Small -->
+    <div class="modal fade" id="pswChangedSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+
+        <!-- Change class .modal-sm to change the size of the modal -->
+        <div class="modal-dialog modal-sm" role="document">
+
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100" id="myModalLabel">Cambio password</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="h3-responsive">Hai cambiato la tua password. Esegui nuovamente l'accesso utilizzando
+                        le nuove credenziali per utilizzare il sistema</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Ho capito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Central Modal Small -->
+
+
     <!-- JQuery -->
-    <script type="text/javascript" src="./application/assets/mdb/js/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+    <script src="/application/assets/js/jquery.min.js"></script>
+    <script src="/application/assets/mdb/js/bootstrap.js"></script>
+    <script src="/application/assets/mdb/js/mdb.js"></script>
+    <script src="/application/assets/mdb/js/popper.min.js"></script>
 
     <script>
-        var parallaxInstance = new Parallax($('#scene').get(0),{
-            relativeInput: true,
-        });
-
+        <?php if(isset($_SESSION["password_change_success"]) && $_SESSION["password_change_success"]): ?>
+            /* Password changed correctly */
+            $('#pswChangedSuccess').modal("show");
+            <?php unset($_SESSION["password_change_success"]) ?>
+        <?php endif; ?>
     </script>
 </body>
 </html>

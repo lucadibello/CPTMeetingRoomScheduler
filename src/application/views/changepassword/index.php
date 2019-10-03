@@ -7,10 +7,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <!-- Bootstrap core CSS -->
-    <link href="./application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Material Design Bootstrap -->
-    <link href="./application/assets/mdb/css/mdb.min.css" rel="stylesheet">
+    <link href="/application/assets/mdb/css/mdb.min.css" rel="stylesheet">
 
     <!-- Animate CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css" rel="stylesheet">
@@ -22,45 +22,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
 
     <!-- Personal style file -->
-    <link href="./application/assets/css/style.css" rel="stylesheet">
+    <link href="/application/assets/css/style.css" rel="stylesheet">
 
     <!-- Page title -->
     <title>CPT MRS - Change password</title>
 
 </head>
 <body>
-    <div class="container-fluid text-center align-content-center">
-        <h1>Cambia la tua password</h1>
+    <div class="container-fluid">
+        <br><br>
         <div class="row d-flex justify-content-center">
-            <div class="col-sm-6 col-sm-offset-3">
-                <p class="text-center">Il sistema ha rilevato che hai eseguito il tuo primo accesso. Utilizza questo modulo per sostiture la tua password con una personale.</p>
-                <form method="post" id="passwordForm">
-                    <input type="password" class="input-lg form-control" name="password_input" id="password1" placeholder="New Password" autocomplete="off">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <i id="8char" class="fa fa-times" style="color:#FF0004;"></i>  8 Characters Long<br>
-                            <i id="ucase" class="fa fa-times" style="color:#FF0004;"></i> One Uppercase Letter
+            <!-- Card -->
+            <div class="col-md-6 card">
+
+                <!-- Card body -->
+                <div class="card-body">
+
+                    <!-- Material form register -->
+                    <form method="post" action=<?php echo RedirectManager::buildUrl("changepassword/verify")?>>
+                        <h4 class="h4-responsive text-center py-4">Cambia la password</h4>
+
+                        <?php if(count($GLOBALS["NOTIFIER"]->getNotifications()) != 0): ?>
+                            <!-- Write notifications one by one -->
+                            <?php foreach ($GLOBALS["NOTIFIER"]->getNotifications() as $notification): ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <?php echo $notification ?>
+                                </div>
+                            <?php endforeach; ?>
+                            <!-- Clear notifications -->
+                            <?php $GLOBALS["NOTIFIER"]->clear(); ?>
+                            <br>
+                        <?php endif; ?>
+
+                        <!-- Material input password -->
+                        <div class="md-form">
+                            <i class="fa fa-lock prefix grey-text"></i>
+                            <input type="password" id="newPassword" name="newPassword" class="form-control">
+                            <label for="newPassword" class="font-weight-light">Nuova password</label>
+                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                La tua password deve essere lunga almeno 8 caratteri, contenere lettere e numeri,
+                                non deve contenere spazi o emoji.
+                            </small>
                         </div>
-                        <div class="col-sm-6">
-                            <i id="lcase" class="fa fa-times" style="color:#FF0004;"></i> One Lowercase Letter<br>
-                            <i id="num" class="fa fa-times" style="color:#FF0004;"></i> One Number<br>
+
+                        <!-- Material input password -->
+                        <div class="md-form">
+                            <i class="fa fa-lock prefix grey-text"></i>
+                            <input type="password" name="confirmPassword" id="retypePassword" class="form-control">
+                            <label for="retypePassword" class="font-weight-light">Conferma password</label>
                         </div>
-                    </div>
-                    <input type="password" class="input-lg form-control" name="password2" id="password2" placeholder="Repeat Password" autocomplete="off">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <span id="pwmatch" class="fa fa-times" style="color:#FF0004;"></span> Passwords Match
+
+                        <div class="text-center py-4 mt-3">
+                            <button class="btn btn-cyan" type="submit">Cambia password</button>
                         </div>
-                    </div>
-                    <input type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg" data-loading-text="Changing Password..." value="Change Password">
-                </form>
-            </div><!--/col-sm-6-->
-        </div><!--/row-->
+                    </form>
+                    <!-- Material form register -->
+
+                </div>
+                <!-- Card body -->
+
+            </div>
+            <!-- Card -->
+        </div>
     </div>
 
+    <!-- Side Modal Top Right -->
+
+    <!-- To change the direction of the modal animation change .right class -->
+    <div class="modal fade right" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+
+        <!-- Add class .modal-side and then add class .modal-top-right (or other classes from list above) to set a position to the modal -->
+        <div class="modal-dialog modal-side modal-bottom-right" role="document">
+
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title w-100" id="myModalLabel">Perchè il cambio password?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Per rimanere al sicuro da possibili accessi non autorizzati all'account devi sostituire la password
+                    corrente con una nuova password personale. Tienila al sicuro.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Side Modal Top Right -->
+
     <!-- JQuery -->
-    <script src="./application/assets/js/jquery.min.js"></script>
-    <!-- Password validation -->
-    <script src="./application/assets/js/changepassword/password_validation.js"></script>
+    <script src="/application/assets/js/jquery.min.js"></script>
+    <script src="/application/assets/mdb/js/bootstrap.js"></script>
+    <script src="/application/assets/mdb/js/mdb.js"></script>
+    <script src="/application/assets/mdb/js/popper.min.js"></script>
+
+    <!-- Validation -->
+    <script src="/application/assets/js/changepassword/password_validation.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#infoModal').modal('show');
+        });
+    </script>
 </body>
 </html>

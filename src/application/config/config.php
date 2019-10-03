@@ -17,12 +17,24 @@ ini_set("display_errors", 1);
 /**
  * Configurazione di : URL del progetto
  */
-define('URL', 'http://localhost:8123/Repo/CPTMeetingRoomScheduler/scr/');
+define('URL', 'http://localhost:8123/');
+define('APP_NAME', "CPT Meeting Room Scheduler");
 
 /* Configurazione per la connessione al database */
 define('DATABASE_USERNAME', 'root');
 define('DATABASE_PASSWORD', 'root');
 define('DATABASE_NAME', 'cptmrs');
 
+define('PSW_CRYPT_METHOD', PASSWORD_DEFAULT);
+define('DEFAULT_USER_PERMISSION_GROUP', "user");
+define('ADMIN_PANEL_USER_PERMISSION_GROUP', "admin");
+
 // Setup default timezone
 date_default_timezone_set('Europe/Zurich');
+
+define('CONFIRMATION_MAIL_DELAY', 10);
+
+$autoload_directories = array(
+    "application/libs/",
+    "application/models/"
+);

@@ -13,17 +13,20 @@ class Login
     {
         if (Auth::isAuthenticated()) {
 
-            if(isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]) {
-                $this->changePassword();
-                exit();
-            }
-            else{
+            if (isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]) {
+                // Generate custom URL and save it to database
+                $a = new PasswordChangeModel();
+                $url = $a->generateUrl($_SESSION["username"]);
+
+                // Redirect to change password controller
+                //TODO: Email with url, not redirect
+                Header("Location: " . $url);
+
+            } else {
                 // If the user is logged in
                 //ViewLoader::load_full("home/index");
-                Header("Location: home");
+                RedirectManager::redirect("home");
             }
-
-
         } else {
             // If the user is not logged in the controller redirect him to the login page.
             ViewLoader::load("login/index");
@@ -33,8 +36,6 @@ class Login
     public function auth()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && $this->validate_login($_POST)) {
-            //Require login model
-            require_once("application/models/loginmodel.php");
 
             // Clear data
             $username = filter_input(INPUT_POST, 'username', FILTER_DEFAULT);
@@ -43,54 +44,52 @@ class Login
             // Create auth object
             $auth = new LoginModel($username, $password);
 
-            var_dump($auth->localLogin());
-            var_dump($auth->ldapLogin());
-
             // Try to login with Local database
-            if(($status = $auth->localLogin()) && $status["status"]){
+            if (($status = $auth->localLogin()) && $status["status"]) {
                 $_SESSION["auth"] = $status["status"];
                 $_SESSION["username"] = $username;
                 $_SESSION["default_password_changed"] = $status["extra_information"]["default_password_changed"];
                 $_SESSION["login_type_used"] = "LOCAL";
-            }
-            // Try to login with ldap
-            elseif(($_SESSION["auth"] = $auth->ldapLogin())){
+            } // Try to login with ldap
+            elseif (($_SESSION["auth"] = $auth->ldapLogin())) {
                 // Save login type
                 $_SESSION["login_type_used"] = "LDAP";
-            }
-            // Cannot login
-            else{
+            } // Cannot login
+            else {
                 $GLOBALS["NOTIFIER"]->add("Email o password sbagliate. Controlla le credenziali.");
             }
 
-            if(Auth::isAuthenticated()){
-                $_SESSION["permissions"] = (new PermissionManager($username))->getPermissions();
-
-                if(isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]){
-                    // Send email with confirmation id
-                    $this->changePassword();
-
-
-                    // User have to change password
-                    Header("Location: ../changepassword");
+            if (Auth::isAuthenticated()) {
+                if($_SESSION["login_type_used"] == "LOCAL"){
+                    $_SESSION["permissions"] = (new PermissionModel($username))->getLocalPermissions();
                 }
                 else{
-                    // User has all right
-                    Header("Location: ../home");
+                    $_SESSION["permissions"] = (new PermissionModel($username))->getLdapPermissions();
                 }
-            }
-            else{
-                Header("Location: ../login");
+
+                if (isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]) {
+
+                    // Generate custom URL and save it to database
+                    $a = new PasswordChangeModel();
+                    if(($url = $a->generateUrl($_SESSION["username"])) && $url){
+                        // User have to change password
+                        RedirectManager::redirect($url);
+                    }
+                    else{
+                        echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
+                        Contatta un'amministratore.</p>";
+                    }
+                } else {
+                    // User has all right
+                    RedirectManager::redirect("home");
+                }
+            } else {
+                RedirectManager::redirect("login");
             }
         }
-    }
-
-    private function changePassword(){
-        require_once("./application/models/passwordchangemodel.php");
-        $a = new PasswordChangeModel();
-
-        // Generate custom URL and save it to database
-        $a->generateUrl($_SESSION["username"]);
+        else{
+            RedirectManager::redirect("login");
+        }
     }
 
     private function validate_login(array $array): bool

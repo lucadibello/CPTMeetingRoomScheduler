@@ -27,16 +27,15 @@ class LoginModel
 
         if(count($result) > 0){
             $status = array("status" => false, "extra_information" => null);
-
-            if($result[0]["default_password_changed"] == 0){
-                // Default password: not hashed
+            $pswChanged = (bool) $result[0]["default_password_changed"];
+            if(!$pswChanged){
                 $status["status"] = $this->password == $result[0]["password"];
                 $status["extra_information"] = array("default_password_changed" => false);
                 return $status;
             }
             else{
                 // Normal password: hashed
-                $status["status"] = password_verify($result[0]["password"], $this->password);
+                $status["status"] = password_verify($this->password, $result[0]["password"]);
                 $status["extra_information"] = array("default_password_changed" => true);
                 return $status;
             }

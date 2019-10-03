@@ -15,12 +15,6 @@ class Auth {
       $_SESSION["auth"] = true;
   }
 
-  /*
-  public static function auth() {
-        $_SESSION["auth"] = true;
-  }
-  */
-
   public static function logout() {
     foreach ($_SESSION as $key => $value) {
       unset($_SESSION[$key]);

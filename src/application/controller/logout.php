@@ -13,6 +13,6 @@ class Logout
         unset($_SESSION["auth"]);
         session_destroy();
 
-        Header("Location: login");
+        RedirectManager::redirect("login");
     }
 }
