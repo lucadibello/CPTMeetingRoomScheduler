@@ -25,9 +25,12 @@ define('DATABASE_USERNAME', 'root');
 define('DATABASE_PASSWORD', 'root');
 define('DATABASE_NAME', 'cptmrs');
 
+/* APPLICATION SETTINGS */
 define('PSW_CRYPT_METHOD', PASSWORD_DEFAULT);
 define('DEFAULT_USER_PERMISSION_GROUP', "user");
 define('ADMIN_PANEL_USER_PERMISSION_GROUP', "admin");
+define('PASSWORD_CHANGED_MESSAGE_COOKIE_ADD_LIFETIME', 60*60);
+define('EMAIL_ALLOWED_DOMAIN', "edu.ti.ch");
 
 // Setup default timezone
 date_default_timezone_set('Europe/Zurich');

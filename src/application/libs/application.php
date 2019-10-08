@@ -72,4 +72,11 @@ class Application
             // echo 'Parameter 3: ' . $this->url_parameter_3 . '<br />';
         }
     }
+
+    public static function deleteCookie($cookie_name){
+        if (isset($_COOKIE[$cookie_name])) {
+            unset($_COOKIE[$cookie_name]);
+            setcookie($cookie_name, null, -1, '/');
+        }
+    }
 }

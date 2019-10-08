@@ -1,67 +1,70 @@
 <?php
+
 class ChangePassword
 {
-    public function index(){
+    public function index()
+    {
         // Redirect to login
         RedirectManager::redirect("login");
     }
 
-    public function id($id){
-        if(Auth::isAuthenticated()){
+    public function id($id)
+    {
+        if (Auth::isAuthenticated()) {
             // If the user is logged in
 
             // Check if id is saved into the database
             $change = new PasswordChangeModel();
 
-            if($change->isIdRight($id, $_SESSION["username"])){
+            if ($change->isIdRight($id, $_SESSION["username"])) {
                 // Save token for later verify
                 $_SESSION["change_password_token"] = $id;
                 ViewLoader::load("changepassword/index");
-            }
-            else{
+            } else {
                 echo "Hai fornito un id non valido.";
                 //RedirectManager::redirect("login");
             }
-        }
-        else{
+        } else {
             // If the user is not logged in the controller redirect him to the login page.
             // Redirect to login controller
             RedirectManager::redirect("login");
         }
     }
 
-    public function verify(){
+    public function verify()
+    {
 
         $id = new PasswordChangeModel();
 
-        if($_SERVER["REQUEST_METHOD"] == "POST"
+        if ($_SERVER["REQUEST_METHOD"] == "POST"
             && $this->changePasswordRequestValidator()
-            && $id->isIdRight($_SESSION["change_password_token"], $_SESSION["username"])){
+            && $id->isIdRight($_SESSION["change_password_token"], $_SESSION["username"])) {
 
-            if($_POST["newPassword"] == $_POST["confirmPassword"]){
+            if ($_POST["newPassword"] == $_POST["confirmPassword"]) {
                 $model = new UserModel();
 
-                if($model->userChangePassword($_SESSION["username"], $_POST["confirmPassword"])){
+                if ($model->userChangePassword($_SESSION["username"], $_POST["confirmPassword"])) {
                     Auth::logout();
-                    $_SESSION["password_change_success"] = true;
+
+                    setcookie('password_changed_successfully', true,
+                        time() + PASSWORD_CHANGED_MESSAGE_COOKIE_ADD_LIFETIME, '/');
+
                     RedirectManager::redirect("login");
-                }
-                else{
+                } else {
                     echo "C'è stato un problema durante il cambiamento della password. Contattare un amministratore.";
                 }
-            }
-            else{
+            } else {
                 $GLOBALS["NOTIFIER"]->add("Le password inserite non coincidono");
-                RedirectManager::redirect("changepassword/id/".$_SESSION["change_password_token"]);
+                RedirectManager::redirect("changepassword/id/" . $_SESSION["change_password_token"]);
             }
-        }
-        else{
+        } else {
             // If wrong request method
             RedirectManager::redirect("login");
         }
     }
 
-    private function changePasswordRequestValidator(): bool {
+    private function changePasswordRequestValidator(): bool
+    {
         // Clear data
         $_POST = filter_input_array(INPUT_POST, $_POST);
 

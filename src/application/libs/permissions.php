@@ -64,4 +64,10 @@ class Permissions
     public function canCancellazionePrenotazioniGlobali(){
         return $this->cancellazione_prenotazioni_altri_utenti;
     }
+
+
+    /* WRAPPER FUNCTIONS */
+    public function canManageAnyUsers(){
+        return $this->canCreareUtenti() || $this->canEliminareUtenti() || $this->canPromozioneUtenti();
+    }
 }

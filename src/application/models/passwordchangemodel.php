@@ -63,6 +63,6 @@ class PasswordChangeModel
     }
 
     private function generateRandomId(){
-        return password_hash(rand(1,10), PASSWORD_DEFAULT);
+        return md5(time());
     }
 }

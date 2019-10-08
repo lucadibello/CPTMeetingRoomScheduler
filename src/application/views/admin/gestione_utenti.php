@@ -37,43 +37,58 @@
                             <?php $GLOBALS["NOTIFIER"]->clear(); ?>
                         <?php endif; ?>
 
-                        <form class="form" method="post" action="admin/category/add">
+                        <form class="form" method="post" action="<?php echo RedirectManager::buildUrl("api/user/add"); ?>">
 
-                            <!-- Category name -->
-                            <div class="md-form">
-                                <input type="text" id="nomeCategoria" class="form-control" name="categoryName" required>
-                                <label for="nomeCategoria">Nome<span class="red-text">*</span></label>
+                            <!-- Grid row -->
+                            <div class="form-row">
+                                <!-- Grid column -->
+                                <div class="col">
+                                    <!-- Material input -->
+                                    <div class="md-form mt-0">
+                                        <input type="text" id="nome" class="form-control" name="nome" required>
+                                        <label for="nome">Nome</label>
+                                    </div>
+                                </div>
+                                <!-- Grid column -->
+
+                                <!-- Grid column -->
+                                <div class="col">
+                                    <!-- Material input -->
+                                    <div class="md-form mt-0">
+                                        <input type="text" class="form-control" id="cognome" name="cognome" required>
+                                        <label for="cognome">Cognome</label>
+                                    </div>
+                                </div>
+                                <!-- Grid column -->
+                            </div>
+                            <!-- Grid row -->
+
+                            <div class="md-form input-group mb-4">
+                                <input type="text" id="email" class="form-control" aria-label="Email"
+                                       aria-describedby="material-addon2" name="email" required>
+                                <label for="email">Email</label>
+                                <div class="input-group-append">
+                                    <span class="input-group-text md-addon" id="material-addon2">@<?php echo EMAIL_ALLOWED_DOMAIN; ?></span>
+                                </div>
                             </div>
 
-                            <!-- Category desciption
                             <div class="md-form">
-                                <input type="text" id="descrizioneCategoria" name="categoryDescription" class="form-control">
-                                <label for="descrizioneCategoria">Descrizione categoria</label>
-                            </div>
-                            -->
-                            <!-- Category desciption -->
-                            <div class="md-form">
-                                <textarea id="descrizioneCategoria" name="categoryDescription"
-                                          class="form-control md-textarea" length="1024" rows="3"></textarea>
-
-                                <!--
-                                <input type="text" id="descrizioneCategoriaModal" name="categoryDescription" class="form-control">
-                                -->
-
-                                <label for="descrizioneCategoria">Descrizione categoria</label>
+                                <input type="text" id="username" class="form-control" name="username" required>
+                                <label for="username">Username</label>
                             </div>
 
                             <div class="md-form">
-                                <h4 class="h4-responsive">Immagine di categoria</h4>
-                                <select id="imageSelector" name="categoryImagePath" class="browser-default custom-select">
-                                    <?php foreach(PermissionModel::getUniquePermissionTypes() as $userType):?>
-                                        <option value="<?php echo $userType?>"><?php echo $userType?></option>
+                                <h4 class="h4-responsive">Permessi utente</h4>
+                                <select id="imageSelector" name="tipo_utente"
+                                        class="browser-default custom-select">
+                                    <?php foreach (PermissionModel::getUniquePermissionTypes() as $userType): ?>
+                                        <option value="<?php echo $userType ?>"><?php echo $userType ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <!-- Add category button -->
-                            <button class="btn btn-success btn-block my-4" type="submit">Aggiungi categoria</button>
+                            <button class="btn btn-success btn-block my-4" type="submit">Crea utente</button>
                             <br>
                         </form>
                     </div>
@@ -88,49 +103,51 @@
             <div class="col-md-12">
 
                 <div class="card" id="categorie">
-                    <div class="card-header"><h3 class="h3-responsive">Categorie</h3></div>
+                    <div class="card-header"><h3 class="h3-responsive">Utenti</h3></div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nome categoria</th>
-                                    <th scope="col">Numero episodi</th>
-                                    <th scope="col">Descrizione</th>
-                                    <th scope="col">Path immagine</th>
-                                    <th scope="col">Data creazione</th>
-                                    <th scope="col">Ultima modifica</th>
-                                    <th scope="col">Azioni</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php if (isset($_SESSION["categories"]) && count($_SESSION["categories"]) > 0): ?>
-                                    <?php foreach ($_SESSION["categories"] as $category): ?>
-                                        <tr>
-                                            <th scope="row"><?php echo $category->getCategoryId() + 1; ?></th>
-                                            <td id="categoryName<?php echo $category->getCategoryId(); ?>"><?php echo $category->getCategoryName(); ?></td>
-                                            <td><?php echo $category->getCategoryNumEpisodes(); ?></td>
-                                            <td id="categoryDescription<?php echo $category->getCategoryId(); ?>"><?php echo $category->getCategoryDescription(); ?></td>
-                                            <td id="categoryPath<?php echo $category->getCategoryId(); ?>"><?php echo $category->getCategoryImagePath(); ?></td>
-                                            <td><?php echo $category->getCategoryCreationDate(); ?></td>
-                                            <td><?php echo $category->getCategoryLastEditDate(); ?></td>
-                                            <td class="btn btn-warning edit-category-button"
-                                                category-target="<?php echo $category->getCategoryId(); ?>">Modifica
-                                            </td>
-                                            <td class="btn btn-danger delete-category-button"
-                                                category-target="<?php echo $category->getCategoryId(); ?>"
-                                                data-toggle="modal" data-target="#modalConfirmDelete">Elimina
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <td colspan="5">Non ci sono categorie.</td>
-                                <?php endif; ?>
+                        <table id="userTable" class="table-responsive-xl" cellspacing="0"
+                               width="100%">
+                            <thead>
+                            <tr>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">cognome</th>
+                                <th scope="col">Permessi</th>
+                                <th scope="col">Password cambiata</th>
+                                <th scope="col">Opzioni</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if (count($users) > 0): ?>
+                                <?php foreach ($users as $user): ?>
+                                    <tr id="<?php echo $user->getUsername();?>">
+                                        <td id="username"><?php echo $user->getUsername(); ?></td>
+                                        <td id="email"><?php echo $user->getEmail(); ?></td>
+                                        <td id="nome"><?php echo $user->getNome(); ?></td>
+                                        <td id="cognome>"><?php echo $user->getCognome(); ?></td>
+                                        <td id="permessi"><?php echo $user->getTipoUtente(); ?></td>
 
-                                </tbody>
-                            </table>
-                        </div>
+                                        <td id="psw-changed">
+                                            <?php echo $user->isDefaultPasswordChanged() ? "Si" : "No"; ?>
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-primary edit-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                Modifica
+                                            </button>
+
+                                            <button class="btn btn-danger delete-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                Elimina
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <td colspan="5">Non ci sono utenti.</td>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -138,7 +155,8 @@
         <!-- Modals -->
 
         <!--Modal: modalConfirmDelete-->
-        <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalEliminaMessaggio"
+        <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog"
+             aria-labelledby="modalEliminaMessaggio"
              aria-hidden="true">
             <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
                 <!--Content-->
@@ -184,13 +202,15 @@
                         <form id="modalUpdateForm" class="form" method="post" action="admin/category/add">
                             <!-- Category name -->
                             <div class="md-form">
-                                <input type="text" id="nomeCategoriaModal" class="form-control" name="categoryName" required>
+                                <input type="text" id="nomeCategoriaModal" class="form-control" name="categoryName"
+                                       required>
                                 <label for="nomeCategoriaModal">Nome categoria<span class="red-text">*</span></label>
                             </div>
 
                             <!-- Category desciption -->
                             <div class="md-form">
-                                <textarea id="descrizioneCategoriaModal" name="categoryDescription" class="form-control md-textarea" length="1024" rows="3"></textarea>
+                                <textarea id="descrizioneCategoriaModal" name="categoryDescription"
+                                          class="form-control md-textarea" length="1024" rows="3"></textarea>
                                 <!--
                                 <input type="text" id="descrizioneCategoriaModal" name="categoryDescription" class="form-control">
                                 -->
@@ -199,9 +219,10 @@
 
                             <div class="md-form">
                                 <h4 class="h4-responsive">Immagine di categoria</h4>
-                                <select id="imageSelectorModal" name="categoryImagePath" class="browser-default custom-select">
-                                    <?php foreach(PermissionModel::getUniquePermissionTypes() as $userType):?>
-                                        <option value="<?php echo $userType?>"><?php echo $userType?></option>
+                                <select id="imageSelectorModal" name="categoryImagePath"
+                                        class="browser-default custom-select">
+                                    <?php foreach (PermissionModel::getUniquePermissionTypes() as $userType): ?>
+                                        <option value="<?php echo $userType ?>"><?php echo $userType ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -212,7 +233,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Annulla</button>
-                        <button id="submitSalvaModificheModal" type="button" class="btn btn-primary">Salva modifiche</button>
+                        <button id="submitSalvaModificheModal" type="button" class="btn btn-primary">Salva modifiche
+                        </button>
                     </div>
                 </div>
             </div>
@@ -231,3 +253,19 @@
         <!--/.Footer-->
     </div>
 </main>
+
+<!-- Load modalmanager.js for modal management -->
+<script src="/application/assets/js/admin/gestione_utenti/modalmanager.js"></script>
+
+<!-- Load datatables.js -->
+<script src="/application/assets/mdb/js/addons/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#userTable').dataTable({
+            responsive: true,
+            "scrollX": false
+        });
+
+        $('.dataTables_length').addClass('bs-select');
+    })
+</script>

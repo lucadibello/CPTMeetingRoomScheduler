@@ -12,15 +12,18 @@ class Login
     public function index()
     {
         if (Auth::isAuthenticated()) {
-
             if (isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]) {
+
                 // Generate custom URL and save it to database
                 $a = new PasswordChangeModel();
-                $url = $a->generateUrl($_SESSION["username"]);
-
-                // Redirect to change password controller
-                //TODO: Email with url, not redirect
-                Header("Location: " . $url);
+                if(($url = $a->generateUrl($_SESSION["username"])) && $url){
+                    // TODO: EMAIL NOT REDIRECT
+                    RedirectManager::redirect($url);
+                }
+                else{
+                    echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
+                        Contatta un'amministratore.</p>";
+                }
 
             } else {
                 // If the user is logged in
@@ -28,6 +31,7 @@ class Login
                 RedirectManager::redirect("home");
             }
         } else {
+
             // If the user is not logged in the controller redirect him to the login page.
             ViewLoader::load("login/index");
         }

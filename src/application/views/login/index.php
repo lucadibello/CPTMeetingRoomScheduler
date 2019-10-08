@@ -67,18 +67,18 @@
 
             <div id="background-column" class="col-lg-5 vh-100">
                 <div id="scene">
-                    <h1 id="app_name" data-depth="0.1">CPT Meeting Room Scheduler</h1>
+                    <h1 id="app_name" data-depth="0.1"><?php echo APP_NAME ?></h1>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Central Modal Small -->
-    <div class="modal fade" id="pswChangedSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <!-- To change the direction of the modal animation change .right class -->
+    <div class="modal fade right" id="pswChangedSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
 
-        <!-- Change class .modal-sm to change the size of the modal -->
-        <div class="modal-dialog modal-sm" role="document">
+        <!-- Add class .modal-side and then add class .modal-top-right (or other classes from list above) to set a position to the modal -->
+        <div class="modal-dialog modal-side modal-bottom-right" role="document">
 
 
             <div class="modal-content">
@@ -89,16 +89,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h3 class="h3-responsive">Hai cambiato la tua password. Esegui nuovamente l'accesso utilizzando
-                        le nuove credenziali per utilizzare il sistema</h3>
+                    Hai cambiato la tua password. Esegui nuovamente l'accesso utilizzando
+                    le nuove credenziali per utilizzare il sistema!
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Ho capito</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Ho capito</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Central Modal Small -->
+    <!-- Side Modal Top Right -->
 
 
     <!-- JQuery -->
@@ -108,10 +108,11 @@
     <script src="/application/assets/mdb/js/popper.min.js"></script>
 
     <script>
-        <?php if(isset($_SESSION["password_change_success"]) && $_SESSION["password_change_success"]): ?>
+        <?php if(isset($_COOKIE["password_changed_successfully"]) && $_COOKIE["password_changed_successfully"] == '1'): ?>
             /* Password changed correctly */
             $('#pswChangedSuccess').modal("show");
-            <?php unset($_SESSION["password_change_success"]) ?>
+        <?php else: ?>
+            console.log('[!] Cannot access cookies.');
         <?php endif; ?>
     </script>
 </body>

@@ -10,6 +10,7 @@ class RedirectManager
 {
     public static function redirect($path){
         Header("Location: " . URL . $path);
+        exit();
     }
 
     public static function buildUrl($path){

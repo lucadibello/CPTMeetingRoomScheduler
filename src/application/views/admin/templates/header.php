@@ -12,8 +12,13 @@
     <link href="/application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="/application/assets/mdb/css/mdb.min.css" rel="stylesheet">
+    <!-- datatables css -->
+    <link href="/application/assets/mdb/css/addons/datatables.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="/application/assets/mdb/css/style.min.css" rel="stylesheet">
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="/application/assets/mdb/js/jquery-3.4.1.min.js"></script>
 </head>
 
 <body class="grey lighten-3">
@@ -73,6 +78,5 @@
         </div>
     </nav>
     <!-- Navbar -->
-
 </header>
 <!--Main Navigation-->
