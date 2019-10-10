@@ -41,7 +41,7 @@ class Admin
     public function utenti(){
         if($this->is_user_valid() == self::STATUS_OK){
 
-            if(PermissionManager::getPermissions()->canManageAnyUsers()){
+            if(PermissionManager::getPermissions()->canUserAction()){
                 $data = UserModel::getUsers();
                 // Load page
                 ViewLoader::load("admin/templates/header");

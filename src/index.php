@@ -16,7 +16,6 @@ foreach($autoload_directories as $directory) {
 
 session_start();
 
-
 // faccio partire il notifier
 $GLOBALS["NOTIFIER"] = new Notifier();
 

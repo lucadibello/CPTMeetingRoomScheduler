@@ -51,11 +51,15 @@
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
+
+                    <?php if($_SESSION["permissions"]->canUserAction()): ?>
                     <li class="nav-item">
                         <a class="nav-link waves-effect" href="/admin/utenti">
                             Gestione utenti
                         </a>
                     </li>
+                    <?php endif; ?>
+
                     <li class="nav-item">
                         <a class="nav-link waves-effect"
                            href="https://mdbootstrap.com/docs/jquery/getting-started/download/">

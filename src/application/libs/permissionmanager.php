@@ -8,7 +8,7 @@
 
 class PermissionManager
 {
-    public static function getPermissions(){
+    public static function getPermissions(): Permissions{
         if(isset($_SESSION["permissions"]) && $_SESSION["permissions"] instanceof Permissions){
             return $_SESSION["permissions"];
         }

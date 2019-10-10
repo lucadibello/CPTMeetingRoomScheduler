@@ -38,9 +38,10 @@ class UserModel
 
     public static function add(array $data){
         // Complete email
+        $partial_mail = $data["email"];
         $data["email"] = $data["email"] . "@" . EMAIL_ALLOWED_DOMAIN;
         // Validate data
-        if(self::validateUserData($data)){
+        if(self::validateAllUserData($data)){
             $result = DB::insert("utente", array(
                 "username" => $data["username"],
                 "password" => User::generatePassword(),
@@ -48,7 +49,7 @@ class UserModel
                 "cognome" => $data["cognome"],
                 "tipo_utente" => $data["tipo_utente"],
                 "default_password_changed" => false,
-                "email"=> $data["email"]
+                "email"=> $partial_mail
             ));
 
             return  (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
@@ -61,7 +62,40 @@ class UserModel
     }
 
     public static function update(array $data, string $username){
-        DB::update();
+        // Complete email
+        $partial_mail = $data["email"];
+        $data["email"] = $data["email"] . "@" . EMAIL_ALLOWED_DOMAIN;
+        // Validate data
+        if(self::validateUpdateUserData($data)){
+            $result = DB::update("utente", array(
+                "username" => $data["username"],
+                "nome" => $data["nome"],
+                "cognome" => $data["cognome"],
+                "email"=> $partial_mail
+            ), "username=%s", $username);
+
+            return  (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
+                all'interno del database. Contattare un amministratore.") : true);
+        }
+        else{
+            $GLOBALS["NOTIFIER"]->add_all(self::$errors);
+            RedirectManager::redirect("admin/utenti");
+        }
+    }
+
+    public static function promote(array $data, string $username){
+        if(UserValidator::validateUsername($data["tipo_utente"])){
+            $result = DB::update("utente", array(
+                "tipo_utente" => $data["tipo_utente"],
+            ),"username=%s", $username);
+
+            return  (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
+                all'interno del database. Contattare un amministratore.") : true);
+        }
+        else{
+            $GLOBALS["NOTIFIER"]->add_all(self::$errors);
+            RedirectManager::redirect("admin/utenti");
+        }
     }
 
     private static function getUsersData()
@@ -92,7 +126,7 @@ class UserModel
     }
 
 
-    private static function validateUserData($data){
+    private static function validateAllUserData($data){
         self::$errors = [];
 
         if(!UserValidator::validateUsername($data["username"])){
@@ -107,8 +141,31 @@ class UserModel
             self::$errors[] = "Hai fornito un cognome non valido";
         }
 
-        if(!in_array($data["tipo_utente"], PermissionModel::getUniquePermissionTypes())){
+        if(!UserValidator::validateUserPermissionName($data["tipo_utente"])){
             self::$errors[] = "Hai fornito un tipo di utente non valido";
+        }
+
+        if(!UserValidator::validateEmail($data["email"])){
+            self::$errors[] = "Hai fornito un indirizzo mail non valido. Controlla che l'email desiderata sia 
+            formattata correttamente e che abbia il dominio '" . EMAIL_ALLOWED_DOMAIN . "'";
+        }
+
+        return count(self::$errors) == 0;
+    }
+
+    private static function validateUpdateUserData($data){
+        self::$errors = [];
+
+        if(!UserValidator::validateUsername($data["username"])){
+            self::$errors[] = "Hai fornito un username non valido non valido";
+        }
+
+        if(!UserValidator::validateNome($data["nome"])){
+            self::$errors[] = "Hai fornito un nome non valido";
+        }
+
+        if(!UserValidator::validateCognome($data["cognome"])){
+            self::$errors[] = "Hai fornito un cognome non valido";
         }
 
         if(!UserValidator::validateEmail($data["email"])){

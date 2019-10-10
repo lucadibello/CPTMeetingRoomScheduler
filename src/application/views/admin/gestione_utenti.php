@@ -18,25 +18,34 @@
 
         </div>
         <!-- Heading -->
+            <div class="row wow fadeIn">
+                <div class="col-md-12">
+                    <br>
+                    <div class="card" id="aggiungi-categoria">
+                        <div class="card-header"><h3 class="h3-responsive">Notifiche</h3></div>
+                        <div class="card-body">
+                            <?php if (count($GLOBALS["NOTIFIER"]->getNotifications())): ?>
+                                <?php foreach ($GLOBALS["NOTIFIER"]->getNotifications() as $notification): ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <?php echo $notification ?>
+                                    </div>
+                                    <?php $GLOBALS["NOTIFIER"]->clear(); ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <h4 class="h4-responsive">Al momento non ci sono notifiche.</h4>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php if(PermissionManager::getPermissions()->canCreareUtenti()): ?>
         <div class="row wow fadeIn">
             <div class="col-md-12">
                 <br>
                 <div class="card" id="aggiungi-categoria">
                     <div class="card-header"><h3 class="h3-responsive">Aggiungi utente</h3></div>
                     <div class="card-body">
-
-                        <?php if (count($GLOBALS["NOTIFIER"]->getNotifications())): ?>
-                            <!-- Write notifications -->
-                            <br>
-                            <?php foreach ($GLOBALS["NOTIFIER"]->getNotifications() as $notification): ?>
-                                <div class="alert alert-danger" role="alert">
-                                    <?php echo $notification ?>
-                                </div>
-                            <?php endforeach; ?>
-
-                            <?php $GLOBALS["NOTIFIER"]->clear(); ?>
-                        <?php endif; ?>
-
                         <form class="form" method="post" action="<?php echo RedirectManager::buildUrl("api/user/add"); ?>">
 
                             <!-- Grid row -->
@@ -96,6 +105,7 @@
 
             </div>
         </div>
+        <?php endif; ?>
 
         <br>
         <!--Grid row-->
@@ -105,7 +115,7 @@
                 <div class="card" id="categorie">
                     <div class="card-header"><h3 class="h3-responsive">Utenti</h3></div>
                     <div class="card-body">
-                        <table id="userTable" class="table-responsive-xl" cellspacing="0"
+                        <table id="userTable" class="table-responsive-xl table-striped" cellspacing="0"
                                width="100%">
                             <thead>
                             <tr>
@@ -122,24 +132,39 @@
                             <?php if (count($users) > 0): ?>
                                 <?php foreach ($users as $user): ?>
                                     <tr id="<?php echo $user->getUsername();?>">
-                                        <td id="username"><?php echo $user->getUsername(); ?></td>
-                                        <td id="email"><?php echo $user->getEmail(); ?></td>
-                                        <td id="nome"><?php echo $user->getNome(); ?></td>
-                                        <td id="cognome>"><?php echo $user->getCognome(); ?></td>
-                                        <td id="permessi"><?php echo $user->getTipoUtente(); ?></td>
+                                        <td class="username"><?php echo $user->getUsername(); ?></td>
+                                        <td class="email" partial-mail="<?php echo $user->getPartialEmailAddress();?>"><?php echo $user->getFullEmailAddress(); ?></td>
+                                        <td class="nome"><?php echo $user->getNome(); ?></td>
+                                        <td class="cognome"><?php echo $user->getCognome(); ?></td>
+                                        <td class="permessi"><?php echo $user->getTipoUtente(); ?></td>
 
                                         <td id="psw-changed">
                                             <?php echo $user->isDefaultPasswordChanged() ? "Si" : "No"; ?>
                                         </td>
 
                                         <td>
-                                            <button class="btn btn-primary edit-user-button" user-target="<?php echo $user->getUsername();?>">
-                                                Modifica
-                                            </button>
+                                            <!-- Check for permissions -->
+                                            <?php if(PermissionManager::getPermissions()->canUserAction()): ?>
+                                                <?php if(PermissionManager::getPermissions()->canPromozioneUtenti()): ?>
+                                                    <button class="btn btn-primary edit-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                        <i class="fas fa-user-edit"></i>
+                                                    </button>
+                                                <?php endif; ?>
 
-                                            <button class="btn btn-danger delete-user-button" user-target="<?php echo $user->getUsername();?>">
-                                                Elimina
-                                            </button>
+                                                <?php if(PermissionManager::getPermissions()->canEliminareUtenti()): ?>
+                                                    <button class="btn btn-danger delete-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                <?php endif; ?>
+
+                                                <?php if(PermissionManager::getPermissions()->canPromozioneUtenti()): ?>
+                                                    <button class="btn btn-warning promote-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                        <i class="fas fa-user-tag"></i>
+                                                    </button>
+                                                <?php endif; ?>
+                                            <?php else: ?>
+                                                <p>No perm.</p>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -184,62 +209,127 @@
         </div>
         <!--Modal: modalConfirmDelete-->
 
-        <!--Modal: editCategory -->
-        <div class="modal fade" id="editCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        <!--Modal: editModal -->
+        <div class="modal fade " id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
              aria-hidden="true">
 
             <!-- Add .modal-dialog-centered to .modal-dialog to vertically center the modal -->
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-notify modal-primary" role="document">
 
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modifica categoria</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modifica utente</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="modalUpdateForm" class="form" method="post" action="admin/category/add">
-                            <!-- Category name -->
+
+                        <div class="text-center">
+                            <i class="fas fa-user-edit fa-4x animated rotateIn"></i>
+                        </div>
+
+                        <form id="editModalForm" class="form" method="post">
+                            <!-- Username -->
                             <div class="md-form">
-                                <input type="text" id="nomeCategoriaModal" class="form-control" name="categoryName"
+                                <input type="text" id="editModalUsername" class="form-control" name="username"
                                        required>
-                                <label for="nomeCategoriaModal">Nome categoria<span class="red-text">*</span></label>
+                                <label for="nomeCategoriaModal">Nome utente</label>
                             </div>
 
-                            <!-- Category desciption -->
+                            <!-- Name -->
                             <div class="md-form">
-                                <textarea id="descrizioneCategoriaModal" name="categoryDescription"
-                                          class="form-control md-textarea" length="1024" rows="3"></textarea>
-                                <!--
-                                <input type="text" id="descrizioneCategoriaModal" name="categoryDescription" class="form-control">
-                                -->
-                                <label for="descrizioneCategoriaModal">Descrizione categoria</label>
+                                <input type="text" id="editModalNome" class="form-control" name="nome"
+                                       required>
+                                <label for="nomeCategoriaModal">Nome</label>
                             </div>
 
+                            <!-- Surname -->
                             <div class="md-form">
-                                <h4 class="h4-responsive">Immagine di categoria</h4>
-                                <select id="imageSelectorModal" name="categoryImagePath"
-                                        class="browser-default custom-select">
-                                    <?php foreach (PermissionModel::getUniquePermissionTypes() as $userType): ?>
-                                        <option value="<?php echo $userType ?>"><?php echo $userType ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <input type="text" id="editModalCognome" class="form-control" name="cognome"
+                                       required>
+                                <label for="nomeCategoriaModal">Cognome</label>
                             </div>
 
-                            <input id="categoryIdModal" type="hidden" name="categoryId" value="">
-
+                            <div class="md-form input-group mb-4">
+                                <input type="text" id="editModalEmail" class="form-control" aria-label="Email"
+                                       aria-describedby="material-addon2" name="email" required>
+                                <label for="email">Email</label>
+                                <div class="input-group-append">
+                                    <span class="input-group-text md-addon" id="material-addon2">@<?php echo EMAIL_ALLOWED_DOMAIN; ?></span>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" id="editModalSubmitButton" class="btn btn-dark-green waves-effect">Applica
+                            <i class="fas fa-check ml-1 text-white"></i>
+                        </button >
+
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Annulla</button>
-                        <button id="submitSalvaModificheModal" type="button" class="btn btn-primary">Salva modifiche
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--Modal: editCategory -->
+        <!--Modal: editModal -->
+
+
+        <!-- Central Modal Success Demo-->
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-notify modal-success" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead" id="promoteModalTitle">Promuovi utente </p>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fas fa-user-tag fa-4x mb-3 animated rotateIn"></i>
+                            <form id="updateModalForm" class="form" method="post">
+                                <!-- Category name -->
+                                <div class="md-form">
+
+                                    <input type="text" id="updateModalCurrentPermissions" class="form-control" name="categoryName"
+                                           readonly>
+
+                                    <label for="nomeCategoriaModal">Permessi attuali</label>
+
+                                    <div class="md-form">
+                                        <h4 class="h4-responsive">Permessi disponibili</h4>
+                                        <select id="imageSelectorModal" name="tipo_utente"
+                                                class="browser-default custom-select">
+
+                                            <?php foreach (PermissionModel::getUniquePermissionTypes() as $userType): ?>
+                                                <option value="<?php echo $userType ?>"><?php echo $userType ?></option>
+                                            <?php endforeach; ?>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" id="updateModalSubmitButton" class="btn btn-dark-green waves-effect">Applica
+                            <i class="fas fa-check ml-1 text-white"></i>
+                        </a>
+                        <a type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Annulla</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Central Modal Success Demo-->
 
         <footer>
             <!--Copyright-->

@@ -59,8 +59,12 @@ class User
         return $this->username;
     }
 
-    public function getEmail(){
+    public function getPartialEmailAddress(){
         return $this->email;
+    }
+
+    public function getFullEmailAddress(){
+        return $this->email . "@" . EMAIL_ALLOWED_DOMAIN;
     }
 
     public static function generatePassword(){
@@ -88,5 +92,9 @@ class UserValidator{
         $valid_domain_check = explode('@', $email)[1] == EMAIL_ALLOWED_DOMAIN;
 
         return $valid_email != false && $valid_domain_check;
+    }
+
+    public static function validateUserPermissionName($perm){
+        return in_array($perm, PermissionModel::getUniquePermissionTypes());
     }
 }

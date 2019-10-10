@@ -67,7 +67,7 @@ class Permissions
 
 
     /* WRAPPER FUNCTIONS */
-    public function canManageAnyUsers(){
-        return $this->canCreareUtenti() || $this->canEliminareUtenti() || $this->canPromozioneUtenti();
+    public function canUserAction(){
+        return $this->canCreareUtenti() || $this->canPromozioneUtenti() || $this->canEliminareUtenti();
     }
 }
