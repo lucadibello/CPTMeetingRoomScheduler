@@ -27,7 +27,6 @@ class Login
 
             } else {
                 // If the user is logged in
-                //ViewLoader::load_full("home/index");
                 RedirectManager::redirect("home");
             }
         } else {

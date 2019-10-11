@@ -40,71 +40,71 @@
             </div>
 
         <?php if(PermissionManager::getPermissions()->canCreareUtenti()): ?>
-        <div class="row wow fadeIn">
-            <div class="col-md-12">
-                <br>
-                <div class="card" id="aggiungi-categoria">
-                    <div class="card-header"><h3 class="h3-responsive">Aggiungi utente</h3></div>
-                    <div class="card-body">
-                        <form class="form" method="post" action="<?php echo RedirectManager::buildUrl("api/user/add"); ?>">
+            <div class="row wow fadeIn">
+                <div class="col-md-12">
+                    <br>
+                    <div class="card" id="aggiungi-categoria">
+                        <div class="card-header"><h3 class="h3-responsive">Aggiungi utente</h3></div>
+                        <div class="card-body">
+                            <form class="form" method="post" action="<?php echo RedirectManager::buildUrl("api/user/add"); ?>">
 
-                            <!-- Grid row -->
-                            <div class="form-row">
-                                <!-- Grid column -->
-                                <div class="col">
-                                    <!-- Material input -->
-                                    <div class="md-form mt-0">
-                                        <input type="text" id="nome" class="form-control" name="nome" required>
-                                        <label for="nome">Nome</label>
+                                <!-- Grid row -->
+                                <div class="form-row">
+                                    <!-- Grid column -->
+                                    <div class="col">
+                                        <!-- Material input -->
+                                        <div class="md-form mt-0">
+                                            <input type="text" id="nome" class="form-control" name="nome" required>
+                                            <label for="nome">Nome</label>
+                                        </div>
+                                    </div>
+                                    <!-- Grid column -->
+
+                                    <!-- Grid column -->
+                                    <div class="col">
+                                        <!-- Material input -->
+                                        <div class="md-form mt-0">
+                                            <input type="text" class="form-control" id="cognome" name="cognome" required>
+                                            <label for="cognome">Cognome</label>
+                                        </div>
+                                    </div>
+                                    <!-- Grid column -->
+                                </div>
+                                <!-- Grid row -->
+
+                                <div class="md-form input-group mb-4">
+                                    <input type="text" id="email" class="form-control" aria-label="Email"
+                                           aria-describedby="material-addon2" name="email" required>
+                                    <label for="email">Email</label>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text md-addon" id="material-addon2">@<?php echo EMAIL_ALLOWED_DOMAIN; ?></span>
                                     </div>
                                 </div>
-                                <!-- Grid column -->
 
-                                <!-- Grid column -->
-                                <div class="col">
-                                    <!-- Material input -->
-                                    <div class="md-form mt-0">
-                                        <input type="text" class="form-control" id="cognome" name="cognome" required>
-                                        <label for="cognome">Cognome</label>
-                                    </div>
+                                <div class="md-form">
+                                    <input type="text" id="username" class="form-control" name="username" required>
+                                    <label for="username">Username</label>
                                 </div>
-                                <!-- Grid column -->
-                            </div>
-                            <!-- Grid row -->
 
-                            <div class="md-form input-group mb-4">
-                                <input type="text" id="email" class="form-control" aria-label="Email"
-                                       aria-describedby="material-addon2" name="email" required>
-                                <label for="email">Email</label>
-                                <div class="input-group-append">
-                                    <span class="input-group-text md-addon" id="material-addon2">@<?php echo EMAIL_ALLOWED_DOMAIN; ?></span>
+                                <div class="md-form">
+                                    <h4 class="h4-responsive">Permessi utente</h4>
+                                    <select id="imageSelector" name="tipo_utente"
+                                            class="browser-default custom-select">
+                                        <?php foreach (PermissionModel::getUniquePermissionTypes() as $userType): ?>
+                                            <option value="<?php echo $userType ?>"><?php echo $userType ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
-                            </div>
 
-                            <div class="md-form">
-                                <input type="text" id="username" class="form-control" name="username" required>
-                                <label for="username">Username</label>
-                            </div>
-
-                            <div class="md-form">
-                                <h4 class="h4-responsive">Permessi utente</h4>
-                                <select id="imageSelector" name="tipo_utente"
-                                        class="browser-default custom-select">
-                                    <?php foreach (PermissionModel::getUniquePermissionTypes() as $userType): ?>
-                                        <option value="<?php echo $userType ?>"><?php echo $userType ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <!-- Add category button -->
-                            <button class="btn btn-success btn-block my-4" type="submit">Crea utente</button>
-                            <br>
-                        </form>
+                                <!-- Add category button -->
+                                <button class="btn btn-success btn-block my-4" type="submit">Crea utente</button>
+                                <br>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
         <?php endif; ?>
 
         <br>
@@ -145,7 +145,7 @@
                                         <td>
                                             <!-- Check for permissions -->
                                             <?php if(PermissionManager::getPermissions()->canUserAction()): ?>
-                                                <?php if(PermissionManager::getPermissions()->canPromozioneUtenti()): ?>
+                                                <?php if(PermissionManager::getPermissions()->canModificareUtenti()): ?>
                                                     <button class="btn btn-primary edit-user-button" user-target="<?php echo $user->getUsername();?>">
                                                         <i class="fas fa-user-edit"></i>
                                                     </button>

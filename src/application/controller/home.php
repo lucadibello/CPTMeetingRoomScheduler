@@ -7,12 +7,15 @@ class Home
         if(Auth::isAuthenticated()){
             // If the user is logged in
 
+            // Delete password change confirmation cookie (if there is one)
             if(isset($_COOKIE["password_changed_successfully"]) && $_COOKIE["password_changed_successfully"] == '1'){
                 Application::deleteCookie("password_changed_successfully");
             }
 
             //Show index page
+            ViewLoader::load("home/templates/header");
             ViewLoader::load("home/index");
+            ViewLoader::load("home/templates/footer");
         }
         else{
             // If the user is not logged in the controller redirect him to the login page.

@@ -10,6 +10,8 @@
 /**
  * Configurazione di : Error reporting
  * Utile per vedere tutti i piccoli problemi in fase di sviluppo, in produzione solo quelli gravi
+ *
+ * TODO: Nascondere errori quando in produzione!
  */
 error_reporting(E_ALL);
 ini_set("display_errors", 1);

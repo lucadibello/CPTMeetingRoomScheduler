@@ -59,7 +59,8 @@ class PermissionModel
             $data["creazione_utenti"], $data["eliminazione_utenti"],
             $data["promozione_utenti"], $data["visione_prenotazioni"],
             $data["inserimento_prenotazioni"], $data["cancellazione_prenotazioni_personali"],
-            $data["cancellazione_prenotazioni_altri_utenti"], $perm_key
+            $data["cancellazione_prenotazioni_altri_utenti"], $data["modifica_utenti"],
+            $perm_key
         );
     }
 }
