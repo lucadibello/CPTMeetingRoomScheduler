@@ -32,8 +32,39 @@ class UserModel
     }
 
     /* API METHODS */
-    public static function delete(string $username): bool {
-        return DB::delete("utente", "username=%s", $username);
+    public static function delete(string $username) {
+
+        // Internal function
+        function delete_user($username){
+            $result = DB::delete("utente", "username=%s", $username);
+            return  (!$result ? array("C'è stato un errore durante l'eliminazione dell'utente. 
+                Contattare un amministratore.") : true);
+        }
+
+        // Read user permission group
+        $perm_name = PermissionModel::getUserPermissionGroup($username);
+
+        // Check if user is admin
+        if($perm_name == ADMIN_PERMISSION_GROUP){
+            if(self::countAdmins() > MINIMUM_ADMINS_ALLOWED){
+                // Calls delete internal function
+                return delete_user($username);
+            }
+            else{
+                return array("Ci devono essere almeno " . MINIMUM_ADMINS_ALLOWED . " admin(s) nel sistema. Impossibile
+                    eliminare l'account");
+            }
+        }
+        else{
+            // Calls delete internal function
+            return delete_user($username);
+        }
+    }
+
+    public static function countAdmins(): int{
+        //TODO: Da utilizzare per l'eliminazione degli utenti: ci deve sempre essere almeno un amministratore
+        DB::query("SELECT * FROM utente WHERE tipo_utente=%s", ADMIN_PERMISSION_GROUP);
+        return DB::count();
     }
 
     public static function add(array $data){
@@ -157,7 +188,7 @@ class UserModel
         self::$errors = [];
 
         if(!UserValidator::validateUsername($data["username"])){
-            self::$errors[] = "Hai fornito un username non valido non valido";
+            self::$errors[] = "Hai fornito un username non valido";
         }
 
         if(!UserValidator::validateNome($data["nome"])){

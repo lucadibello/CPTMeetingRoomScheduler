@@ -29,7 +29,6 @@ class PasswordChangeModel
         return $this->usrChangeDefPsw();
     }
     
-
     private function registerChangePasswordUrl($username){
         // Get current datetime
         $current_timestamp = (new DateTime())->format("Y-m-d H:i:s");
@@ -41,6 +40,7 @@ class PasswordChangeModel
         $randomId = $this->generateRandomId();
 
         // Insert data into database
+        //TODO: Change insert query
         $a = DB::query("INSERT INTO email VALUES (0, %s, %s, %s, %s, NULL)",
             $randomId, $current_timestamp, $expiration_timestamp, $username);
 

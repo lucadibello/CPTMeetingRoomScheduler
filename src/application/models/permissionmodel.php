@@ -39,7 +39,7 @@ class PermissionModel
         return $types;
     }
 
-    private function getUserPermissionGroup($username){
+    public static function getUserPermissionGroup($username): string{
         $result = DB::query("SELECT tipo_utente FROM utente WHERE username=%s",$username);
 
         if(count($result)>0){

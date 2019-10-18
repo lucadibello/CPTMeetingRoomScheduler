@@ -18,26 +18,26 @@
 
         </div>
         <!-- Heading -->
-            <div class="row wow fadeIn">
-                <div class="col-md-12">
-                    <br>
-                    <div class="card" id="aggiungi-categoria">
-                        <div class="card-header"><h3 class="h3-responsive">Notifiche</h3></div>
-                        <div class="card-body">
-                            <?php if (count($GLOBALS["NOTIFIER"]->getNotifications())): ?>
-                                <?php foreach ($GLOBALS["NOTIFIER"]->getNotifications() as $notification): ?>
-                                    <div class="alert alert-danger" role="alert">
-                                        <?php echo $notification ?>
-                                    </div>
-                                    <?php $GLOBALS["NOTIFIER"]->clear(); ?>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <h4 class="h4-responsive">Al momento non ci sono notifiche.</h4>
-                            <?php endif; ?>
-                        </div>
+        <div class="row wow fadeIn">
+            <div class="col-md-12">
+                <br>
+                <div class="card" id="aggiungi-categoria">
+                    <div class="card-header"><h3 class="h3-responsive">Notifiche</h3></div>
+                    <div class="card-body">
+                        <?php if (count($GLOBALS["NOTIFIER"]->getNotifications())): ?>
+                            <?php foreach ($GLOBALS["NOTIFIER"]->getNotifications() as $notification): ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <?php echo $notification ?>
+                                </div>
+                                <?php $GLOBALS["NOTIFIER"]->clear(); ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <h4 class="h4-responsive">Al momento non ci sono notifiche.</h4>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
+        </div>
 
         <?php if(PermissionManager::getPermissions()->canCreareUtenti()): ?>
             <div class="row wow fadeIn">

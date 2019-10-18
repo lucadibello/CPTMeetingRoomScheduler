@@ -31,8 +31,26 @@ define('DATABASE_NAME', 'cptmrs');
 define('PSW_CRYPT_METHOD', PASSWORD_DEFAULT);
 define('DEFAULT_USER_PERMISSION_GROUP', "user");
 define('ADMIN_PANEL_USER_PERMISSION_GROUP', "admin");
+define('ADMIN_PERMISSION_GROUP',"admin");
+define('MINIMUM_ADMINS_ALLOWED', 1);
 define('PASSWORD_CHANGED_MESSAGE_COOKIE_ADD_LIFETIME', 60*60);
 define('EMAIL_ALLOWED_DOMAIN', "edu.ti.ch");
+define('BOOKING_DATE_FORMAT', "Y-m-d");
+define('BOOKING_TIME_FORMAT', "H:i:s");
+
+/* BOOKING ALLOWED DAYS */
+define('BOOKING_ALLOWED_DAYS', array(
+    DaysOfWeek::Monday,
+    DaysOfWeek::Tuesday,
+    DaysOfWeek::Wednesday,
+    DaysOfWeek::Thursday,
+    DaysOfWeek::Friday
+));
+
+
+/* API GET Encryption key */
+define("BOOKING_ENCRYPTION_KEY", "CPTmrs&1");
+define("BOOKING_ENCRYPTION_METHOD", "aes-128-gcm");
 
 // Setup default timezone
 date_default_timezone_set('Europe/Zurich');
@@ -43,3 +61,15 @@ $autoload_directories = array(
     "application/libs/",
     "application/models/"
 );
+
+
+abstract class DaysOfWeek
+{
+    const Sunday = 0;
+    const Monday = 1;
+    const Tuesday = 2;
+    const Wednesday = 3;
+    const Thursday = 4;
+    const Friday = 5;
+    const Saturday = 6;
+}

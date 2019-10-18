@@ -12,9 +12,14 @@ class Home
                 Application::deleteCookie("password_changed_successfully");
             }
 
+            // Load data
+            $bookings = BookingModel::getUserBookings($_SESSION["username"]);
+
             //Show index page
             ViewLoader::load("home/templates/header");
-            ViewLoader::load("home/index");
+            ViewLoader::load("home/index", array(
+                "bookings" => $bookings)
+            );
             ViewLoader::load("home/templates/footer");
         }
         else{
