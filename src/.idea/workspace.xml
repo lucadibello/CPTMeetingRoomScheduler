@@ -4,7 +4,6 @@
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libs/application.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/application.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +131,7 @@
       <workItem from="1571311978361" duration="8528000" />
       <workItem from="1571397948154" duration="141000" />
       <workItem from="1571398233031" duration="3759000" />
-      <workItem from="1571917160610" duration="2753000" />
+      <workItem from="1571917160610" duration="3070000" />
     </task>
     <servers />
   </component>
