@@ -17,6 +17,13 @@
     <!-- Your custom styles (optional) -->
     <link href="/application/assets/mdb/css/style.min.css" rel="stylesheet">
 
+    <!-- Full Calendar CSS -->
+    <link href='/application/assets/fullcalendar/packages/core/main.css' rel='stylesheet' />
+    <link href='/application/assets/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+    <link href='/application/assets/fullcalendar/packages/timegrid/main.css' rel='stylesheet' />
+    <link href='/application/assets/fullcalendar/packages/list/main.css' rel='stylesheet' />
+    <link href='/application/assets/fullcalendar/packages/bootstrap/main.min.css' rel='stylesheet' />
+
     <!-- JQuery -->
     <script type="text/javascript" src="/application/assets/mdb/js/jquery-3.4.1.min.js"></script>
 </head>

@@ -24,7 +24,7 @@
                     <div class="card-header"><h3 class="h3-responsive">Informazioni sulla sessione</h3></div>
                     <div class="card-body">
                         <?php var_dump($_SESSION); ?>
-
+                        <?php echo CalendarModel::fromBookingsToJson($bookings); ?>
                         <?php var_dump($bookings); ?>
                     </div>
                 </div>
@@ -88,13 +88,33 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <br>
+            <div class="card" id="aggiungi-categoria">
+                <div class="card-header"><h3 class="h3-responsive">Calendario</h3></div>
+                <div class="card-body">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
 <!-- Chart js for the "statistiche" section -->
 <script src="/application/assets/mdb/js/modules/chart.js"></script>
 <script src="/application/assets/mdb/js/addons/datatables.min.js"></script>
+
+<!-- FullCalendar Libs -->
+<script src='/application/assets/fullcalendar/packages/core/main.js'></script>
+<script src='/application/assets/fullcalendar/packages/interaction/main.js'></script>
+<script src='/application/assets/fullcalendar/packages/daygrid/main.js'></script>
+<script src='/application/assets/fullcalendar/packages/timegrid/main.js'></script>
+<script src='/application/assets/fullcalendar/packages/list/main.js'></script>
+<script src='/application/assets/fullcalendar/packages/bootstrap/main.min.js'></script>
+<script src='/application/assets/fullcalendar/packages/core/locales-all.min.js'></script>
 
 <script>
     /*
@@ -124,6 +144,7 @@
     */
 
     $(document).ready(function () {
+        // Load datatable
         $('#bookingTable').dataTable({
             "responsive": true,
             "scrollX": false,
@@ -136,7 +157,100 @@
                 "infoFiltered": "(Ricerca effettuata tra _MAX_ prenotazioni)"
             }
         });
-
         $('.dataTables_length').addClass('bs-select');
+
+        // Load calendar JS
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'interaction', 'bootstrap', 'dayGrid', 'timeGrid', 'list' ],
+            header: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            eventClick: function(info) {
+                var eventObj = info.event;
+
+                if (eventObj.url) {
+                    alert(
+                        'Clicked ' + eventObj.title + '.\n' +
+                        'Will open ' + eventObj.url + ' in a new tab'
+                    );
+
+                    window.open(eventObj.url);
+
+                    info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+                } else {
+                    alert('Clicked ' + eventObj.title);
+                }
+            },
+            locale: 'it',
+            defaultDate: '2019-08-12',
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            themeSystem: 'bootstrap', // use mdboostrap syle
+            editable: true,
+            bootstrapFontAwesome: { // Use fontawesome icons
+                close: 'fa-times',
+                prev: 'fa-chevron-left',
+                next: 'fa-chevron-right',
+                prevYear: 'fa-angle-double-left',
+                nextYear: 'fa-angle-double-right'
+            },
+            events: [
+                {
+                    title: 'Business Lunch',
+                    start: '2019-08-03T13:00:00',
+                    constraint: 'businessHours'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2019-08-13T11:00:00',
+                    constraint: 'availableForMeeting', // defined below
+                    color: '#257e4a'
+                },
+                {
+                    title: 'Conference',
+                    start: '2019-08-18',
+                    end: '2019-08-20'
+                },
+                {
+                    title: 'Party',
+                    start: '2019-08-29T20:00:00'
+                },
+
+                // areas where "Meeting" must be dropped
+                {
+                    groupId: 'availableForMeeting',
+                    start: '2019-08-11T10:00:00',
+                    end: '2019-08-11T16:00:00',
+                    rendering: 'background'
+                },
+                {
+                    groupId: 'availableForMeeting',
+                    start: '2019-08-13T10:00:00',
+                    end: '2019-08-13T16:00:00',
+                    rendering: 'background'
+                },
+
+                // red areas where no events can be dropped
+                {
+                    start: '2019-08-24',
+                    end: '2019-08-28',
+                    overlap: false,
+                    rendering: 'background',
+                    color: '#ff9f89'
+                },
+                {
+                    start: '2019-08-06',
+                    end: '2019-08-08',
+                    overlap: false,
+                    rendering: 'background',
+                    color: '#ff9f89'
+                }
+            ]
+        });
+
+        calendar.render();
     })
 </script>

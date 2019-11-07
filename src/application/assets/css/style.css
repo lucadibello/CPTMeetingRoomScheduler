@@ -53,3 +53,7 @@
     text-align: center;
     color: #000;
 }
+
+#calendar{
+    max-height: 100vh;
+}

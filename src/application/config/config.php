@@ -38,6 +38,9 @@ define('EMAIL_ALLOWED_DOMAIN', "edu.ti.ch");
 define('BOOKING_DATE_FORMAT', "Y-m-d");
 define('BOOKING_TIME_FORMAT', "H:i:s");
 
+/* CALENDAR OPTIONS */
+define("CALENDAR_DATETIME_FORMAT", "d-m-Y H:i");
+
 /* BOOKING ALLOWED DAYS */
 define('BOOKING_ALLOWED_DAYS', array(
     DaysOfWeek::Monday,

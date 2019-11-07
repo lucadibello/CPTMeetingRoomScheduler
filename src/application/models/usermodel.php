@@ -67,6 +67,17 @@ class UserModel
         return DB::count();
     }
 
+    public static function getUser($username){
+        $result = DB::query("SELECT * FROM utente WHERE username=%s", $username);
+        if(count($result) > 0){
+            //var_dump($result);
+            return self::parseUserData($result[0]);
+        }
+        else{
+            return false;
+        }
+    }
+
     public static function add(array $data){
         // Complete email
         $partial_mail = $data["email"];

@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/application/models/calendarmodel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/application/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/usermodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/usermodel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/home/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/home/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/home/templates/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/home/templates/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +22,7 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="DONT_SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
-      <executable />
+      <executable path="composer" />
     </execution>
   </component>
   <component name="DatabaseView">
@@ -78,6 +86,9 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/application/assets" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\views\admin" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\models" />
@@ -132,6 +143,7 @@
       <workItem from="1571397948154" duration="141000" />
       <workItem from="1571398233031" duration="3759000" />
       <workItem from="1571917160610" duration="3070000" />
+      <workItem from="1573129703569" duration="7067000" />
     </task>
     <servers />
   </component>
@@ -152,7 +164,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
