@@ -140,30 +140,11 @@ class Api
             $GLOBALS["NOTIFIER"]->clear();
 
             /*
-             * Action url: api/booking/
-             * Permission needed: visione_prenotazioni
-             * Extra data: none
-            */
-            if(is_null($action) && is_null($username)) {
-                if(PermissionManager::getPermissions()->canVisionePrenotazioni()){
-                    $result = BookingModel::getBookings();
-                    /* TODO: FINISH ENCRYPTION */
-                    //echo openssl_encrypt(json_encode($result), BOOKING_ENCRYPTION_METHOD, BOOKING_ENCRYPTION_KEY);
-                    echo json_encode($result);
-                }
-                else{
-                    $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per la promozione degli utenti");
-                }
-
-                RedirectManager::redirect("admin/utenti");
-            }
-
-            /*
              * Action url: api/booking/add
              * Permission needed: visione_prenotazioni
              * Extra data: none
              */
-            elseif($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST"){
+            if($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST"){
                 if(PermissionManager::getPermissions()->canInserirePrenotazioni()){
                     // Sanitize POST data and promote user
                     $result = BookingModel::add(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
@@ -183,6 +164,29 @@ class Api
         else{
             // Not logged: show login page
             RedirectManager::redirect("admin");
+        }
+    }
+
+
+    public function calendar($action=null){
+        // Set json content
+        header('Content-Type: application/json');
+
+        if($_SERVER["REQUEST_METHOD"] == "POST" && is_null($action)){
+            if(isset($_POST["token"])){
+                if($_POST["token"] == API_TOKEN){
+                    echo CalendarModel::fromBookingsToJson(BookingModel::getBookings());
+                }
+                else{
+                    echo CalendarModel::generateJsonError("Wrong API token", HttpCode::UNAUTHORIZED);
+                }
+            }
+            else{
+                echo CalendarModel::generateJsonError("Missing API token", HttpCode::BAD_REQUEST);
+            }
+        }
+        else{
+            echo CalendarModel::generateJsonError("Wrong request", HttpCode::BAD_REQUEST);
         }
     }
 }
