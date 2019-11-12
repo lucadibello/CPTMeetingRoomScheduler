@@ -12,8 +12,6 @@
     <link href="/application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="/application/assets/mdb/css/mdb.min.css" rel="stylesheet">
-    <!-- datatables css -->
-    <link href="/application/assets/mdb/css/addons/datatables.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="/application/assets/mdb/css/style.min.css" rel="stylesheet">
 

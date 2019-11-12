@@ -17,6 +17,16 @@ class BookingModel
         return self::parseBookingArrayData($result);
     }
 
+    public static function getBooking(int $id){
+        $result = DB::query("SELECT * FROM riservazione WHERE id=%d", $id);
+        if(count($result) > 0){
+            return self::parseBookingData($result[0]);
+        }
+        else{
+            return false;
+        }
+    }
+
     public static function getUserBookings(string $username): array
     {
         $result = DB::query("SELECT * FROM riservazione where utente=%s", $username);
@@ -51,6 +61,13 @@ class BookingModel
             $GLOBALS["NOTIFIER"]->add_all(self::$errors);
             RedirectManager::redirect("admin/utenti");
         }
+    }
+
+    public static function delete($booking_id)
+    {
+        $result = DB::delete("riservazione", "id=%d", $booking_id);
+        return  (!$result ? array("C'è stato un errore durante l'eliminazione della prenotazione. 
+            Contattare un amministratore") : true);
     }
 
     private static function parseBookingData($booking_data): Booking

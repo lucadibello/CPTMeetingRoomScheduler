@@ -21,9 +21,10 @@ class CalendarModel
         $data = [
             "id" => $booking->getId(),
             "title" => $creator->getNome() . " " . $creator->getCognome(),
-            "start" => $booking->getDataInizio()->format(CALENDAR_DATETIME_FORMAT),
-            "end" => $booking->getDataFine()->format(CALENDAR_DATETIME_FORMAT),
-            "note" => $booking->getOsservazioni()
+            "start" => $booking->getDataInizio()->format('c'),
+            "end" => $booking->getDataFine()->format('c'),
+            "note" => $booking->getOsservazioni(),
+            "professor" => array("name" => $creator->getNome(), "surname" => $creator->getCognome())
         ];
 
         return $data;

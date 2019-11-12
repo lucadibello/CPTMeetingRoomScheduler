@@ -146,19 +146,19 @@
                                             <!-- Check for permissions -->
                                             <?php if(PermissionManager::getPermissions()->canUserAction()): ?>
                                                 <?php if(PermissionManager::getPermissions()->canModificareUtenti()): ?>
-                                                    <button class="btn btn-primary edit-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                    <button class="btn btn-primary edit-user-button" data-toggle="tooltip" title="Modifica utente" user-target="<?php echo $user->getUsername();?>">
                                                         <i class="fas fa-user-edit"></i>
                                                     </button>
                                                 <?php endif; ?>
 
                                                 <?php if(PermissionManager::getPermissions()->canEliminareUtenti()): ?>
-                                                    <button class="btn btn-danger delete-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                    <button class="btn btn-danger delete-user-button" data-toggle="tooltip" title="Elimina utente" user-target="<?php echo $user->getUsername();?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                                     </button>
                                                 <?php endif; ?>
 
                                                 <?php if(PermissionManager::getPermissions()->canPromozioneUtenti()): ?>
-                                                    <button class="btn btn-warning promote-user-button" user-target="<?php echo $user->getUsername();?>">
+                                                    <button class="btn btn-warning promote-user-button" data-toggle="tooltip" title="Promuovi utente" user-target="<?php echo $user->getUsername();?>">
                                                         <i class="fas fa-user-tag"></i>
                                                     </button>
                                                 <?php endif; ?>
@@ -335,7 +335,7 @@
             <!--Copyright-->
             <div class="footer-copyright py-3">
                 © 2019 Copyright:
-                <a href="https://chiassotv.ch/" target="_blank"><?php echo APP_NAME ?></a>
+                <a href="<?php echo URL;?>" target="_blank"><?php echo APP_NAME ?></a>
             </div>
             <!--/.Copyright-->
 
@@ -349,6 +349,9 @@
 
 <!-- Load datatables.js -->
 <script src="/application/assets/mdb/js/addons/datatables.min.js"></script>
+
+<!-- Popper.js for tooltips -->
+<script type="text/javascript" src="/application/assets/mdb/js/popper.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#userTable').dataTable({
@@ -357,5 +360,9 @@
         });
 
         $('.dataTables_length').addClass('bs-select');
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     })
 </script>

@@ -9,6 +9,8 @@
 class Api
 {
     /**
+     * HTTP Api for User Management
+     *
      * @param $action string Desired API action. Here is the list of the available actions: delete, add, update, promote.
      * @param null $username User's username. It have to be set if using these actions: delete, update, promote.
      */
@@ -135,7 +137,13 @@ class Api
         }
     }
 
-    public function booking($action=null, $username=null){
+    /**
+     * HTTP Api for Booking management
+     *
+     * @param $action string Desired API action. Here is the list of the available actions: delete, add, update, promote.
+     * @param null $booking_id Booking identifier. It have to be set if using these actions: delete, update, promote.
+     */
+    public function booking($action=null, $booking_id=null){
         if(Auth::isAuthenticated()) {
             $GLOBALS["NOTIFIER"]->clear();
 
@@ -154,10 +162,53 @@ class Api
                         $GLOBALS["NOTIFIER"]->add_all($result);
                     }
                 }
+                else{
+                    $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per inserire le prenotazioni");
+                }
             }
-            else{
-                $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per inserire le prenotazioni");
+
+            /*
+             * Action url: api/booking/delete/<booking_id>
+             * Permission needed: eliminazione_utenti
+             * Extra data: none
+             */
+            elseif($action=="delete" && !is_null($booking_id)){
+                $booking = BookingModel::getBooking($booking_id);
+
+                if($booking != false){
+                    // Check if the user who want to delete the booking is the same of the related booking
+                    if($booking->getCreatorUsername() == $_SESSION["username"]){
+
+                        // If same user
+                        if(PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()){
+                            $result = BookingModel::delete($booking_id);
+
+                            if(is_array($result)){
+                                $GLOBALS["NOTIFIER"]->add_all($result);
+                            }
+                        }
+                        else{
+                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni");
+                        }
+                    }
+                    else{
+                        // If other user
+                        if(PermissionManager::getPermissions()->canCancellazionePrenotazioniGlobali()){
+                            $result = BookingModel::delete($booking_id);
+
+                            if(is_array($result)){
+                                $GLOBALS["NOTIFIER"]->add_all($result);
+                            }
+                        }
+                        else{
+                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni degli altri utenti");
+                        }
+                    }
+                }
+
+                RedirectManager::redirect("admin/utenti");
             }
+
 
             RedirectManager::redirect("home/prenotazioni");
         }
@@ -167,12 +218,14 @@ class Api
         }
     }
 
-
-    public function calendar($action=null){
+    /**
+     * HTTP API used by the Raspberry Pi to read all the booking related data stored in the database.
+     */
+    public function calendar(){
         // Set json content
         header('Content-Type: application/json');
 
-        if($_SERVER["REQUEST_METHOD"] == "POST" && is_null($action)){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
             if(isset($_POST["token"])){
                 if($_POST["token"] == API_TOKEN){
                     echo CalendarModel::fromBookingsToJson(BookingModel::getBookings());

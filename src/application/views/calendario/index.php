@@ -9,183 +9,142 @@
                 <h4 class="mb-2 mb-sm-0 pt-1">
                     <span class="blue-text font-weight-bold"><?php echo APP_NAME;?></span>
                     <span>/</span>
-                    <span>Prenotazioni</span>
+                    <span>Calendario</span>
                 </h4>
             </div>
 
         </div>
         <!-- Heading -->
 
-        <!-- TODO: REMOVE THIS IN PRODUCTION -->
         <div class="row wow fadeIn">
             <div class="col-md-12">
                 <br>
-                <div class="card" id="aggiungi-categoria">
-                    <div class="card-header"><h3 class="h3-responsive">Informazioni sulla sessione</h3></div>
+                <div class="card" id="ultime-aggiunte">
+                    <div class="card-header"><h3 class="h3-responsive">Ultime aggiunte</h3></div>
                     <div class="card-body">
-                        <?php var_dump($_SESSION); ?>
-                        <?php echo CalendarModel::fromBookingsToJson($bookings); ?>
-                        <?php var_dump($bookings); ?>
+                        <h1>[Username] ha aggiunto una prenotazione per il xx-xx-xx dall'ora xx-xx alle xx-xx</h1>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Bar chart: Numero colloqui fatti - colloqui da fare
-        <div class="row wow fadeIn">
+        <div class="row mb-5">
             <div class="col-md-12">
                 <br>
                 <div class="card" id="aggiungi-categoria">
-                    <div class="card-header"><h3 class="h3-responsive">Statistiche</h3></div>
+                    <div class="card-header"><h3 class="h3-responsive">Calendario</h3></div>
                     <div class="card-body">
-                        <canvas id="horizontalBar"></canvas>
+                        <div id='calendar'></div>
                     </div>
-                </div>
-            </div>
-        </div>
-        -->
-
-        <div class="row wow fadeIn">
-            <div class="col-md-12">
-                <br>
-                <div class="card" id="aggiungi-categoria">
-                    <div class="card-header"><h3 class="h3-responsive">Prenotazioni personali</h3></div>
-                    <div class="card-body">
-                        <table id="bookingTable" class="table-responsive-xl table-striped" cellspacing="0"
-                               width="100%">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Data</th>
-                                    <th scope="col">Ora inizio</th>
-                                    <th scope="col">Ora fine</th>
-                                    <th scope="col">Osservazioni</th>
-                                    <th scope="col">Opzioni</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($bookings as $booking): ?>
-                                <tr>
-                                    <td><?php echo $booking->getDataInizio()->format(BOOKING_DATE_FORMAT); ?></td>
-                                    <td><?php echo $booking->getDataInizio()->format(BOOKING_TIME_FORMAT); ?></td>
-                                    <td><?php echo $booking->getDataFine()->format(BOOKING_TIME_FORMAT); ?></td>
-
-                                    <td class="osservazioni">
-                                        <?php if(empty($booking->getOsservazioni())): ?>
-                                            -
-                                        <?php else: ?>
-                                            <button class="btn btn-brown">Mostra osservazioni</button>
-                                        <?php endif; ?>
-                                    </td>
-
-                                    <td>
-                                        <button class="btn btn-primary">Azioni da finire</button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-5">
-        <div class="col-md-12">
-            <br>
-            <div class="card" id="aggiungi-categoria">
-                <div class="card-header"><h3 class="h3-responsive">Calendario</h3></div>
-                <div class="card-body">
-                    <div id='calendar'></div>
                 </div>
             </div>
         </div>
     </div>
 </main>
 
-<!-- Chart js for the "statistiche" section -->
-<script src="/application/assets/mdb/js/modules/chart.js"></script>
-<script src="/application/assets/mdb/js/addons/datatables.min.js"></script>
+<!-- Modals -->
+
+<!-- Event click modal -->
+<!-- Central Modal Medium Info -->
+<div class="modal fade" id="eventInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-info" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead">Informazioni evento</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+
+            <!--Body-->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <i class="far fa-calendar-check fa-4x mb-3 animated rotateIn"></i>
+                    </div>
+                    <div class="col-md-10">
+                        <h3 class="h3-responsive">Data: <span id="event-date"></span></h3>
+                        <h3 class="h3-responsive">Orario: <span id="event-time-start"></span> - <span id="event-time-end"></span></h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3 class="h3-responsive">Professore</h3>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="h3-responsive" id="event_professor"></h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3 class="h3-responsive">Osservazioni</h3>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="h3-responsive" id="event_note"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer justify-content-center">
+                <a type="button" class="btn btn-primary">Get it now <i class="far fa-gem ml-1 text-white"></i></a>
+                <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">No, thanks</a>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- Central Modal Medium Info-->
+
 
 <!-- FullCalendar Libs -->
-<script src='/application/assets/fullcalendar/packages/core/main.js'></script>
-<script src='/application/assets/fullcalendar/packages/interaction/main.js'></script>
-<script src='/application/assets/fullcalendar/packages/daygrid/main.js'></script>
-<script src='/application/assets/fullcalendar/packages/timegrid/main.js'></script>
-<script src='/application/assets/fullcalendar/packages/list/main.js'></script>
+<script src='/application/assets/fullcalendar/packages/core/main.min.js'></script>
+<script src='/application/assets/fullcalendar/packages/interaction/main.min.js'></script>
+<script src='/application/assets/fullcalendar/packages/daygrid/main.min.js'></script>
+<script src='/application/assets/fullcalendar/packages/timegrid/main.min.js'></script>
+<script src='/application/assets/fullcalendar/packages/list/main.min.js'></script>
 <script src='/application/assets/fullcalendar/packages/bootstrap/main.min.js'></script>
 <script src='/application/assets/fullcalendar/packages/core/locales-all.min.js'></script>
+<script src='/application/assets/fullcalendar/packages/moment/main.min.js'></script>
+
+<!-- Moment js -->
+<script src="/application/assets/js/moment.min.js"></script>
 
 <script>
-    /*
-    new Chart(document.getElementById("horizontalBar"), {
-        "type": "horizontalBar",
-        "data": {
-            "labels": ["Colloqui fatti", "Colloqui da fare"],
-            "datasets": [{
-                "label": "My First Dataset",
-                "data": [22, 33, 55, 12, 86, 23, 14],
-                "fill": false,
-                "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)"],
-                "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)"],
-                "borderWidth": 1
-            }]
-        },
-        "options": {
-            "scales": {
-                "xAxes": [{
-                    "ticks": {
-                        "beginAtZero": true
-                    }
-                }]
-            },
-        }
-    });
-    */
-
     $(document).ready(function () {
-        // Load datatable
-        $('#bookingTable').dataTable({
-            "responsive": true,
-            "scrollX": false,
-            "searching": false,
-            "language": {
-                "lengthMenu": "Mostro _MENU_ prenotazioni per pagina",
-                "zeroRecords": "Non hai effettuato nessuna prenotazione.",
-                "info": "Pagina _PAGE_ di _PAGES_",
-                "infoEmpty": "Non ci sono prenotazioni disponibili",
-                "infoFiltered": "(Ricerca effettuata tra _MAX_ prenotazioni)"
-            }
-        });
-        $('.dataTables_length').addClass('bs-select');
-
         // Load calendar JS
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: [ 'interaction', 'bootstrap', 'dayGrid', 'timeGrid', 'list' ],
+            plugins: [ 'interaction', 'bootstrap', 'dayGrid', 'timeGrid', 'list', 'momentPlugin'],
             header: {
                 left: 'prev,next',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
+            }, // Handles the onClick event generated by clicking on a specific event
             eventClick: function(info) {
-                var eventObj = info.event;
+                let event = info.event;
+                let extra_data = info.event.extendedProps;
 
-                if (eventObj.url) {
-                    alert(
-                        'Clicked ' + eventObj.title + '.\n' +
-                        'Will open ' + eventObj.url + ' in a new tab'
-                    );
+                // Date and time (start time - end time)
+                $('#event-date').text(moment(event.start).format("DD/MM/YYYY"));
+                $('#event-time-start').text(moment(event.start).format('HH:mm'));
+                $('#event-time-end').text(moment(event.end).format('HH:mm'));
 
-                    window.open(eventObj.url);
+                // Additional data (notes, professor, ...)
+                $('#event_professor').text(extra_data.professor.name + " " + extra_data.professor.surname);
+                $('#event_note').text(extra_data.note);
 
-                    info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
-                } else {
-                    alert('Clicked ' + eventObj.title);
-                }
+                // TODO: Show modal with options
+                $('#eventInfo').modal('show');
             },
             locale: 'it',
-            defaultDate: '2019-08-12',
             navLinks: true, // can click day/week names to navigate views
             businessHours: true, // display business hours
             themeSystem: 'bootstrap', // use mdboostrap syle
@@ -197,58 +156,57 @@
                 prevYear: 'fa-angle-double-left',
                 nextYear: 'fa-angle-double-right'
             },
-            events: [
+            eventSources: [
                 {
-                    title: 'Business Lunch',
-                    start: '2019-08-03T13:00:00',
-                    constraint: 'businessHours'
+                    url: '/api/calendar',
+                    method: 'POST',
+                    dataType: 'json',
+                    extraParams: {
+                        token: "<?PHP echo API_TOKEN;?>"
+                    },
+                    failure: function () {
+                        alert('there was an error while fetching events!');
+                    },
                 },
                 {
-                    title: 'Meeting',
-                    start: '2019-08-13T11:00:00',
-                    constraint: 'availableForMeeting', // defined below
-                    color: '#257e4a'
-                },
-                {
-                    title: 'Conference',
-                    start: '2019-08-18',
-                    end: '2019-08-20'
-                },
-                {
-                    title: 'Party',
-                    start: '2019-08-29T20:00:00'
-                },
+                    events: function(start, end, callback) {
+                        $.ajax({
+                            // Calls the calendar api
+                            url: '/api/calendar',
+                            method: 'POST',
+                            dataType: 'json',
+                            data: {
+                                token: "<?php echo API_TOKEN; ?>" // Setup API authentication code
+                            },
+                            success: function(doc) {
+                                let events = [];
 
-                // areas where "Meeting" must be dropped
-                {
-                    groupId: 'availableForMeeting',
-                    start: '2019-08-11T10:00:00',
-                    end: '2019-08-11T16:00:00',
-                    rendering: 'background'
-                },
-                {
-                    groupId: 'availableForMeeting',
-                    start: '2019-08-13T10:00:00',
-                    end: '2019-08-13T16:00:00',
-                    rendering: 'background'
-                },
+                                $.map(doc, function (r) {
+                                    // Add event to list
+                                    let name = r.professor.name;
+                                    let surname = r.professor.surname;
 
-                // red areas where no events can be dropped
-                {
-                    start: '2019-08-24',
-                    end: '2019-08-28',
-                    overlap: false,
-                    rendering: 'background',
-                    color: '#ff9f89'
-                },
-                {
-                    start: '2019-08-06',
-                    end: '2019-08-08',
-                    overlap: false,
-                    rendering: 'background',
-                    color: '#ff9f89'
+                                    events.push({
+                                        // Build dict
+                                        id: r.id,
+                                        title: r.title,
+                                        start: r.start,
+                                        end: r.end,
+                                        extendedProps: {
+                                            note: r.note,
+                                            professor_name: name,
+                                            professor_surname: surname,
+                                        }
+                                    })
+                                });
+
+                                // Return events
+                                callback(events);
+                            }
+                        });
+                    }
                 }
-            ]
+            ],
         });
 
         calendar.render();
