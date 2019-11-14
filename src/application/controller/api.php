@@ -28,7 +28,6 @@ class Api
                     // Sanitize POST data and promote user
                     $result = UserModel::getUsers();
 
-
                     echo json_encode($result);
                     exit();
                 }
@@ -128,12 +127,10 @@ class Api
 
             // Unknown API request
             RedirectManager::redirect("admin");
-
-
         }
         else{
             // Not logged: show login page
-            RedirectManager::redirect("admin");
+            RedirectManager::redirect("/");
         }
     }
 
@@ -150,7 +147,7 @@ class Api
             /*
              * Action url: api/booking/add
              * Permission needed: visione_prenotazioni
-             * Extra data: none
+             * Extra data: POST
              */
             if($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST"){
                 if(PermissionManager::getPermissions()->canInserirePrenotazioni()){
@@ -173,42 +170,68 @@ class Api
              * Extra data: none
              */
             elseif($action=="delete" && !is_null($booking_id)){
-                $booking = BookingModel::getBooking($booking_id);
+                if(Auth::isAuthenticated()){
+                    $booking = BookingModel::getBooking($booking_id);
 
-                if($booking != false){
-                    // Check if the user who want to delete the booking is the same of the related booking
-                    if($booking->getCreatorUsername() == $_SESSION["username"]){
+                    if($booking != false){
+                        // Check if the user who want to delete the booking is the same of the related booking
+                        if($booking->getCreatorUsername() == $_SESSION["username"]){
 
-                        // If same user
-                        if(PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()){
-                            $result = BookingModel::delete($booking_id);
+                            // If same user
+                            if(PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()){
+                                $result = BookingModel::delete($booking_id);
 
-                            if(is_array($result)){
-                                $GLOBALS["NOTIFIER"]->add_all($result);
+                                if(is_array($result)){
+                                    $GLOBALS["NOTIFIER"]->add_all($result);
+                                }
+                            }
+                            else{
+                                $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni");
                             }
                         }
                         else{
-                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni");
-                        }
-                    }
-                    else{
-                        // If other user
-                        if(PermissionManager::getPermissions()->canCancellazionePrenotazioniGlobali()){
-                            $result = BookingModel::delete($booking_id);
+                            // If other user
+                            if(PermissionManager::getPermissions()->canCancellazionePrenotazioniGlobali()){
+                                $result = BookingModel::delete($booking_id);
 
-                            if(is_array($result)){
-                                $GLOBALS["NOTIFIER"]->add_all($result);
+                                if(is_array($result)){
+                                    $GLOBALS["NOTIFIER"]->add_all($result);
+                                }
+                            }
+                            else{
+                                $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni degli altri utenti");
                             }
                         }
-                        else{
-                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni degli altri utenti");
-                        }
                     }
+                    RedirectManager::redirect("admin/utenti");
+
+                }
+                else{
+                    RedirectManager::redirect("/");
                 }
 
-                RedirectManager::redirect("admin/utenti");
+
             }
 
+
+            /*
+             * Action url: api/booking/update/<booking_id>
+             * Permission needed: inserimento_prenotazioni
+             * Extra data: POST
+             */
+            elseif($action=="update" && !is_null($booking_id)){
+                if(Auth::isAuthenticated()){
+                    if(PermissionManager::getPermissions()->canInserirePrenotazioni()){
+                        // TODO: FINISH THIS
+                    }
+                    else{
+                        $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per modificare le tue prenotazioni");
+                    }
+                }
+                else{
+                    RedirectManager::redirect("/");
+                }
+            }
 
             RedirectManager::redirect("home/prenotazioni");
         }
