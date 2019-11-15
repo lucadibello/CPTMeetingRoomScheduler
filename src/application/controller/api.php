@@ -222,7 +222,7 @@ class Api
             elseif($action=="update" && !is_null($booking_id)){
                 if(Auth::isAuthenticated()){
                     if(PermissionManager::getPermissions()->canInserirePrenotazioni()){
-                        // TODO: FINISH THIS
+                        //TODO: FINISH THIS
                     }
                     else{
                         $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per modificare le tue prenotazioni");

@@ -90,11 +90,10 @@ class UserValidator{
     public static function validateEmail(string $email){
         $valid_email = filter_var($email, FILTER_VALIDATE_EMAIL);
         $valid_domain_check = explode('@', $email)[1] == EMAIL_ALLOWED_DOMAIN;
-
         return $valid_email != false && $valid_domain_check;
     }
 
-    public static function validateUserPermissionName($perm){
+    public static function validateUserPermissionName(string $perm){
         return in_array($perm, PermissionModel::getUniquePermissionTypes());
     }
 }
