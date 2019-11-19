@@ -59,7 +59,7 @@ class Booking implements JsonSerializable
     /**
      * @return string
      */
-    public function getOsservazioni():string {
+    public function getOsservazioni() {
         return $this->osservazioni;
     }
 

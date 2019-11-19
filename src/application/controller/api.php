@@ -14,8 +14,9 @@ class Api
      * @param $action string Desired API action. Here is the list of the available actions: delete, add, update, promote.
      * @param null $username User's username. It have to be set if using these actions: delete, update, promote.
      */
-    public function user($action="", $username=null){
-        if(Auth::isAuthenticated()){
+    public function user($action = "", $username = null)
+    {
+        if (Auth::isAuthenticated()) {
             $GLOBALS["NOTIFIER"]->clear();
 
             /*
@@ -23,101 +24,90 @@ class Api
              * Action url: api/user/
              * Permission needed: modifica_utenti
              */
-            if(empty($action) && !is_null($username)) {
-                if(PermissionManager::getPermissions()->canModificareUtenti()){
+            if (empty($action) && !is_null($username)) {
+                if (PermissionManager::getPermissions()->canModificareUtenti()) {
                     // Sanitize POST data and promote user
                     $result = UserModel::getUsers();
 
                     echo json_encode($result);
                     exit();
-                }
-                else{
+                } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per la promozione degli utenti");
                 }
 
                 RedirectManager::redirect("admin/utenti");
-            }
-
-            /*
+            } /*
              * Action url: api/user/delete/<username>
              * Permission needed: eliminazione_utenti
              * Extra data: none
              */
-            elseif($action=="delete" && !is_null($username)){
-                if(PermissionManager::getPermissions()->canEliminareUtenti()){
+            elseif ($action == "delete" && !is_null($username)) {
+                if (PermissionManager::getPermissions()->canEliminareUtenti()) {
                     $result = UserModel::delete($username);
 
-                    if(is_array($result)){
+                    if (is_array($result)) {
                         $GLOBALS["NOTIFIER"]->add_all($result);
                     }
-                }
-                else{
+                } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare gli utenti");
                 }
 
                 RedirectManager::redirect("admin/utenti");
-            }
-            /*
+            } /*
              * Action url: api/user/add
              * Permission needed: creazione_utenti
              * Extra data: POST data
              */
-            elseif($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST"){
-                if(PermissionManager::getPermissions()->canCreareUtenti()){
+            elseif ($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST") {
+                if (PermissionManager::getPermissions()->canCreareUtenti()) {
                     // Sanitize POST data and add record to database
                     $result = UserModel::add(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
                     // If it detects errors
-                    if(is_array($result)){
+                    if (is_array($result)) {
                         $GLOBALS["NOTIFIER"]->add_all($result);
                     }
-                }
-                else{
+                } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per la creazione degli utenti");
                 }
 
                 RedirectManager::redirect("admin/utenti");
-            }
-            /*
+            } /*
              * Action url: api/user/update/<username>
              * Permission needed: modifica_utenti
              * Extra data: POST data
              */
-            elseif($action == "update" && !is_null($username) && $_SERVER["REQUEST_METHOD"] == "POST"){
+            elseif ($action == "update" && !is_null($username) && $_SERVER["REQUEST_METHOD"] == "POST") {
                 // Sanitize POST data and add record to database
-                if(PermissionManager::getPermissions()->canModificareUtenti()){
+                if (PermissionManager::getPermissions()->canModificareUtenti()) {
                     $result = UserModel::update(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING),
                         $username);
 
                     // If it detects errors
-                    if(is_array($result)){
+                    if (is_array($result)) {
                         $GLOBALS["NOTIFIER"]->add_all($result);
                     }
 
                     RedirectManager::redirect("admin/utenti");
-                }
-                else{
+                } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per la modifica degli utenti");
                 }
 
                 RedirectManager::redirect("admin/utenti");
-            }
-
-            /*
+            } /*
              * Action url: api/user/promote/<username>
              * Permission needed: promozione_utenti
              * Extra data: POST data
              */
-            elseif($action == "promote" && !is_null($username) && $_SERVER["REQUEST_METHOD"] == "POST"){
-                if(PermissionManager::getPermissions()->canPromozioneUtenti()){
+            elseif ($action == "promote" && !is_null($username) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                if (PermissionManager::getPermissions()->canPromozioneUtenti()) {
                     // Sanitize POST data and promote user
                     $result = UserModel::promote(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING), $username);
 
                     // If it detects errors
-                    if(is_array($result)){
+                    if (is_array($result)) {
                         $GLOBALS["NOTIFIER"]->add_all($result);
                     }
-                }
-                else{
+                } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per la promozione degli utenti");
                 }
 
@@ -127,8 +117,7 @@ class Api
 
             // Unknown API request
             RedirectManager::redirect("admin");
-        }
-        else{
+        } else {
             // Not logged: show login page
             RedirectManager::redirect("/");
         }
@@ -140,8 +129,9 @@ class Api
      * @param $action string Desired API action. Here is the list of the available actions: delete, add, update, promote.
      * @param null $booking_id Booking identifier. It have to be set if using these actions: delete, update, promote.
      */
-    public function booking($action=null, $booking_id=null){
-        if(Auth::isAuthenticated()) {
+    public function booking($action = null, $booking_id = null)
+    {
+        if (Auth::isAuthenticated()) {
             $GLOBALS["NOTIFIER"]->clear();
 
             /*
@@ -149,93 +139,96 @@ class Api
              * Permission needed: visione_prenotazioni
              * Extra data: POST
              */
-            if($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST"){
-                if(PermissionManager::getPermissions()->canInserirePrenotazioni()){
+            if ($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST") {
+                if (PermissionManager::getPermissions()->canInserirePrenotazioni()) {
+
                     // Sanitize POST data and promote user
                     $result = BookingModel::add(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
 
                     // If it detects errors
-                    if(is_array($result)){
+                    if (is_array($result)) {
                         $GLOBALS["NOTIFIER"]->add_all($result);
                     }
-                }
-                else{
+                } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per inserire le prenotazioni");
                 }
-            }
-
-            /*
+            } /*
              * Action url: api/booking/delete/<booking_id>
              * Permission needed: eliminazione_utenti
              * Extra data: none
              */
-            elseif($action=="delete" && !is_null($booking_id)){
-                if(Auth::isAuthenticated()){
-                    $booking = BookingModel::getBooking($booking_id);
+            elseif ($action == "delete" && !is_null($booking_id)) {
+                if (Auth::isAuthenticated()){
+                    header('Content-Type: application/json');
 
-                    if($booking != false){
+                    $GLOBALS["NOTIFIER"]->clear();
+
+                    $booking = BookingModel::getBooking($booking_id);
+                    if ($booking != false) {
                         // Check if the user who want to delete the booking is the same of the related booking
-                        if($booking->getCreatorUsername() == $_SESSION["username"]){
+                        if ($booking->getCreatorUsername() == $_SESSION["username"]) {
 
                             // If same user
-                            if(PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()){
+                            if (PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()) {
                                 $result = BookingModel::delete($booking_id);
 
-                                if(is_array($result)){
+                                if (is_array($result)) {
                                     $GLOBALS["NOTIFIER"]->add_all($result);
                                 }
+
                             }
-                            else{
+                            else {
                                 $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni");
                             }
                         }
-                        else{
+                        else {
                             // If other user
-                            if(PermissionManager::getPermissions()->canCancellazionePrenotazioniGlobali()){
+                            if (PermissionManager::getPermissions()->canCancellazionePrenotazioniGlobali()) {
                                 $result = BookingModel::delete($booking_id);
 
-                                if(is_array($result)){
+                                if (is_array($result)) {
                                     $GLOBALS["NOTIFIER"]->add_all($result);
                                 }
-                            }
-                            else{
+                            } else {
                                 $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni degli altri utenti");
                             }
                         }
                     }
-                    RedirectManager::redirect("admin/utenti");
 
+                    // Check errors
+                    if(count($GLOBALS["NOTIFIER"]->getNotifications()) == 0){
+                        // success
+                        echo json_encode(array("success" => true));
+                    }
+                    else{
+                        // errors detected
+                        echo json_encode(array("success" => false, "errors" => $GLOBALS["NOTIFIER"]->getNotifications()));
+                    }
+                    exit();
                 }
                 else{
                     RedirectManager::redirect("/");
                 }
-
-
             }
-
-
             /*
              * Action url: api/booking/update/<booking_id>
              * Permission needed: inserimento_prenotazioni
              * Extra data: POST
              */
-            elseif($action=="update" && !is_null($booking_id)){
-                if(Auth::isAuthenticated()){
-                    if(PermissionManager::getPermissions()->canInserirePrenotazioni()){
+            elseif ($action == "update" && !is_null($booking_id)) {
+                if (Auth::isAuthenticated()) {
+                    if (PermissionManager::getPermissions()->canInserirePrenotazioni()) {
                         //TODO: FINISH THIS
-                    }
-                    else{
+                    } else {
                         $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per modificare le tue prenotazioni");
                     }
-                }
-                else{
+                } else {
                     RedirectManager::redirect("/");
                 }
             }
 
             RedirectManager::redirect("home/prenotazioni");
-        }
-        else{
+        } else {
             // Not logged: show login page
             RedirectManager::redirect("admin");
         }
@@ -244,24 +237,22 @@ class Api
     /**
      * HTTP API used by the Raspberry Pi to read all the booking related data stored in the database.
      */
-    public function calendar(){
+    public function calendar()
+    {
         // Set json content
         header('Content-Type: application/json');
 
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-            if(isset($_POST["token"])){
-                if($_POST["token"] == API_TOKEN){
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (isset($_POST["token"])) {
+                if ($_POST["token"] == API_TOKEN) {
                     echo CalendarModel::fromBookingsToJson(BookingModel::getBookings());
-                }
-                else{
+                } else {
                     echo CalendarModel::generateJsonError("Wrong API token", HttpCode::UNAUTHORIZED);
                 }
-            }
-            else{
+            } else {
                 echo CalendarModel::generateJsonError("Missing API token", HttpCode::BAD_REQUEST);
             }
-        }
-        else{
+        } else {
             echo CalendarModel::generateJsonError("Wrong request", HttpCode::BAD_REQUEST);
         }
     }

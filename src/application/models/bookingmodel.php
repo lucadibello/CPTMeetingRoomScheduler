@@ -44,10 +44,13 @@ class BookingModel
         // Check booking data
         if(self::validateBookingData($data)){
             // Insert data into database
+
+            $date = DateTime::createFromFormat("d/m/Y", $data["data"]);
+
             $result = DB::insert('riservazione', array(
-                'data' => $data["dataInizio"]->format(BOOKING_DATE_FORMAT),
-                'ora_inizio' => $data["dataInizio"]->format(BOOKING_TIME_FORMAT),
-                'ora_fine' => $data["dataFine"]->format(BOOKING_TIME_FORMAT),
+                'data' => $date->format("Y/m/d"),
+                'ora_inizio' => $data["ora_inizio"],
+                'ora_fine' => $data["ora_fine"],
                 'osservazioni' => (empty($data["osservazioni"]) ? null : $data["osservazioni"]),
                 'utente' => $_SESSION["username"]
             ));
@@ -55,11 +58,11 @@ class BookingModel
             // Return true (if the insert query was successful) otherwise it returns an error as array
             return  (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
                 all'interno del database. Contattare un amministratore.") : true);
+
         }
         // Booking data not valid
         else{
-            $GLOBALS["NOTIFIER"]->add_all(self::$errors);
-            RedirectManager::redirect("admin/utenti");
+            return self::$errors;
         }
     }
 
@@ -98,7 +101,10 @@ class BookingModel
     private static function validateBookingData($data): bool{
         self::$errors = [];
 
-        if(!BookingValidator::validateDatetime($data["dataInizio"],$data["dataFine"])){
+        $data_inizio = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_inizio"]);
+        $data_fine = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_fine"]);
+
+        if(!BookingValidator::validateDatetime($data_inizio,$data_fine)){
             self::$errors[] = "Le date inserite non sono valide";
         }
 

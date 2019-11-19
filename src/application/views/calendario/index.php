@@ -89,11 +89,11 @@
             <!--Footer-->
             <div class="modal-footer">
                 <!-- Update -->
-                <a type="button" class="btn btn-dark-green" data-toggle="tooltip"
+                <a type="button" class="btn btn-dark-green update-event-button" data-toggle="tooltip"
                    title="Applica modifiche"><span></span><i class="fas fa-check text-white"></i></a>
 
                 <!-- Delete -->
-                <a type="button" class="btn btn-danger waves-button" data-toggle="tooltip"
+                <a type="button" class="btn btn-danger waves-button delete-event-button" data-toggle="tooltip"
                    title="Elimina prenotazione"><span></span><i class="fas fa-trash-alt text-white"></i></a>
             </div>
         </div>
@@ -103,7 +103,7 @@
 <!-- Modal event view/edit -->
 
 <!-- Modal event insert -->
-<div class="modal fade" id="eventInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade" id="eventInsert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-notify modal-info" role="document">
         <!--Content-->
@@ -118,34 +118,52 @@
 
             <!--Body-->
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-2">
-                        <i class="far fa-calendar-check fa-4x mb-3 animated rotateIn"></i>
-                    </div>
-                    <div class="col-md-10">
-                        <h3 class="h3-responsive">Data: <span id="event-date"></span></h3>
 
-                        <h3 class="h3-responsive">Orario: <span id="event-time-start"></span> - <span
-                                    id="event-time-end"></span></h3>
-                        <h3 class="h3-responsive">Professore: <span id="event_professor"></span></h3>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="md-form">
-                            <i class="fas fa-pencil-alt prefix"></i>
-                            <textarea class="md-textarea form-control" rows="3" id="event_note"></textarea>
-                            <label for="event_note">Osservazioni</label>
+                <!-- Default form register -->
+                <form class="text-center p-1" action="/api/booking/add" method="post">
+
+                    <div class="form-row mb-4">
+                        <div class="col">
+                            <label class="h5-responsive black-text" for="event-date">Data</label>
+                        </div>
+                        <div class="col">
+                            <!-- Material input -->
+                            <div class="md-form">
+                                <input type="text" id="event-date" name="data" class="form-control">
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    <!-- Time -->
+                    <div class="form-row mb-4">
+                        <div class="col">
+                            <!-- First name -->
+                            <input type="time" id="event-time-start" name="ora_inizio" class="form-control">
+                            <label for="event-time-start"> Tempo di inzio</label>
+                        </div>
+                        <div class="col">
+                            <!-- Last name -->
+                            <input type="time" id="event-time-end" name="ora_fine" class="form-control">
+                            <label for="event-time-end"> Tempo di fine</label>
+                        </div>
+                    </div>
+
+                    <!-- Osservazioni -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="md-form">
+                                <textarea class="md-textarea form-control" name="osservazioni" rows="3" id="event_note"></textarea>
+                                <label for="event_note">Osservazioni</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- Default form register -->
             </div>
 
             <!--Footer-->
             <div class="modal-footer">
-                <a type="button" class="btn btn-primary">Inserisci<span></span><i
-                            class="far fa-gem ml-1 text-white"></i></a>
+                <button class="btn btn-dark-green" id="event-insert-submit" >Aggiungi prenotazione</button>
                 <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Annulla</a>
             </div>
         </div>
@@ -167,6 +185,9 @@
 
 <!-- Moment js -->
 <script src="/application/assets/js/moment.min.js"></script>
+
+<!-- Notify JS -->
+<script src="/application/assets/js/notify.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -191,12 +212,48 @@
                 // Additional data (notes, professor, ...)
                 $('#event_professor').text(extra_data.professor.name + " " + extra_data.professor.surname);
 
-                if(extra_data.note.length > 0){
+                if(extra_data.note != null){
                     $('#event_note').text(extra_data.note).trigger('change');
                 }
 
-                // TODO: Show modal with options
+                // Show modal
                 $('#eventInfo').modal('show');
+
+                // add listener for delete
+                $('.delete-event-button').on('click', function () {
+                    console.log("[!] Sending delete request to apis");
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/booking/delete/" + event.id,
+                        success: function (result) {
+                            if(result["success"]){
+                                console.log("[!] event deleted");
+
+                                calendar.refetchEvents();
+                                $('#eventInfo').modal('hide');
+
+                                // Notify success
+                                $.notify("Evento eliminato con successo", "success");
+                            }
+                            else{
+                                console.log(result["errors"]);
+
+                                result["errors"].forEach(function(item, index, arr){
+                                    $.notify(item, "warn");
+                                });
+
+                                $('#eventInfo').modal('hide');
+                            }
+                        },
+                        dataType: "json"
+                    });
+                });
+
+                // add lister for update
+                $('.update-event-button').on('click', function () {
+                    //TODO: FINISH THIS
+                });
             },
             eventDrop: function (info) {
                 let new_event = info.event;
@@ -207,6 +264,8 @@
             businessHours: true, // display business hours
             themeSystem: 'bootstrap', // use mdboostrap syle
             editable: true,
+            slotDuration: '00:15:00',
+            slotMinutes: 15,
             bootstrapFontAwesome: { // Use fontawesome icons
                 close: 'fa-times',
                 prev: 'fa-chevron-left',
@@ -266,8 +325,25 @@
                 }
             ],
             dateClick: function (info) { // CREATE EVENT
+                // process data
                 let date = moment(info.dateStr);
-                console.log(date);
+                let startTime = date.format("HH:mm");
+                let endTime = date.add(15, 'minutes').format("HH:mm");
+
+                //modal
+                var modal = $('#eventInsert');
+
+                // insert data into modal
+                modal.find('#event-date').val(date.format('DD/MM/YYYY'));
+                modal.find('#event-time-start').val(startTime);
+                modal.find('#event-time-end').val(endTime);
+
+                $("#eventInsert").modal('show');
+
+                $('#event-insert-submit').on("click", function () {
+                    //submit form
+                    modal.find("form").first().submit();
+                })
             },
         });
         calendar.render();
