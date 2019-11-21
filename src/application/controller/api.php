@@ -132,6 +132,7 @@ class Api
     public function booking($action = null, $booking_id = null)
     {
         if (Auth::isAuthenticated()) {
+            header('Content-Type: application/json');
             $GLOBALS["NOTIFIER"]->clear();
 
             /*
@@ -140,7 +141,7 @@ class Api
              * Extra data: POST
              */
             if ($action == "add" && $_SERVER["REQUEST_METHOD"] == "POST") {
-                if (PermissionManager::getPermissions()->canInserirePrenotazioni()) {
+                if (PermissionManager::getPermissions()->canInserirePrenotazioniPrivate()) {
 
                     // Sanitize POST data and promote user
                     $result = BookingModel::add(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING));
@@ -152,85 +153,132 @@ class Api
                 } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per inserire le prenotazioni");
                 }
-            } /*
+
+                // Check errors
+                if (count($GLOBALS["NOTIFIER"]->getNotifications()) == 0) {
+                    // success
+                    echo json_encode(array("success" => true));
+                } else {
+                    // errors detected
+                    echo json_encode(array("success" => false, "errors" => $GLOBALS["NOTIFIER"]->getNotifications()));
+                }
+
+                exit();
+            }
+
+            /*
              * Action url: api/booking/delete/<booking_id>
              * Permission needed: eliminazione_utenti
              * Extra data: none
              */
             elseif ($action == "delete" && !is_null($booking_id)) {
-                if (Auth::isAuthenticated()){
-                    header('Content-Type: application/json');
+                $booking = BookingModel::getBooking($booking_id);
+                if ($booking != false) {
+                    // Check if the user who want to delete the booking is the same of the related booking
+                    if ($booking->getCreatorUsername() == $_SESSION["username"]) {
 
-                    $GLOBALS["NOTIFIER"]->clear();
+                        // If same user
+                        if (PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()) {
+                            $result = BookingModel::delete($booking_id);
 
-                    $booking = BookingModel::getBooking($booking_id);
-                    if ($booking != false) {
-                        // Check if the user who want to delete the booking is the same of the related booking
-                        if ($booking->getCreatorUsername() == $_SESSION["username"]) {
-
-                            // If same user
-                            if (PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()) {
-                                $result = BookingModel::delete($booking_id);
-
-                                if (is_array($result)) {
-                                    $GLOBALS["NOTIFIER"]->add_all($result);
-                                }
-
+                            if (is_array($result)) {
+                                $GLOBALS["NOTIFIER"]->add_all($result);
                             }
-                            else {
-                                $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni");
-                            }
+
+                        } else {
+                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni");
                         }
-                        else {
-                            // If other user
-                            if (PermissionManager::getPermissions()->canCancellazionePrenotazioniGlobali()) {
-                                $result = BookingModel::delete($booking_id);
+                    } else {
+                        // If other user
+                        if (PermissionManager::getPermissions()->canCancellazionePrenotazioniGlobali()) {
+                            $result = BookingModel::delete($booking_id);
 
-                                if (is_array($result)) {
-                                    $GLOBALS["NOTIFIER"]->add_all($result);
-                                }
-                            } else {
-                                $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni degli altri utenti");
+                            if (is_array($result)) {
+                                $GLOBALS["NOTIFIER"]->add_all($result);
                             }
+                        } else {
+                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per eliminare le tue prenotazioni degli altri utenti");
                         }
                     }
-
-                    // Check errors
-                    if(count($GLOBALS["NOTIFIER"]->getNotifications()) == 0){
-                        // success
-                        echo json_encode(array("success" => true));
-                    }
-                    else{
-                        // errors detected
-                        echo json_encode(array("success" => false, "errors" => $GLOBALS["NOTIFIER"]->getNotifications()));
-                    }
-                    exit();
                 }
                 else{
-                    RedirectManager::redirect("/");
+                    $GLOBALS["NOTIFIER"]->add("L'evento fornito risulta non esistente");
                 }
+
+                // Check errors
+                if (count($GLOBALS["NOTIFIER"]->getNotifications()) == 0) {
+                    // success
+                    echo json_encode(array("success" => true));
+                } else {
+                    // errors detected
+                    echo json_encode(array("success" => false, "errors" => $GLOBALS["NOTIFIER"]->getNotifications()));
+                }
+                exit();
             }
+
             /*
              * Action url: api/booking/update/<booking_id>
              * Permission needed: inserimento_prenotazioni
              * Extra data: POST
              */
-            elseif ($action == "update" && !is_null($booking_id)) {
-                if (Auth::isAuthenticated()) {
-                    if (PermissionManager::getPermissions()->canInserirePrenotazioni()) {
-                        //TODO: FINISH THIS
-                    } else {
-                        $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per modificare le tue prenotazioni");
+            elseif ($action == "update" && !is_null($booking_id) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                header('Content-Type: application/json');
+
+                $booking = BookingModel::getBooking($booking_id);
+                if($booking != false){
+                    if($booking->getCreatorUsername() == $_SESSION["username"]){
+                        // Private booking
+                        if(PermissionManager::getPermissions()->canModificaPrenotazioniPrivate()){
+                            // Sanitize POST data and promote user
+                            $result = BookingModel::update(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING), $booking_id);
+
+                            // If it detects errors
+                            if (is_array($result)) {
+                                $GLOBALS["NOTIFIER"]->add_all($result);
+                            }
+                        }
+                        else{
+                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per modificare le tue prenotazioni");
+                        }
                     }
-                } else {
-                    RedirectManager::redirect("/");
+                    else{
+                        // Global booking
+                        if(PermissionManager::getPermissions()->canModificaPrenotazioniGlobali()){
+                            // Sanitize POST data and promote user
+                            $result = BookingModel::update(filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING), $booking_id);
+
+                            // If it detects errors
+                            if (is_array($result)) {
+                                $GLOBALS["NOTIFIER"]->add_all($result);
+                            }
+                        }
+                        else{
+                            $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per modificare le prenotazioni di altri utenti");
+                        }
+                    }
                 }
+                else{
+                    $GLOBALS["NOTIFIER"]->add("L'evento fornito risulta non esistente");
+                }
+
+
+                // Check errors
+                if (count($GLOBALS["NOTIFIER"]->getNotifications()) == 0) {
+                    // success
+                    echo json_encode(array("success" => true));
+                } else {
+                    // errors detected
+                    echo json_encode(array("success" => false, "errors" => $GLOBALS["NOTIFIER"]->getNotifications()));
+                }
+                exit();
             }
 
-            RedirectManager::redirect("home/prenotazioni");
-        } else {
+            // Unknown API request
+            RedirectManager::redirect("calendario");
+        }
+        else {
             // Not logged: show login page
-            RedirectManager::redirect("admin");
+            RedirectManager::redirect("/");
         }
     }
 

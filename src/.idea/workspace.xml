@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/application/assets/js/calendar/modalmanager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docs/.~cumentazione_Luca_DiBello.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/assets/js/calendar/modalmanager.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controller/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libs/booking.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/booking.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/permissions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/bookingmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/bookingmodel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/permissionmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/permissionmodel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/calendario/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/index.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -67,7 +66,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/assets/js/calendar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -140,7 +139,9 @@
       <workItem from="1573650316269" duration="43000" />
       <workItem from="1573735653567" duration="8700000" />
       <workItem from="1573824184154" duration="3285000" />
-      <workItem from="1574166376590" duration="9502000" />
+      <workItem from="1574166376590" duration="9535000" />
+      <workItem from="1574252989730" duration="85000" />
+      <workItem from="1574341988790" duration="6875000" />
     </task>
     <servers />
   </component>

@@ -66,6 +66,30 @@ class BookingModel
         }
     }
 
+    public static function update(array $data, $booking_id){
+        // Check booking data
+        if(self::validateBookingData($data)){
+            // Insert data into database
+
+            $date = DateTime::createFromFormat("d/m/Y", $data["data"]);
+
+            $result = DB::update('riservazione', array(
+                'data' => $date->format("Y/m/d"),
+                'ora_inizio' => $data["ora_inizio"],
+                'ora_fine' => $data["ora_fine"],
+                'osservazioni' => (empty($data["osservazioni"]) ? null : $data["osservazioni"]),
+            ), "booking_id=%d", $booking_id);
+
+            // Return true (if the insert query was successful) otherwise it returns an error as array
+            return  (!$result ? array("C'è stato un errore durante la modifica dei dati 
+                all'interno del database. Contattare un amministratore.") : true);
+        }
+        // Booking data not valid
+        else{
+            return self::$errors;
+        }
+    }
+
     public static function delete($booking_id)
     {
         $result = DB::delete("riservazione", "id=%d", $booking_id);

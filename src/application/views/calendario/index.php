@@ -152,8 +152,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="md-form">
-                                <textarea class="md-textarea form-control" name="osservazioni" rows="3" id="event_note"></textarea>
-                                <label for="event_note">Osservazioni</label>
+                                <textarea class="md-textarea form-control" name="osservazioni" rows="3"
+                                          id="event-osservazioni"></textarea>
+                                <label for="event-osservazioni">Osservazioni</label>
                             </div>
                         </div>
                     </div>
@@ -163,7 +164,7 @@
 
             <!--Footer-->
             <div class="modal-footer">
-                <button class="btn btn-dark-green" id="event-insert-submit" >Aggiungi prenotazione</button>
+                <button class="btn btn-dark-green" id="event-insert-submit">Aggiungi prenotazione</button>
                 <a type="button" class="btn btn-outline-primary waves-effect" data-dismiss="modal">Annulla</a>
             </div>
         </div>
@@ -212,7 +213,7 @@
                 // Additional data (notes, professor, ...)
                 $('#event_professor').text(extra_data.professor.name + " " + extra_data.professor.surname);
 
-                if(extra_data.note != null){
+                if (extra_data.note != null) {
                     $('#event_note').text(extra_data.note).trigger('change');
                 }
 
@@ -221,13 +222,14 @@
 
                 // add listener for delete
                 $('.delete-event-button').on('click', function () {
+
                     console.log("[!] Sending delete request to apis");
 
                     $.ajax({
                         type: "POST",
                         url: "/api/booking/delete/" + event.id,
                         success: function (result) {
-                            if(result["success"]){
+                            if (result["success"]) {
                                 console.log("[!] event deleted");
 
                                 calendar.refetchEvents();
@@ -235,11 +237,10 @@
 
                                 // Notify success
                                 $.notify("Evento eliminato con successo", "success");
-                            }
-                            else{
+                            } else {
                                 console.log(result["errors"]);
 
-                                result["errors"].forEach(function(item, index, arr){
+                                result["errors"].forEach(function (item, index, arr) {
                                     $.notify(item, "warn");
                                 });
 
@@ -248,11 +249,57 @@
                         },
                         dataType: "json"
                     });
+
+                    // Remove click handler after insert
+                    $(this).off();
                 });
 
                 // add lister for update
                 $('.update-event-button').on('click', function () {
-                    //TODO: FINISH THIS
+                    console.log("[!] Update action detected");
+
+                    let modal = $("#eventInfo");
+
+                    let date = moment(modal.find("#event-date"));
+                    let startTime = modal.find('#event-time-start').text();
+                    let endTime = modal.find('#event-time-end').text();
+                    let osservazioni = modal.find("#event-osservazioni").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/booking/update/" + event.id,
+                        data: {
+                            "data": date.format('DD/MM/YYYY'),
+                            "ora_inizio": startTime,
+                            "ora_fine": endTime,
+                            "osservazioni": osservazioni,
+                        },
+                        success: function (result) {
+                            console.log("");
+                            if (result["success"]) {
+                                console.log("[!] event updated");
+
+                                calendar.refetchEvents();
+                                $('#eventInsert').modal('hide');
+
+                                // Notify success
+                                $.notify("Evento modificato con successo", "success");
+                            } else {
+                                console.log(result["errors"]);
+
+                                result["errors"].forEach(function (item, index, arr) {
+                                    $.notify(item, "warn");
+                                });
+
+                                $('#eventInfo').modal('hide');
+                            }
+
+                        },
+                        dataType: "json"
+                    });
+
+                    // Remove click handler after insert
+                    $(this).off();
                 });
             },
             eventDrop: function (info) {
@@ -326,7 +373,10 @@
             ],
             dateClick: function (info) { // CREATE EVENT
                 // process data
-                let date = moment(info.dateStr);
+                var date = moment(info.dateStr);
+
+                console.log("date: " + date.format("DD/MM/YYYY"));
+
                 let startTime = date.format("HH:mm");
                 let endTime = date.add(15, 'minutes').format("HH:mm");
 
@@ -341,8 +391,45 @@
                 $("#eventInsert").modal('show');
 
                 $('#event-insert-submit').on("click", function () {
-                    //submit form
-                    modal.find("form").first().submit();
+                    startTime = modal.find('#event-time-start').val();
+                    endTime = modal.find('#event-time-end').val();
+                    let osservazioni = modal.find("#event-osservazioni").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/booking/add",
+                        data: {
+                            "data": date.format('DD/MM/YYYY'),
+                            "ora_inizio": startTime,
+                            "ora_fine": endTime,
+                            "osservazioni": osservazioni,
+                        },
+                        success: function (result) {
+                            console.log("ciao yoloshallo");
+                            if (result["success"]) {
+                                console.log("[!] event created");
+
+                                calendar.refetchEvents();
+                                $('#eventInsert').modal('hide');
+
+                                // Notify success
+                                $.notify("Evento creato con successo", "success");
+                            } else {
+                                console.log(result["errors"]);
+
+                                result["errors"].forEach(function (item, index, arr) {
+                                    $.notify(item, "warn");
+                                });
+
+                                $('#eventInfo').modal('hide');
+                            }
+
+                        },
+                        dataType: "json"
+                    });
+
+                    // Remove click handler after insert
+                    $(this).off();
                 })
             },
         });

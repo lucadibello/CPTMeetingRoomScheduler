@@ -9,19 +9,35 @@
 class Permissions
 {
     private $PERMISSIONS_NAME;
+
+    // User related permissions
     private $creazione_utenti;
     private $eliminazione_utenti;
     private $promozione_utenti;
-    private $visione_prenotazioni;
-    private $inserimento_prenotazioni;
-    private $cancellazione_prenotazioni_personali;
-    private $cancellazione_prenotazioni_altri_utenti;
     private $modifica_utenti;
 
-    public function __construct(bool $creazione_utenti, bool $eliminazione_utenti, bool $promozione_utenti,
-                                bool $visione_prenotazioni, bool $inserimento_prenotazioni,
-                                bool $cancellazione_prenotazioni_personali,
-                                bool $cancellazione_prenotazioni_altri_utenti, bool $modifica_utenti,
+    // Booking related permissions
+    private $visione_prenotazioni;
+    private $inserimento_prenotazioni;
+    private $cancellazione_prenotazioni;
+    private $modifica_prenotazioni;
+
+    private $cancellazione_prenotazioni_altri_utenti;
+    private $inserimento_prenotazioni_altri_utenti;
+    private $modifica_prenotazioni_altri_utenti;
+
+
+    public function __construct(bool $creazione_utenti,
+                                bool $eliminazione_utenti,
+                                bool $promozione_utenti,
+                                bool $visione_prenotazioni,
+                                bool $inserimento_prenotazioni,
+                                bool $cancellazione_prenotazioni,
+                                bool $cancellazione_prenotazioni_altri_utenti,
+                                bool $modifica_utenti,
+                                bool $inserimento_prenotazioni_altri_utenti,
+                                bool $modifica_prenotazioni,
+                                bool $modifica_prenotazioni_altri_utenti,
                                 string $permissions_name)
     {
         $this->creazione_utenti = $creazione_utenti;
@@ -29,9 +45,14 @@ class Permissions
         $this->promozione_utenti = $promozione_utenti;
         $this->visione_prenotazioni = $visione_prenotazioni;
         $this->inserimento_prenotazioni = $inserimento_prenotazioni;
-        $this->cancellazione_prenotazioni_personali = $cancellazione_prenotazioni_personali;
+        $this->cancellazione_prenotazioni = $cancellazione_prenotazioni;
         $this->cancellazione_prenotazioni_altri_utenti = $cancellazione_prenotazioni_altri_utenti;
         $this->modifica_utenti = $modifica_utenti;
+
+        $this->inserimento_prenotazioni_altri_utenti = $inserimento_prenotazioni_altri_utenti;
+        $this->modifica_prenotazioni = $modifica_prenotazioni;
+        $this->modifica_prenotazioni_altri_utenti = $modifica_prenotazioni_altri_utenti;
+
         $this->PERMISSIONS_NAME = $permissions_name;
     }
 
@@ -50,19 +71,32 @@ class Permissions
         return $this->visione_prenotazioni;
     }
 
-    public function canInserirePrenotazioni(): bool
+    public function canInserirePrenotazioniPrivate(): bool
     {
         return $this->inserimento_prenotazioni;
     }
 
+    public function canInserirePrenotazioniGlobali(): bool
+    {
+        return $this->inserimento_prenotazioni_altri_utenti;
+    }
+
     public function canCancellazionePrenotazioniPrivate()
     {
-        return $this->cancellazione_prenotazioni_personali;
+        return $this->cancellazione_prenotazioni;
     }
 
     public function canCancellazionePrenotazioniGlobali()
     {
         return $this->cancellazione_prenotazioni_altri_utenti;
+    }
+
+    public function canModificaPrenotazioniPrivate(){
+        return $this->modifica_prenotazioni;
+    }
+
+    public function canModificaPrenotazioniGlobali(){
+        return $this->modifica_prenotazioni_altri_utenti;
     }
 
     public function canEliminareUtenti(): bool
@@ -79,6 +113,7 @@ class Permissions
     {
         return $this->promozione_utenti;
     }
+
 
 
     /* WRAPPER FUNCTIONS */

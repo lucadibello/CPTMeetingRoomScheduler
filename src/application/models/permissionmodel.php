@@ -56,10 +56,17 @@ class PermissionModel
 
     private function parse_data(array $data, $perm_key): Permissions{
         return new Permissions(
-            $data["creazione_utenti"], $data["eliminazione_utenti"],
-            $data["promozione_utenti"], $data["visione_prenotazioni"],
-            $data["inserimento_prenotazioni"], $data["cancellazione_prenotazioni_personali"],
-            $data["cancellazione_prenotazioni_altri_utenti"], $data["modifica_utenti"],
+            $data["creazione_utenti"],
+            $data["eliminazione_utenti"],
+            $data["promozione_utenti"],
+            $data["visione_prenotazioni"],
+            $data["inserimento_prenotazioni"],
+            $data["cancellazione_prenotazioni"],
+            $data["cancellazione_prenotazioni_altri_utenti"],
+            $data["modifica_utenti"],
+            $data["inserimento_prenotazioni_altri_utenti"],
+            $data["modifica_prenotazioni"],
+            $data["modifica_prenotazioni_altri_utenti"],
             $perm_key
         );
     }
