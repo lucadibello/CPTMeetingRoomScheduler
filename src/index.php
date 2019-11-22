@@ -20,6 +20,7 @@ session_start();
 $GLOBALS["NOTIFIER"] = new Notifier();
 
 // setup database variables
+DB::$host = DATABASE_SERVER;
 DB::$user = DATABASE_USERNAME;
 DB::$password = DATABASE_PASSWORD;
 DB::$dbName = DATABASE_NAME;

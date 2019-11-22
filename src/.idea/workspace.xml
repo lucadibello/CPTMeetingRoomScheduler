@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/assets/js/calendar/modalmanager.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controller/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libs/permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/permissions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/bookingmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/bookingmodel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/permissionmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/permissionmodel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/calendario/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,16 +72,16 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/api" />
-      <recent name="$PROJECT_DIR$/application/assets" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/application/assets/js/calendar" />
       <recent name="$PROJECT_DIR$/application/views/calendario" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\views\admin" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\models" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\controller" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/api" />
+      <recent name="$PROJECT_DIR$/application/assets" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -141,7 +140,8 @@
       <workItem from="1573824184154" duration="3285000" />
       <workItem from="1574166376590" duration="9535000" />
       <workItem from="1574252989730" duration="85000" />
-      <workItem from="1574341988790" duration="6875000" />
+      <workItem from="1574341988790" duration="6901000" />
+      <workItem from="1574425269304" duration="8965000" />
     </task>
     <servers />
   </component>

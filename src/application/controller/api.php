@@ -131,7 +131,7 @@ class Api
      */
     public function booking($action = null, $booking_id = null)
     {
-        if (Auth::isAuthenticated()) {
+        //if (Auth::isAuthenticated()) {
             header('Content-Type: application/json');
             $GLOBALS["NOTIFIER"]->clear();
 
@@ -222,9 +222,10 @@ class Api
              * Extra data: POST
              */
             elseif ($action == "update" && !is_null($booking_id) && $_SERVER["REQUEST_METHOD"] == "POST") {
-                header('Content-Type: application/json');
+                //header('Content-Type: application/json');
 
                 $booking = BookingModel::getBooking($booking_id);
+
                 if($booking != false){
                     if($booking->getCreatorUsername() == $_SESSION["username"]){
                         // Private booking
@@ -275,11 +276,11 @@ class Api
 
             // Unknown API request
             RedirectManager::redirect("calendario");
-        }
+        /*
         else {
             // Not logged: show login page
             RedirectManager::redirect("/");
-        }
+        }*/
     }
 
     /**

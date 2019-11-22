@@ -78,7 +78,7 @@ class BookingModel
                 'ora_inizio' => $data["ora_inizio"],
                 'ora_fine' => $data["ora_fine"],
                 'osservazioni' => (empty($data["osservazioni"]) ? null : $data["osservazioni"]),
-            ), "booking_id=%d", $booking_id);
+            ), "id=%d", $booking_id);
 
             // Return true (if the insert query was successful) otherwise it returns an error as array
             return  (!$result ? array("C'è stato un errore durante la modifica dei dati 
@@ -111,6 +111,29 @@ class BookingModel
         );
     }
 
+    // TODO: FINISH
+    public static function getEventsFromRange(DateTime $start, DateTime $end){
+        // parse dates
+        $start_date = $start->format("Y-m-d");
+        $end_date = $end->format("Y-m-d");
+
+        // parse times
+        $start_time = $start->format("His");
+        $end_time = $end->format("His");
+
+        var_dump($end_date);
+
+        $result = DB::query("SELECT * FROM riservazione WHERE data BETWEEN %s AND %s and ora_inizio >= %s and ora_fine <= %s",
+            $start_date, $end_date, $start_time, $end_time);
+
+        if(count($result) > 0){
+            return self::parseBookingArrayData($result);
+        }
+        else{
+            return false;
+        }
+    }
+
     /* WRAPPER METHOD */
     private static function parseBookingArrayData($data): array {
         $bookings = [];
@@ -135,6 +158,9 @@ class BookingModel
         if(isset($data["osservazioni"]) && !BookingValidator::validateOsservazioni($data["osservazioni"])){
             self::$errors[] = "La descrizione è troppo lunga";
         }
+
+        // Check booking overlap
+
 
         return count(self::$errors) == 0;
     }
