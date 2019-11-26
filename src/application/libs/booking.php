@@ -86,7 +86,12 @@ class BookingValidator{
         /* Check if same day */
         $right_date = $timeStart->format("Y-m-d") == $timeEnd->format("Y-m-d");
 
-        return $right_time && $right_date;
+        /* Check if date is in the past */
+        $right_datetime_check = $timeStart > new DateTime();
+
+        //var_dump(BookingModel::getEventsFromRange($timeStart, $timeEnd));
+
+        return $right_time && $right_date && $right_datetime_check;
     }
 
     public static function validateOsservazioni(string $ossevazioni): bool {

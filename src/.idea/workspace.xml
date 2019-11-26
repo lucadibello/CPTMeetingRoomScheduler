@@ -3,11 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controller/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controller/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/application.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/application.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/booking.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/booking.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/ldapauth.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/ldapauth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/bookingmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/bookingmodel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/calendario/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +145,8 @@
       <workItem from="1574166376590" duration="9535000" />
       <workItem from="1574252989730" duration="85000" />
       <workItem from="1574341988790" duration="6901000" />
-      <workItem from="1574425269304" duration="8965000" />
+      <workItem from="1574425269304" duration="9418000" />
+      <workItem from="1574770909468" duration="8958000" />
     </task>
     <servers />
   </component>

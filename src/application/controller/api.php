@@ -218,12 +218,10 @@ class Api
 
             /*
              * Action url: api/booking/update/<booking_id>
-             * Permission needed: inserimento_prenotazioni
+             * Permission needed: modifica_prenotazione_personali | modifica_prenotazione_altri_utenti
              * Extra data: POST
              */
             elseif ($action == "update" && !is_null($booking_id) && $_SERVER["REQUEST_METHOD"] == "POST") {
-                //header('Content-Type: application/json');
-
                 $booking = BookingModel::getBooking($booking_id);
 
                 if($booking != false){
@@ -294,7 +292,7 @@ class Api
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["token"])) {
                 if ($_POST["token"] == API_TOKEN) {
-                    echo CalendarModel::fromBookingsToJson(BookingModel::getBookings());
+                    echo CalendarModel::fromBookingsToJson(BookingModel::getBookingsAfterDateTime(new DateTime()));
                 } else {
                     echo CalendarModel::generateJsonError("Wrong API token", HttpCode::UNAUTHORIZED);
                 }

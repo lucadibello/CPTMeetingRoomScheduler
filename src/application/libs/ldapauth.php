@@ -21,7 +21,7 @@ class LdapAuth
         if(empty($user) || empty($password)) return false;
 
         // active directory server
-        $ldap_host = "cpt.local";
+        $ldap_host = "10.20.4.2";
 
         // active directory DN (base location of ldap search)
         $ldap_dn = "OU=docenti,DC=CPT,DC=local";

@@ -32,9 +32,9 @@ class Application
         } else {
             if($this->url_controller == ''){
                 //INDEX PAGE
-                require './application/controller/home.php';
-                $home = new Home();
-                $home->index();
+                require_once 'application/controller/calendario.php';
+                $calendario = new Calendario();
+                $calendario->index();
             }
             else{
                 //404 Not Found

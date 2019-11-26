@@ -10,6 +10,8 @@
     ],
     "require": {
         "sergeytsalkov/meekrodb": "2.3",
-        "ext-json": "*"
+        "ext-json": "*",
+      "ext-ldap": "*",
+
     }
 }

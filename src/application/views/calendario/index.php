@@ -32,14 +32,12 @@
                 <div class="card" id="ultime-aggiunte">
                     <div class="card-header"><h3 class="h3-responsive">Ultime aggiunte</h3></div>
                     <div class="card-body">
-                        <h1>[Username] ha aggiunto una prenotazione per il xx-xx-xx dall'ora xx-xx alle xx-xx</h1>
-
                         <?php
-                            $range = BookingModel::getEventsFromRange(
-                                DateTime::createFromFormat("d/m/Y H:i:s", "1/11/2019 10:00:00"),
-                                DateTime::createFromFormat("d/m/Y H:i:s", "30/11/2019 13:00:00")
-                            );
-                            var_dump($range);
+                        $range = BookingModel::getEventsFromRange(
+                            DateTime::createFromFormat("d/m/Y H:i:s", "1/12/2019 01:00:00"),
+                            DateTime::createFromFormat("d/m/Y H:i:s", "25/12/2019 23:00:00")
+                        );
+                        var_dump($range);
                         ?>
                     </div>
                 </div>
@@ -386,62 +384,68 @@
             },
             dateClick: function (info) {
                 // process data
+                var now = moment();
                 var date = moment(info.dateStr);
 
-                console.log("date: " + date.format("DD/MM/YYYY"));
+                if (date.diff(now) < 0) {
+                    // Show error
+                    $.notify("La data desirata è già passata", "warn");
+                } else {
 
-                let startTime = date.format("HH:mm");
-                let endTime = date.add(15, 'minutes').format("HH:mm");
+                    console.log("date: " + date.format("DD/MM/YYYY"));
 
-                //modal
-                var modal = $('#eventInsert');
+                    let startTime = date.format("HH:mm");
+                    let endTime = date.add(15, 'minutes').format("HH:mm");
 
-                // insert data into modal
-                modal.find('#event-date').val(date.format('DD/MM/YYYY'));
-                modal.find('#event-time-start').val(startTime);
-                modal.find('#event-time-end').val(endTime);
+                    //modal
+                    var modal = $('#eventInsert');
 
-                $("#eventInsert").modal('show');
+                    // insert data into modal
+                    modal.find('#event-date').val(date.format('DD/MM/YYYY'));
+                    modal.find('#event-time-start').val(startTime);
+                    modal.find('#event-time-end').val(endTime);
 
-                $('#event-insert-submit').on("click", function () {
-                    startTime = modal.find('#event-time-start').val();
-                    endTime = modal.find('#event-time-end').val();
-                    let osservazioni = modal.find("#event-osservazioni").val();
+                    $("#eventInsert").modal('show');
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/booking/add",
-                        data: {
-                            "data": date.format('DD/MM/YYYY'),
-                            "ora_inizio": startTime,
-                            "ora_fine": endTime,
-                            "osservazioni": osservazioni,
-                        },
-                        success: function (result) {
-                            console.log("ciao yoloshallo");
-                            if (result["success"]) {
-                                console.log("[!] event created");
+                    $('#event-insert-submit').on("click", function () {
+                        startTime = modal.find('#event-time-start').val();
+                        endTime = modal.find('#event-time-end').val();
+                        let osservazioni = modal.find("#event-osservazioni").val();
 
-                                calendar.refetchEvents();
-                                $('#eventInsert').modal('hide');
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/booking/add",
+                            data: {
+                                "data": date.format('DD/MM/YYYY'),
+                                "ora_inizio": startTime,
+                                "ora_fine": endTime,
+                                "osservazioni": osservazioni,
+                            },
+                            success: function (result) {
+                                console.log("ciao yoloshallo");
+                                if (result["success"]) {
+                                    console.log("[!] event created");
 
-                                // Notify success
-                                $.notify("Evento creato con successo", "success");
-                            } else {
-                                console.log(result["errors"]);
+                                    calendar.refetchEvents();
+                                    $('#eventInsert').modal('hide');
 
-                                result["errors"].forEach(function (item, index, arr) {
-                                    $.notify(item, "warn");
-                                });
+                                    // Notify success
+                                    $.notify("Evento creato con successo", "success");
+                                } else {
+                                    console.log(result["errors"]);
 
-                                $('#eventInfo').modal('hide');
-                            }
+                                    result["errors"].forEach(function (item, index, arr) {
+                                        $.notify(item, "warn");
+                                    });
 
-                        },
-                        dataType: "json"
+                                    $('#eventInfo').modal('hide');
+                                }
+
+                            },
+                            dataType: "json"
+                        });
                     });
-                });
-
+                }
             },
             eventDrop: function (info) {
                 let new_event = info.event;
@@ -529,12 +533,12 @@
         });
         calendar.render();
 
-        $("#eventInfo").on('hide.bs.modal', function(){
+        $("#eventInfo").on('hide.bs.modal', function () {
             console.log("[!] Information modal now hidden");
             $('.update-event-button').off("click");
             $('.delete-event-button').off("click");
         });
-        $("#eventInsert").on('hide.bs.modal', function(){
+        $("#eventInsert").on('hide.bs.modal', function () {
             console.log("[!] Insert modal now hidden");
             $('#event-insert-submit').off('click');
         });
@@ -546,6 +550,7 @@
             calendar.refetchEvents();
             console.log("[!] Calendar refreshed");
         }
+
         setInterval(refreshCalendar, 1000 * 60 * 10); // Update every 10 mins
     });
 </script>

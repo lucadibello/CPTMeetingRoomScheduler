@@ -17,12 +17,43 @@ class BookingModel
         return self::parseBookingArrayData($result);
     }
 
-    public static function getBooking(int $id){
-        $result = DB::query("SELECT * FROM riservazione WHERE id=%d", $id);
-        if(count($result) > 0){
-            return self::parseBookingData($result[0]);
+    private static function parseBookingArrayData($data): array
+    {
+        $bookings = [];
+
+        foreach ($data as $row) {
+            $bookings[] = self::parseBookingData($row);
         }
-        else{
+
+        return $bookings;
+    }
+
+    private static function parseBookingData($booking_data): Booking
+    {
+        $_format = BOOKING_DATE_FORMAT . " " . BOOKING_TIME_FORMAT;
+        $date = $booking_data["data"];
+
+        return new Booking(
+            $booking_data["id"],
+            DateTime::createFromFormat($_format, $date . " " . $booking_data["ora_inizio"]),
+            DateTime::createFromFormat($_format, $date . " " . $booking_data["ora_fine"]),
+            $booking_data["utente"],
+            $booking_data["osservazioni"]
+        );
+    }
+
+    public static function getBookingsAfterDateTime(DateTime $datetime): array
+    {
+        $result = DB::query("SELECT * FROM riservazione WHERE  data > %s", $datetime->format("Y-m-d"));
+        return self::parseBookingArrayData($result);
+    }
+
+    public static function getBooking(int $id)
+    {
+        $result = DB::query("SELECT * FROM riservazione WHERE id=%d", $id);
+        if (count($result) > 0) {
+            return self::parseBookingData($result[0]);
+        } else {
             return false;
         }
     }
@@ -40,9 +71,10 @@ class BookingModel
      * @return array|bool Return array if the booking was added to the database, otherwise it returns an error as an
      * array
      */
-    public static function add(array $data){
+    public static function add(array $data)
+    {
         // Check booking data
-        if(self::validateBookingData($data)){
+        if (self::validateBookingData($data)) {
             // Insert data into database
 
             $date = DateTime::createFromFormat("d/m/Y", $data["data"]);
@@ -56,19 +88,42 @@ class BookingModel
             ));
 
             // Return true (if the insert query was successful) otherwise it returns an error as array
-            return  (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
+            return (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
                 all'interno del database. Contattare un amministratore.") : true);
 
-        }
-        // Booking data not valid
-        else{
+        } // Booking data not valid
+        else {
             return self::$errors;
         }
     }
 
-    public static function update(array $data, $booking_id){
+    private static function validateBookingData($data): bool
+    {
+        self::$errors = [];
+
+        $data_inizio = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_inizio"]);
+        $data_fine = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_fine"]);
+
+        if (!BookingValidator::validateDatetime($data_inizio, $data_fine)) {
+            self::$errors[] = "Le date inserite non sono valide";
+        }
+
+        if (isset($data["osservazioni"]) && !BookingValidator::validateOsservazioni($data["osservazioni"])) {
+            self::$errors[] = "La descrizione è troppo lunga";
+        }
+
+        // Check booking overlap
+
+
+        return count(self::$errors) == 0;
+    }
+
+    // TODO: FINISH
+
+    public static function update(array $data, $booking_id)
+    {
         // Check booking data
-        if(self::validateBookingData($data)){
+        if (self::validateBookingData($data)) {
             // Insert data into database
 
             $date = DateTime::createFromFormat("d/m/Y", $data["data"]);
@@ -81,38 +136,25 @@ class BookingModel
             ), "id=%d", $booking_id);
 
             // Return true (if the insert query was successful) otherwise it returns an error as array
-            return  (!$result ? array("C'è stato un errore durante la modifica dei dati 
+            return (!$result ? array("C'è stato un errore durante la modifica dei dati 
                 all'interno del database. Contattare un amministratore.") : true);
-        }
-        // Booking data not valid
-        else{
+        } // Booking data not valid
+        else {
             return self::$errors;
         }
     }
 
+    /* WRAPPER METHOD */
+
     public static function delete($booking_id)
     {
         $result = DB::delete("riservazione", "id=%d", $booking_id);
-        return  (!$result ? array("C'è stato un errore durante l'eliminazione della prenotazione. 
+        return (!$result ? array("C'è stato un errore durante l'eliminazione della prenotazione. 
             Contattare un amministratore") : true);
     }
 
-    private static function parseBookingData($booking_data): Booking
+    public static function getEventsFromRange(DateTime $start, DateTime $end)
     {
-        $_format = BOOKING_DATE_FORMAT . " " . BOOKING_TIME_FORMAT;
-        $date = $booking_data["data"];
-
-        return new Booking(
-            $booking_data["id"],
-            DateTime::createFromFormat($_format, $date . " " . $booking_data["ora_inizio"]),
-            DateTime::createFromFormat($_format, $date . " " . $booking_data["ora_fine"]),
-            $booking_data["utente"],
-            $booking_data["osservazioni"]
-        );
-    }
-
-    // TODO: FINISH
-    public static function getEventsFromRange(DateTime $start, DateTime $end){
         // parse dates
         $start_date = $start->format("Y-m-d");
         $end_date = $end->format("Y-m-d");
@@ -121,47 +163,24 @@ class BookingModel
         $start_time = $start->format("His");
         $end_time = $end->format("His");
 
-        var_dump($end_date);
+        $query = "SELECT * FROM riservazione WHERE
+            data BETWEEN %s_dataInizio AND %s_dataFine AND
+            (ora_inizio <= %d_fine AND ora_fine >= %d_inizio)
+            OR (ora_inizio >= %d_fine AND ora_inizio <=  %d_inizio AND ora_fine <=  %d_inizio)
+            OR (ora_fine <=  %d_inizio AND ora_fine >= %d_fine AND ora_inizio <= %d_fine)
+            OR (ora_inizio >= %d_fine AND ora_inizio <=  %d_inizio)";
 
-        $result = DB::query("SELECT * FROM riservazione WHERE data BETWEEN %s AND %s and ora_inizio >= %s and ora_fine <= %s",
-            $start_date, $end_date, $start_time, $end_time);
+        $result = DB::query($query, array(
+            "dataInizio" => $start_date,
+            "dataFine" => $end_date,
+            "fine" => $end_time,
+            "inizio" => $start_time
+        ));
 
-        if(count($result) > 0){
+        if (count($result) > 0) {
             return self::parseBookingArrayData($result);
-        }
-        else{
+        } else {
             return false;
         }
-    }
-
-    /* WRAPPER METHOD */
-    private static function parseBookingArrayData($data): array {
-        $bookings = [];
-
-        foreach ($data as $row) {
-            $bookings[] = self::parseBookingData($row);
-        }
-
-        return $bookings;
-    }
-
-    private static function validateBookingData($data): bool{
-        self::$errors = [];
-
-        $data_inizio = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_inizio"]);
-        $data_fine = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_fine"]);
-
-        if(!BookingValidator::validateDatetime($data_inizio,$data_fine)){
-            self::$errors[] = "Le date inserite non sono valide";
-        }
-
-        if(isset($data["osservazioni"]) && !BookingValidator::validateOsservazioni($data["osservazioni"])){
-            self::$errors[] = "La descrizione è troppo lunga";
-        }
-
-        // Check booking overlap
-
-
-        return count(self::$errors) == 0;
     }
 }

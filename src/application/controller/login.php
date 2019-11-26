@@ -25,7 +25,8 @@ class Login
                         Contatta un'amministratore.</p>";
                 }
 
-            } else {
+            }
+            else {
                 // If the user is logged in
                 RedirectManager::redirect("home");
             }
@@ -56,6 +57,7 @@ class Login
             } // Try to login with ldap
             elseif (($_SESSION["auth"] = $auth->ldapLogin())) {
                 // Save login type
+                $_SESSION["username"] = $username;
                 $_SESSION["login_type_used"] = "LDAP";
             } // Cannot login
             else {
@@ -84,7 +86,7 @@ class Login
                     }
                 } else {
                     // User has all right
-                    RedirectManager::redirect("home");
+                    RedirectManager::redirect("");
                 }
             } else {
                 RedirectManager::redirect("login");
