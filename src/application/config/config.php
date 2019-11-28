@@ -43,12 +43,9 @@ define('BOOKING_TIME_FORMAT', "H:i:s");
 define("CALENDAR_DATETIME_FORMAT", "d-m-Y H:i");
 
 /* BOOKING ALLOWED DAYS */
-define('BOOKING_ALLOWED_DAYS', array(
-    DaysOfWeek::Monday,
-    DaysOfWeek::Tuesday,
-    DaysOfWeek::Wednesday,
-    DaysOfWeek::Thursday,
-    DaysOfWeek::Friday
+define('BOOKING_HIDDEN_DAYS', array(
+    DaysOfWeek::Sunday,
+    DaysOfWeek::Saturday
 ));
 
 

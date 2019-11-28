@@ -44,7 +44,9 @@ class BookingModel
 
     public static function getBookingsAfterDateTime(DateTime $datetime): array
     {
-        $result = DB::query("SELECT * FROM riservazione WHERE  data > %s", $datetime->format("Y-m-d"));
+        $result = DB::query("SELECT * FROM riservazione WHERE data >= %s AND ora_inizio >= %d",
+            $datetime->format("Y-m-d"),
+            $datetime->format("His"));
         return self::parseBookingArrayData($result);
     }
 
@@ -97,33 +99,43 @@ class BookingModel
         }
     }
 
-    private static function validateBookingData($data): bool
+    private static function validateBookingData($data, $max_overlap_days = 0): bool
     {
         self::$errors = [];
 
         $data_inizio = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_inizio"]);
         $data_fine = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_fine"]);
 
-        if (!BookingValidator::validateDatetime($data_inizio, $data_fine)) {
-            self::$errors[] = "Le date inserite non sono valide";
+        if(!BookingValidator::validateTime($data_inizio, $data_fine)){
+            self::$errors[] = "L'ora di inizio non può essere maggiore di quella di fine";
+        }
+
+        if (!BookingValidator::validatePastDateTime($data_inizio, $data_fine)) {
+            self::$errors[] = "Non è possibile fare una prenotazione su giorni/orari già passati.";
+        }
+
+        if(!BookingValidator::validateSameDay($data_inizio, $data_fine)){
+            self::$errors[] = "Non puoi fare una prenotazione su più giorni";
+        }
+
+        // Check booking overlap
+        if(!BookingValidator::validateOverlapBooking($data_inizio, $data_fine, $max_overlap_days)){
+            self::$errors[] = "Orario non valido. Gli orari selezionati sono ";
         }
 
         if (isset($data["osservazioni"]) && !BookingValidator::validateOsservazioni($data["osservazioni"])) {
             self::$errors[] = "La descrizione è troppo lunga";
         }
 
-        // Check booking overlap
 
 
         return count(self::$errors) == 0;
     }
 
-    // TODO: FINISH
-
     public static function update(array $data, $booking_id)
     {
         // Check booking data
-        if (self::validateBookingData($data)) {
+        if (self::validateBookingData($data, 1)) {
             // Insert data into database
 
             $date = DateTime::createFromFormat("d/m/Y", $data["data"]);
@@ -163,12 +175,16 @@ class BookingModel
         $start_time = $start->format("His");
         $end_time = $end->format("His");
 
-        $query = "SELECT * FROM riservazione WHERE
-            data BETWEEN %s_dataInizio AND %s_dataFine AND
-            (ora_inizio <= %d_fine AND ora_fine >= %d_inizio)
-            OR (ora_inizio >= %d_fine AND ora_inizio <=  %d_inizio AND ora_fine <=  %d_inizio)
-            OR (ora_fine <=  %d_inizio AND ora_fine >= %d_fine AND ora_inizio <= %d_fine)
-            OR (ora_inizio >= %d_fine AND ora_inizio <=  %d_inizio)";
+        $query = "
+            SELECT * FROM riservazione WHERE
+            data BETWEEN %s_dataInizio  AND %s_dataFine 
+            AND
+            (
+                (ora_inizio < %d_fine   AND ora_fine    > %d_inizio)
+                OR  (ora_inizio > %d_fine   AND ora_inizio  < %d_inizio AND ora_fine <  %d_inizio)
+                OR  (ora_fine   < %d_inizio AND ora_fine    > %d_fine   AND ora_inizio < %d_fine)
+                OR  (ora_inizio > %d_fine   AND ora_inizio  < %d_inizio)
+            )";
 
         $result = DB::query($query, array(
             "dataInizio" => $start_date,
@@ -177,10 +193,6 @@ class BookingModel
             "inizio" => $start_time
         ));
 
-        if (count($result) > 0) {
-            return self::parseBookingArrayData($result);
-        } else {
-            return false;
-        }
+        return self::parseBookingArrayData($result);
     }
 }

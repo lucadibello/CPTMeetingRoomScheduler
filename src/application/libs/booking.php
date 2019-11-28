@@ -79,22 +79,27 @@ class BookingValidator{
      * This method checks if both datetime objects points to the same day. It checks also if the timeEnd "older" than
      * timeStart.
      */
-    public static function validateDatetime(datetime $timeStart, datetime $timeEnd): bool {
-        /* Check time */
-        $right_time = $timeStart < $timeEnd;
-
-        /* Check if same day */
-        $right_date = $timeStart->format("Y-m-d") == $timeEnd->format("Y-m-d");
-
+    public static function validatePastDateTime(datetime $timeStart, datetime $timeEnd): bool {
         /* Check if date is in the past */
-        $right_datetime_check = $timeStart > new DateTime();
+        return $timeStart > new DateTime();
+    }
 
-        //var_dump(BookingModel::getEventsFromRange($timeStart, $timeEnd));
+    public static function validateTime(datetime $timeStart, datetime $timeEnd){
+        /* Check time */
+        return $timeStart < $timeEnd;
+    }
 
-        return $right_time && $right_date && $right_datetime_check;
+    public static function validateSameDay(datetime $timeStart, datetime $timeEnd){
+        /* Check if same day */
+        return $timeStart->format("Y-m-d") == $timeEnd->format("Y-m-d");
     }
 
     public static function validateOsservazioni(string $ossevazioni): bool {
         return strlen($ossevazioni) < 512;
+    }
+
+    public static function validateOverlapBooking(datetime $timeStart, datetime $timeEnd, $max_overlap_events): bool {
+        $overlap_events = count(BookingModel::getEventsFromRange($timeStart, $timeEnd));
+        return $overlap_events >= 0 && $overlap_events <= $max_overlap_events;
     }
 }

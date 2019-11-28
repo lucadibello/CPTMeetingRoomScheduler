@@ -34,8 +34,8 @@
                     <div class="card-body">
                         <?php
                         $range = BookingModel::getEventsFromRange(
-                            DateTime::createFromFormat("d/m/Y H:i:s", "1/12/2019 01:00:00"),
-                            DateTime::createFromFormat("d/m/Y H:i:s", "25/12/2019 23:00:00")
+                            DateTime::createFromFormat("d/m/Y H:i:s", "29/11/2019 01:00:00"),
+                            DateTime::createFromFormat("d/m/Y H:i:s", "29/11/2019 02:00:00")
                         );
                         var_dump($range);
                         ?>
@@ -225,6 +225,7 @@
             editable: true,
             slotDuration: '00:15:00',
             slotMinutes: 15,
+            hiddenDays: <?php echo "[" . implode(",", BOOKING_HIDDEN_DAYS) . "]" ?>,
             bootstrapFontAwesome: { // Use fontawesome icons
                 close: 'fa-times',
                 prev: 'fa-chevron-left',
@@ -338,13 +339,16 @@
                 $('.update-event-button').on('click', function () {
                     console.log("[!] Update action detected");
 
+                    // Show modal
                     let modal = $("#eventInfo");
 
+                    // Get data
                     let date = moment(modal.find("#event-date"));
                     let startTime = modal.find('#event-time-start').text();
                     let endTime = modal.find('#event-time-end').text();
                     let osservazioni = modal.find("#event_note").val();
 
+                    // Make requests
                     $.ajax({
                         type: "POST",
                         url: "/api/booking/update/" + event.id,
