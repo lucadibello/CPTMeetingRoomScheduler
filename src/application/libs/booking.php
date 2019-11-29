@@ -79,7 +79,7 @@ class BookingValidator{
      * This method checks if both datetime objects points to the same day. It checks also if the timeEnd "older" than
      * timeStart.
      */
-    public static function validatePastDateTime(datetime $timeStart, datetime $timeEnd): bool {
+    public static function validatePastDateTime(datetime $timeStart): bool {
         /* Check if date is in the past */
         return $timeStart > new DateTime();
     }

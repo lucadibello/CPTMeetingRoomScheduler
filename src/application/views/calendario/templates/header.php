@@ -13,7 +13,8 @@
     <!-- Material Design Bootstrap -->
     <link href="/application/assets/mdb/css/mdb.min.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
-    <link href="/application/assets/mdb/css/style.min.css" rel="stylesheet">
+    <link href="/application/assets/css/style.css" rel="stylesheet">
+
 
     <!-- Full Calendar CSS -->
     <link href='/application/assets/fullcalendar/packages/core/main.css' rel='stylesheet' />

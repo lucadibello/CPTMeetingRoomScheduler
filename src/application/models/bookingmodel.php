@@ -44,7 +44,7 @@ class BookingModel
 
     public static function getBookingsAfterDateTime(DateTime $datetime): array
     {
-        $result = DB::query("SELECT * FROM riservazione WHERE data >= %s AND ora_inizio >= %d",
+        $result = DB::query("SELECT * FROM riservazione WHERE data >= %s",
             $datetime->format("Y-m-d"),
             $datetime->format("His"));
         return self::parseBookingArrayData($result);
@@ -110,24 +110,23 @@ class BookingModel
             self::$errors[] = "L'ora di inizio non può essere maggiore di quella di fine";
         }
 
-        if (!BookingValidator::validatePastDateTime($data_inizio, $data_fine)) {
-            self::$errors[] = "Non è possibile fare una prenotazione su giorni/orari già passati.";
+        if (!BookingValidator::validatePastDateTime($data_inizio)) {
+            self::$errors[] = "Non è possibile fare una prenotazione su giorni/orari già passati";
+            self::$errors[] = $data_inizio->format("d/m/Y H:i");
+            self::$errors[] = $data_fine->format("d/m/Y H:i");
         }
 
         if(!BookingValidator::validateSameDay($data_inizio, $data_fine)){
-            self::$errors[] = "Non puoi fare una prenotazione su più giorni";
+            self::$errors[] = "Non puoi fare una prenotazione che si estende su più giorni";
         }
 
-        // Check booking overlap
         if(!BookingValidator::validateOverlapBooking($data_inizio, $data_fine, $max_overlap_days)){
-            self::$errors[] = "Orario non valido. Gli orari selezionati sono ";
+            self::$errors[] = "Orario non valido. L'orario scelto è in sovrapposizione con un'altra prenotazione";
         }
 
         if (isset($data["osservazioni"]) && !BookingValidator::validateOsservazioni($data["osservazioni"])) {
             self::$errors[] = "La descrizione è troppo lunga";
         }
-
-
 
         return count(self::$errors) == 0;
     }
@@ -136,10 +135,9 @@ class BookingModel
     {
         // Check booking data
         if (self::validateBookingData($data, 1)) {
-            // Insert data into database
-
             $date = DateTime::createFromFormat("d/m/Y", $data["data"]);
 
+            // Insert data into database
             $result = DB::update('riservazione', array(
                 'data' => $date->format("Y/m/d"),
                 'ora_inizio' => $data["ora_inizio"],
@@ -178,6 +176,7 @@ class BookingModel
         $query = "
             SELECT * FROM riservazione WHERE
             data BETWEEN %s_dataInizio  AND %s_dataFine 
+            AND ora_inizio > NOW()
             AND
             (
                 (ora_inizio < %d_fine   AND ora_fine    > %d_inizio)

@@ -16,21 +16,27 @@
         </div>
         <!-- Heading -->
 
-        <div class="row">
-            <form action="/api/booking/update/101" method="post">
-                <input type="text" name="data" value="22/11/2019">
-                <input type="text" name="ora_inizio" value="11:35">
-                <input type="text" name="ora_fine" value="12:00">
-                <input type="text" name="osservazioni" value="djoawodiada">
-                <button class="btn btn-danger" type="submit"></button>
-            </form>
+        <!-- Heading -->
+        <div class="card mb-4 wow fadeIn">
+            <!--Card content-->
+            <div class="card-body">
+
+                <form action="/api/booking/add" method="post">
+                    <input type="date" name="data" value="03/12/2019" id="">
+                    <input type="time" name="ora_inizio" value="11:30" id="">
+                    <input type="time" name="ora_fine" value="12:00" id="">
+                    <input type="text" name="osservazioni" id="">
+
+                    <button type="submit">INSERISCI11</button>
+                </form>
+            </div>
         </div>
 
         <div class="row wow fadeIn">
             <div class="col-md-12">
                 <br>
                 <div class="card" id="ultime-aggiunte">
-                    <div class="card-header"><h3 class="h3-responsive">Ultime aggiunte</h3></div>
+                    <div class="card-header"><h3 class="h3-responsive">TESTING <p class="font-weight-bold red-text">FOR DEVELOPEMENT ONLY</p></h3></div>
                     <div class="card-body">
                         <?php
                         $range = BookingModel::getEventsFromRange(
@@ -50,7 +56,7 @@
                 <div class="card" id="aggiungi-categoria">
                     <div class="card-header"><h3 class="h3-responsive">Calendario</h3></div>
                     <div class="card-body">
-                        <div id='calendar'></div>
+                        <div id='calendar' style="overflow: visible"></div>
                     </div>
                 </div>
             </div>
@@ -343,10 +349,12 @@
                     let modal = $("#eventInfo");
 
                     // Get data
-                    let date = moment(modal.find("#event-date"));
+                    let date = moment(modal.find("#event-date").text(), "DD/MM/YYYY");
                     let startTime = modal.find('#event-time-start').text();
                     let endTime = modal.find('#event-time-end').text();
                     let osservazioni = modal.find("#event_note").val();
+
+                    console.log(date.format("DD/MM/YYYY") + " " + startTime + " - " + endTime);
 
                     // Make requests
                     $.ajax({
@@ -395,9 +403,6 @@
                     // Show error
                     $.notify("La data desirata è già passata", "warn");
                 } else {
-
-                    console.log("date: " + date.format("DD/MM/YYYY"));
-
                     let startTime = date.format("HH:mm");
                     let endTime = date.add(15, 'minutes').format("HH:mm");
 
@@ -415,18 +420,18 @@
                         startTime = modal.find('#event-time-start').val();
                         endTime = modal.find('#event-time-end').val();
                         let osservazioni = modal.find("#event-osservazioni").val();
+                        let date_str = date.format('DD/MM/YYYY');
 
                         $.ajax({
                             type: "POST",
                             url: "/api/booking/add",
                             data: {
-                                "data": date.format('DD/MM/YYYY'),
+                                "data": date_str,
                                 "ora_inizio": startTime,
                                 "ora_fine": endTime,
                                 "osservazioni": osservazioni,
                             },
                             success: function (result) {
-                                console.log("ciao yoloshallo");
                                 if (result["success"]) {
                                     console.log("[!] event created");
 
@@ -455,6 +460,7 @@
                 let new_event = info.event;
 
                 let date = moment(new_event.start).format("DD/MM/YYYY");
+
                 let start = moment(new_event.start).format("HH:mm");
                 let end = moment(new_event.end).format("HH:mm");
                 let osservazioni = new_event.extendedProps.osservazioni;
@@ -467,7 +473,6 @@
                         "ora_inizio": start,
                         "ora_fine": end,
                         "osservazioni": osservazioni,
-
                     },
                     success: function (result) {
                         if (result["success"]) {
@@ -496,10 +501,12 @@
                 let new_event = info.event;
 
                 let date = moment(new_event.start).format("DD/MM/YYYY");
+
                 let start = moment(new_event.start).format("HH:mm");
                 let end = moment(new_event.end).format("HH:mm");
                 let osservazioni = new_event.extendedProps.osservazioni;
 
+                console.log("[!] Sending resize request");
                 $.ajax({
                     type: "POST",
                     url: "/api/booking/update/" + new_event.id,
@@ -508,7 +515,6 @@
                         "ora_inizio": start,
                         "ora_fine": end,
                         "osservazioni": osservazioni,
-
                     },
                     success: function (result) {
                         if (result["success"]) {
@@ -541,10 +547,18 @@
             console.log("[!] Information modal now hidden");
             $('.update-event-button').off("click");
             $('.delete-event-button').off("click");
+
+            // Clear note
+            $('#event_note').val("");
         });
+
         $("#eventInsert").on('hide.bs.modal', function () {
             console.log("[!] Insert modal now hidden");
             $('#event-insert-submit').off('click');
+
+            // Clear note
+            $('#eventInsert').find("#event-osservazioni").val("");
+
         });
 
         /**
