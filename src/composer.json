@@ -11,7 +11,8 @@
     "require": {
         "sergeytsalkov/meekrodb": "2.3",
         "ext-json": "*",
-      "ext-ldap": "*",
-
+        "ext-ldap": "*",
+        "fpdf/fpdf": "*",
+        "ext-mysqli": "*"
     }
 }

@@ -2,15 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/src.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/application/assets/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/assets/mdb/css/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/assets/mdb/css/style.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controller/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libs/booking.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/booking.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controller/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/bookingmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/bookingmodel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/calendario/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/calendario/templates/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/templates/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/home/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/home/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,6 +64,7 @@
     <include_path>
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/sergeytsalkov/meekrodb" />
+      <path value="$PROJECT_DIR$/vendor/fpdf/fpdf" />
     </include_path>
   </component>
   <component name="ProjectId" id="1SeHU9uJeUb6f31Y5wZ2GCRsTdQ" />
@@ -75,16 +79,16 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/api" />
+      <recent name="$PROJECT_DIR$/application/assets" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/application/assets/js/calendar" />
       <recent name="$PROJECT_DIR$/application/views/calendario" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\views\admin" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\models" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\controller" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/api" />
-      <recent name="$PROJECT_DIR$/application/assets" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -147,7 +151,8 @@
       <workItem from="1574425269304" duration="9418000" />
       <workItem from="1574770909468" duration="9280000" />
       <workItem from="1574943518323" duration="8426000" />
-      <workItem from="1575030961801" duration="8659000" />
+      <workItem from="1575030961801" duration="8913000" />
+      <workItem from="1575375645455" duration="10293000" />
     </task>
     <servers />
   </component>

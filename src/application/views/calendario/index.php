@@ -303,7 +303,8 @@
                 $('#event_professor').text(extra_data.professor.name + " " + extra_data.professor.surname);
 
                 if (extra_data.note != null) {
-                    $('#event_note').text(extra_data.note).trigger('change');
+                    // Set additional notes input text
+                    $('#event_note').val(extra_data.note).trigger('change');
                 }
 
                 // Show modal

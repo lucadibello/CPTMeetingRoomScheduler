@@ -66,7 +66,7 @@ class Admin
     private function is_user_valid(): int{
         if(Auth::isAuthenticated()){
             $user_perms = PermissionManager::getPermissions();
-            if($user_perms instanceof Permissions /*&& $user_perms->getPermissionName() == ADMIN_PANEL_USER_PERMISSION_GROUP*/){
+            if($user_perms instanceof Permissions && $user_perms->getPermissionName() == ADMIN_PANEL_USER_PERMISSION_GROUP){
                 return self::STATUS_OK;
             }
             else{

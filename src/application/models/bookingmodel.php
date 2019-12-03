@@ -44,9 +44,7 @@ class BookingModel
 
     public static function getBookingsAfterDateTime(DateTime $datetime): array
     {
-        $result = DB::query("SELECT * FROM riservazione WHERE data >= %s",
-            $datetime->format("Y-m-d"),
-            $datetime->format("His"));
+        $result = DB::query("SELECT * FROM riservazione WHERE TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()");
         return self::parseBookingArrayData($result);
     }
 
@@ -112,8 +110,6 @@ class BookingModel
 
         if (!BookingValidator::validatePastDateTime($data_inizio)) {
             self::$errors[] = "Non è possibile fare una prenotazione su giorni/orari già passati";
-            self::$errors[] = $data_inizio->format("d/m/Y H:i");
-            self::$errors[] = $data_fine->format("d/m/Y H:i");
         }
 
         if(!BookingValidator::validateSameDay($data_inizio, $data_fine)){
