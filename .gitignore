@@ -6,3 +6,5 @@ src/.vscode/*
 
 src/.vs
 src/.vs/*
+
+src/application/config/config.php
