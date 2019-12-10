@@ -14,6 +14,8 @@ class Mailer
 {
     private $mailer;
 
+    // TODO: CONTINUE MAILER
+
     public function __construct()
     {
         $this->mailer = new PHPMailer(true);

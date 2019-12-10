@@ -14,7 +14,7 @@ class ReportGenerator
     public function generatePDF()
     {
         // Generate report header infos
-        $report_type = "";
+        $report_type = "UNKNOWN";
 
         switch ($this->report_type){
             case ReportType::DAY:
