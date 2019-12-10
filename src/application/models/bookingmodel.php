@@ -84,7 +84,7 @@ class BookingModel
                 'ora_inizio' => $data["ora_inizio"],
                 'ora_fine' => $data["ora_fine"],
                 'osservazioni' => (empty($data["osservazioni"]) ? null : $data["osservazioni"]),
-                'utente' => $_SESSION["username"]
+                'utente' => $_SESSION["user"]->getUsername()
             ));
 
             // Return true (if the insert query was successful) otherwise it returns an error as array

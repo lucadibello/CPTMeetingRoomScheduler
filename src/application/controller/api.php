@@ -172,7 +172,7 @@ class Api
             $booking = BookingModel::getBooking($booking_id);
             if ($booking != false) {
                 // Check if the user who want to delete the booking is the same of the related booking
-                if ($booking->getCreatorUsername() == $_SESSION["username"]) {
+                if ($booking->getCreatorUsername() == $_SESSION["user"]->getUsername()) {
 
                     // If same user
                     if (PermissionManager::getPermissions()->canCancellazionePrenotazioniPrivate()) {
@@ -219,7 +219,7 @@ class Api
             $booking = BookingModel::getBooking($booking_id);
 
             if ($booking != false) {
-                if ($booking->getCreatorUsername() == $_SESSION["username"]) {
+                if ($booking->getCreatorUsername() == $_SESSION["user"]->getUsername()) {
                     // Private booking
                     if (PermissionManager::getPermissions()->canModificaPrenotazioniPrivate()) {
                         // Sanitize POST data and promote user

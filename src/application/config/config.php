@@ -42,6 +42,7 @@ define(
     "058c24b04169e44528ff2be1ac83f5dd787aa2109ad64fdcf142538f4d8617b5832e532a7c4a004398c3a3b4f12d1eac47423680fd71c02105d33c77cae12d5d"
 );
 
+<<<<<<< HEAD
 /*
 * Impostazioni servizio di invio mail (PHPMailer)
 *
@@ -56,6 +57,19 @@ define('SMTP_SECURE_PROTOCOL', 'tsl');
 
 /* Impostazioni generali Mailer */
 define('CPTMRS_MAIL_ADDRESS', "noreply@cptmrs.cpt"); // indirizzo utilizzato come mittente delle email
+=======
+/* LDAP server and agent configuration */
+define('LDAP_HOST', "10.20.4.2"); // Server AD utilizzato per le richieste con LDAP (login + fetch delle informazioni degli utenti)
+define('LDAP_AGENT_USERNAME', "TODO"); // Username di servizio utilizzato per il fetch delle informazioni degli utenti
+define('LDAP_AGENT_PASSWORD', "TODO"); // Password dell'utente di servizio utilizzato per il fetch delle informazioni degli utenti
+
+/* LDAP authentication configuration */
+define('LDAP_USER_DOMAIN', "@cpt.local"); // dominio di AD utilizzato nelle query tramite LDAP
+//define('LDAP_USER_DN_GROUP', "OU=docenti,DC=CPT,DC=local"); // DN dove si trovano gli utenti dell'applicazioni
+define('LDAP_USER_DN_GROUP', "DC=CPT,DC=local"); // DN dove si trovano gli utenti dell'applicazioni
+//define('LDAP_AUTHORIZED_USER_GROUP',"docenti"); // gruppo a quale devono appartenere gli utenti ....
+define('LDAP_AUTHORIZED_USER_GROUP',"allievi"); // gruppo a quale devono appartenere gli utenti ....
+>>>>>>> 08f0ebd52b95f9b71c5a878069276052f2330c58
 
 abstract class DaysOfWeek
 {

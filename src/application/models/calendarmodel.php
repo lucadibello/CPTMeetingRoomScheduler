@@ -16,15 +16,14 @@ class CalendarModel
     }
 
     private static function _format_array(Booking $booking): array {
-        $creator = UserModel::getUser($booking->getCreatorUsername());
-
+        // array("name" => $creator->getNome(), "surname" => $creator->getCognome())
         $data = [
             "id" => $booking->getId(),
-            "title" => $creator->getNome() . " " . $creator->getCognome(),
+            "title" => $booking->getCreatorUsername(),
             "start" => $booking->getDataInizio()->format('c'),
             "end" => $booking->getDataFine()->format('c'),
             "note" => $booking->getOsservazioni(),
-            "professor" => array("name" => $creator->getNome(), "surname" => $creator->getCognome())
+            "professor" => $booking->getCreatorUsername()
         ];
 
         return $data;

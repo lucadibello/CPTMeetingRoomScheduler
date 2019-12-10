@@ -80,12 +80,16 @@ class UserModel
     public static function getUser($username){
         $result = DB::query("SELECT * FROM utente WHERE username=%s", $username);
         if(count($result) > 0){
-            //var_dump($result);
             return self::parseUserData($result[0]);
         }
         else{
             return false;
         }
+    }
+
+    public static function getLdapUser($username){
+        // TODO: query AD database with LDAP and get user infos
+        // TODO: Chiedere a valsangiacomo di creare un utente LDAP di servizio che verrà utilizzato per la ricerca degli utenti all'interno di AD
     }
 
     public static function add(array $data){
