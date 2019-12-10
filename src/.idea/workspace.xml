@@ -2,20 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/src.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/libs/ldapuser.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controller/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controller/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controller/changepassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/changepassword.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controller/home.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/home.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controller/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controller/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/ldapauth.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/ldapauth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/reportgenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/reportgenerator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/user.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/user.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/models/bookingmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/bookingmodel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/calendarmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/calendarmodel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/loginmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/loginmodel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/usermodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/usermodel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/calendario/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/home/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/home/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.json" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +72,13 @@
   </component>
   <component name="ProjectId" id="1SeHU9uJeUb6f31Y5wZ2GCRsTdQ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -79,10 +88,6 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/api" />
-      <recent name="$PROJECT_DIR$/application/assets" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/application/assets/js/calendar" />
       <recent name="$PROJECT_DIR$/application/views/calendario" />
@@ -90,26 +95,30 @@
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\models" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\controller" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/api" />
+      <recent name="$PROJECT_DIR$/application/assets" />
+    </key>
   </component>
   <component name="RunManager">
-    <configuration name="CPTMeetingRoomScheduler" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" editBeforeRun="true" singleton="true" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="CPTMRS" start_url="http://localhost:8123/calendario">
+    <configuration name="CPTMeetingRoomScheduler" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" editBeforeRun="true" singleton="true" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="CPTMRS" start_url="http://localhost:8123/login">
       <method v="2" />
     </configuration>
     <configuration default="true" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="CPTMRS" start_url="/Repo/CPTMeetingRoomScheduler/src/">
       <method v="2" />
     </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -152,7 +161,11 @@
       <workItem from="1574770909468" duration="9280000" />
       <workItem from="1574943518323" duration="8426000" />
       <workItem from="1575030961801" duration="8913000" />
-      <workItem from="1575375645455" duration="10293000" />
+      <workItem from="1575375645455" duration="10458000" />
+      <workItem from="1575394750147" duration="109000" />
+      <workItem from="1575895341594" duration="4909000" />
+      <workItem from="1575979044374" duration="647000" />
+      <workItem from="1575980704665" duration="6153000" />
     </task>
     <servers />
   </component>
@@ -180,5 +193,97 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="623" y="186" width="571" height="562" key="#CPTMeetingRoomScheduler" timestamp="1575979636308">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="623" y="186" width="571" height="562" key="#CPTMeetingRoomScheduler/0.25.1920.1055@0.25.1920.1055" timestamp="1575979636308" />
+    <state x="543" y="210" width="824" height="684" key="#Servers" timestamp="1575979092978">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="543" y="210" width="824" height="684" key="#Servers/0.25.1920.1055@0.25.1920.1055" timestamp="1575979092978" />
+    <state x="418" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1575979631472">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="418" y="210" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1575979631472" />
+    <state width="1878" height="280" key="GridCell.Tab.0.bottom" timestamp="1575979690038">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.0.bottom/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690038" />
+    <state width="1878" height="280" key="GridCell.Tab.0.center" timestamp="1575979690037">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.0.center/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690037" />
+    <state width="1878" height="280" key="GridCell.Tab.0.left" timestamp="1575979690037">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.0.left/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690037" />
+    <state width="1878" height="280" key="GridCell.Tab.0.right" timestamp="1575979690038">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.0.right/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690038" />
+    <state width="1878" height="280" key="GridCell.Tab.1.bottom" timestamp="1575979690039">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.1.bottom/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690039" />
+    <state width="1878" height="280" key="GridCell.Tab.1.center" timestamp="1575979690038">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.1.center/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690038" />
+    <state width="1878" height="280" key="GridCell.Tab.1.left" timestamp="1575979690038">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.1.left/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690038" />
+    <state width="1878" height="280" key="GridCell.Tab.1.right" timestamp="1575979690039">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.1.right/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690039" />
+    <state width="1878" height="280" key="GridCell.Tab.2.bottom" timestamp="1575979690040">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.2.bottom/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690040" />
+    <state width="1878" height="280" key="GridCell.Tab.2.center" timestamp="1575979690040">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.2.center/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690040" />
+    <state width="1878" height="280" key="GridCell.Tab.2.left" timestamp="1575979690039">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.2.left/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690039" />
+    <state width="1878" height="280" key="GridCell.Tab.2.right" timestamp="1575979690040">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state width="1878" height="280" key="GridCell.Tab.2.right/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690040" />
+    <state x="592" y="369" width="725" height="366" key="NewPhpClassDialog" timestamp="1575983305712">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="592" y="369" width="725" height="366" key="NewPhpClassDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1575983305712" />
+    <state x="640" y="371" width="640" height="362" key="XPathView.FindDialog.DIMENSION_SERVICE_KEY.SIMPLE" timestamp="1575984582450">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="640" y="371" width="640" height="362" key="XPathView.FindDialog.DIMENSION_SERVICE_KEY.SIMPLE/0.25.1920.1055@0.25.1920.1055" timestamp="1575984582450" />
+    <state x="639" y="379" key="com.intellij.ide.util.TipDialog" timestamp="1575980708489">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="639" y="379" key="com.intellij.ide.util.TipDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1575980708489" />
+    <state x="643" y="162" width="997" height="780" key="find.popup" timestamp="1575984883048">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="643" y="162" width="997" height="780" key="find.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1575984883048" />
+    <state x="624" y="253" key="run.anything.popup" timestamp="1575985298026">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="624" y="253" key="run.anything.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1575985298026" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1575984693460">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1575984693460" />
+  </component>
+  <component name="XPathView.XPathProjectComponent">
+    <history />
+    <find-history>
+      <element expression="$_SESSION" />
+    </find-history>
   </component>
 </project>

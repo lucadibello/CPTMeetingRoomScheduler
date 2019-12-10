@@ -46,7 +46,7 @@ class ReportGenerator
         $pdf->SetFont('Arial','',18);
         $pdf->Cell(100, 5, "Data: " . $date->format("d/m/Y"));
         $pdf->Ln(10);
-        $pdf->Cell(100, 5, "Generato da: " . $_SESSION["username"]);
+        $pdf->Cell(100, 5, "Generato da: " . $_SESSION["user"]->getUsername());
         $pdf->Ln(10);
         $pdf->Cell(100, 5, "Tipo: " . $report_type);
         $pdf->Ln(30);

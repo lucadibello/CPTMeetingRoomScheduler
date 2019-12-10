@@ -66,6 +66,17 @@ $autoload_directories = array(
     "application/models/"
 );
 
+/* LDAP server and agent configuration */
+define('LDAP_HOST', "10.20.4.2"); // Server AD utilizzato per le richieste con LDAP (login + fetch delle informazioni degli utenti)
+define('LDAP_AGENT_USERNAME', "TODO"); // Username di servizio utilizzato per il fetch delle informazioni degli utenti
+define('LDAP_AGENT_PASSWORD', "TODO"); // Password dell'utente di servizio utilizzato per il fetch delle informazioni degli utenti
+
+/* LDAP authentication configuration */
+define('LDAP_USER_DOMAIN', "@cpt.local"); // dominio di AD utilizzato nelle query tramite LDAP
+//define('LDAP_USER_DN_GROUP', "OU=docenti,DC=CPT,DC=local"); // DN dove si trovano gli utenti dell'applicazioni
+define('LDAP_USER_DN_GROUP', "DC=CPT,DC=local"); // DN dove si trovano gli utenti dell'applicazioni
+//define('LDAP_AUTHORIZED_USER_GROUP',"docenti"); // gruppo a quale devono appartenere gli utenti ....
+define('LDAP_AUTHORIZED_USER_GROUP',"allievi"); // gruppo a quale devono appartenere gli utenti ....
 
 abstract class DaysOfWeek
 {

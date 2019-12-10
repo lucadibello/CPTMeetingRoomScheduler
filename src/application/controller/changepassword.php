@@ -16,7 +16,7 @@ class ChangePassword
             // Check if id is saved into the database
             $change = new PasswordChangeModel();
 
-            if ($change->isIdRight($id, $_SESSION["username"])) {
+            if ($change->isIdRight($id, $_SESSION["user"])) {
                 // Save token for later verify
                 $_SESSION["change_password_token"] = $id;
                 ViewLoader::load("changepassword/index");
@@ -38,12 +38,12 @@ class ChangePassword
 
         if ($_SERVER["REQUEST_METHOD"] == "POST"
             && $this->changePasswordRequestValidator()
-            && $id->isIdRight($_SESSION["change_password_token"], $_SESSION["username"])) {
+            && $id->isIdRight($_SESSION["change_password_token"], $_SESSION["user"]->getUsername())) {
 
             if ($_POST["newPassword"] == $_POST["confirmPassword"]) {
                 $model = new UserModel();
 
-                if ($model->userChangePassword($_SESSION["username"], $_POST["confirmPassword"])) {
+                if ($model->userChangePassword($_SESSION["user"]->getUsername(), $_POST["confirmPassword"])) {
                     Auth::logout();
 
                     setcookie('password_changed_successfully', true,
@@ -68,8 +68,8 @@ class ChangePassword
         // Clear data
         $_POST = filter_input_array(INPUT_POST, $_POST);
 
-        return isset($_POST["newPassword"]) && isset($_POST["confirmPassword"]) && isset($_SESSION["username"])
-            && !empty($_POST["newPassword"]) && !empty($_POST["confirmPassword"]) && !empty($_SESSION["username"])
+        return isset($_POST["newPassword"]) && isset($_POST["confirmPassword"]) && isset($_SESSION["user"])
+            && !empty($_POST["newPassword"]) && !empty($_POST["confirmPassword"]) && !empty($_SESSION["user"]->getUsername())
             && isset($_SESSION["change_password_token"]);
     }
 }

@@ -6,25 +6,17 @@
  * Time: 13:24
  */
 
-class User
+class User extends LdapUser
 {
+    private $tipo_utente;
+    private $default_password_changed;
+
     public function __construct(string $username, string $nome, string $cognome, string $tipo_utente, bool $default_password_changed, string $email)
     {
-        $this->username = $username;
-        $this->nome = $nome;
-        $this->cognome = $cognome;
+        // Call superclass constructor
+        parent::__construct($username, $nome, $cognome, $email);
         $this->tipo_utente = $tipo_utente;
         $this->default_password_changed = $default_password_changed;
-        $this->tipo_utente = $tipo_utente;
-        $this->email = $email;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCognome()
-    {
-        return $this->cognome;
     }
 
     /**
@@ -38,32 +30,16 @@ class User
     /**
      * @return string
      */
-    public function getNome()
-    {
-        return $this->nome;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTipoUtente()
+    public function getUserPermissionType()
     {
         return $this->tipo_utente;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
     }
 
     public function getPartialEmailAddress(){
         return $this->email;
     }
 
-    public function getFullEmailAddress(){
+    public function getEmailAddress(){
         return $this->email . "@" . EMAIL_ALLOWED_DOMAIN;
     }
 

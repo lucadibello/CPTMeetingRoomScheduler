@@ -22,12 +22,12 @@
             <div class="card-body">
 
                 <form action="/api/booking/add" method="post">
-                    <input type="date" name="data" value="03/12/2019" id="">
+                    <input type="data" name="data" value="03/12/2019" id="">
                     <input type="time" name="ora_inizio" value="11:30" id="">
                     <input type="time" name="ora_fine" value="12:00" id="">
                     <input type="text" name="osservazioni" id="">
 
-                    <button type="submit">INSERISCI11</button>
+                    <button type="submit">INSERISCI PRENOTAZIONe</button>
                 </form>
             </div>
         </div>
@@ -300,7 +300,7 @@
                 $('#event-time-end').text(moment(event.end).format('HH:mm'));
 
                 // Additional data (notes, professor, ...)
-                $('#event_professor').text(extra_data.professor.name + " " + extra_data.professor.surname);
+                $('#event_professor').text(extra_data.professor);
 
                 if (extra_data.note != null) {
                     // Set additional notes input text

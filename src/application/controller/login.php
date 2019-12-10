@@ -12,26 +12,25 @@ class Login
     public function index()
     {
         if (Auth::isAuthenticated()) {
-            if (isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]) {
 
+            // Check only for local user
+            if(Auth::getAuthType() == AuthType::AUTH_LOCAL && !$_SESSION["user"]->isDefaultPasswordChanged()){
                 // Generate custom URL and save it to database
                 $a = new PasswordChangeModel();
-                if(($url = $a->generateUrl($_SESSION["username"])) && $url){
+                if (($url = $a->generateUrl($_SESSION["user"]->getUsername())) && $url) {
                     // TODO: EMAIL NOT REDIRECT
                     RedirectManager::redirect($url);
-                }
-                else{
+                } else {
                     echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
                         Contatta un'amministratore.</p>";
                 }
-
             }
             else {
                 // If the user is logged in
                 RedirectManager::redirect("home");
             }
-        } else {
-
+        }
+        else {
             // If the user is not logged in the controller redirect him to the login page.
             ViewLoader::load("login/index");
         }
@@ -50,49 +49,44 @@ class Login
 
             // Try to login with Local database
             if (($status = $auth->localLogin()) && $status["status"]) {
-                $_SESSION["auth"] = $status["status"];
-                $_SESSION["username"] = $username;
-                $_SESSION["default_password_changed"] = $status["extra_information"]["default_password_changed"];
-                $_SESSION["login_type_used"] = "LOCAL";
+                $_SESSION["auth"] = true;
+                $_SESSION["user"] = UserModel::getUser($username);
             } // Try to login with ldap
-            elseif (($_SESSION["auth"] = $auth->ldapLogin())) {
+            elseif (($status = $auth->ldapLogin()) && $status instanceof LdapUser) {
                 // Save login type
-                $_SESSION["username"] = $username;
-                $_SESSION["login_type_used"] = "LDAP";
+                $_SESSION["auth"] = true;
+                $_SESSION["user"] = $status;
             } // Cannot login
             else {
                 $GLOBALS["NOTIFIER"]->add("Email o password sbagliate. Controlla le credenziali.");
             }
 
             if (Auth::isAuthenticated()) {
-                if($_SESSION["login_type_used"] == "LOCAL"){
+                if (Auth::getAuthType() == AuthType::AUTH_LOCAL) {
+                    // Load permissions
                     $_SESSION["permissions"] = (new PermissionModel($username))->getLocalPermissions();
-                }
-                else{
-                    $_SESSION["permissions"] = (new PermissionModel($username))->getLdapPermissions();
-                }
 
-                if (isset($_SESSION["default_password_changed"]) && !$_SESSION["default_password_changed"]) {
-
-                    // Generate custom URL and save it to database
-                    $a = new PasswordChangeModel();
-                    if(($url = $a->generateUrl($_SESSION["username"])) && $url){
-                        // User have to change password
-                        RedirectManager::redirect($url);
-                    }
-                    else{
-                        echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
-                        Contatta un'amministratore.</p>";
+                    // Check for password change
+                    if (!$_SESSION["user"]->isDefaultPasswordChanged()) {
+                        // Generate custom URL and save it to database
+                        $model = new PasswordChangeModel();
+                        if (($url = $model->generateUrl($_SESSION["user"]->getUsername())) && $url) {
+                            // User have to change password
+                            RedirectManager::redirect($url);
+                        } else {
+                            echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
+                                Contatta un'amministratore.</p>";
+                        }
                     }
                 } else {
-                    // User has all right
-                    RedirectManager::redirect("");
+                    $_SESSION["permissions"] = (new PermissionModel($username))->getLdapPermissions();
                 }
-            } else {
-                RedirectManager::redirect("login");
+                // User has all right
+                RedirectManager::redirect("");
             }
         }
-        else{
+        else {
+            // Wrong method or data sent
             RedirectManager::redirect("login");
         }
     }

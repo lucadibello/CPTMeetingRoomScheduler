@@ -14,7 +14,7 @@ class LoginModel
         $this->password = $password;
     }
 
-    public function ldapLogin(): bool{
+    public function ldapLogin(){
         // Check if user is a professor
         $ldap = new LdapAuth($this->username, $this->password);
         // Return result

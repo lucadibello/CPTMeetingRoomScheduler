@@ -13,7 +13,7 @@ class Home
             }
 
             // Load data
-            $bookings = BookingModel::getUserBookings($_SESSION["username"]);
+            $bookings = BookingModel::getUserBookings($_SESSION["user"]->getUsername());
 
             //Show index page
             ViewLoader::load("home/templates/header");
