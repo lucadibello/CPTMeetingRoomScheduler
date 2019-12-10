@@ -27,6 +27,9 @@ class Permissions
     private $modifica_prenotazioni_altri_utenti;
 
 
+    // Report related permissions
+    private $generazione_report;
+
     public function __construct(bool $creazione_utenti,
                                 bool $eliminazione_utenti,
                                 bool $promozione_utenti,
@@ -38,6 +41,7 @@ class Permissions
                                 bool $inserimento_prenotazioni_altri_utenti,
                                 bool $modifica_prenotazioni,
                                 bool $modifica_prenotazioni_altri_utenti,
+                                bool $generazione_report,
                                 string $permissions_name)
     {
         $this->creazione_utenti = $creazione_utenti;
@@ -52,6 +56,8 @@ class Permissions
         $this->inserimento_prenotazioni_altri_utenti = $inserimento_prenotazioni_altri_utenti;
         $this->modifica_prenotazioni = $modifica_prenotazioni;
         $this->modifica_prenotazioni_altri_utenti = $modifica_prenotazioni_altri_utenti;
+
+        $this->generazione_report = $generazione_report;
 
         $this->PERMISSIONS_NAME = $permissions_name;
     }
@@ -114,7 +120,10 @@ class Permissions
         return $this->promozione_utenti;
     }
 
-
+    public function canGenerareReport(): bool
+    {
+        return $this->generazione_report;
+    }
 
     /* WRAPPER FUNCTIONS */
     public function canUserAction(): bool

@@ -67,6 +67,7 @@ class PermissionModel
             $data["inserimento_prenotazioni_altri_utenti"],
             $data["modifica_prenotazioni"],
             $data["modifica_prenotazioni_altri_utenti"],
+            $data["generazione_report"],
             $perm_key
         );
     }

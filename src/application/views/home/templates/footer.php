@@ -5,6 +5,10 @@
         <a href="https://mdbootstrap.com/education/bootstrap/"><?php echo APP_NAME ?></a>
     </div>
     <!-- Copyright -->
+
+    <div class="footer-copyright text-center py-3">
+        Sviluppatore: <a class="text-white" href="contatti">Luca Di Bello I4AC</a>
+    </div>
 </footer>
 <!-- Footer -->
 

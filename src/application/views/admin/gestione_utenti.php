@@ -97,7 +97,7 @@
                                 </div>
 
                                 <!-- Add category button -->
-                                <button class="btn btn-success btn-block my-4" type="submit">Crea utente</button>
+                                <button class="btn btn-dark-green btn-block my-4" type="submit">Crea utente</button>
                                 <br>
                             </form>
                         </div>

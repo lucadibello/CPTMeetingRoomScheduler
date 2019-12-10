@@ -37,7 +37,7 @@
         <div class="container-fluid">
 
             <!-- Brand -->
-            <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
+            <a class="navbar-brand waves-effect" href="/" target="_top">
                 <strong class="blue-text"><?php echo APP_NAME ?></strong>
             </a>
 
@@ -52,24 +52,33 @@
 
                 <!-- Left -->
                 <ul class="navbar-nav mr-auto">
-                    <?php if($_SESSION["permissions"]->canVisionePrenotazioni()): ?>
+                    <?php if(PermissionManager::getPermissions()->canVisionePrenotazioni()): ?>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect" href="/home/prenotazioni">
-                                Prenotazioni
+                            <a class="nav-link waves-effect active" href="/calendario">
+                                Calendario
                             </a>
                         </li>
                     <?php endif; ?>
 
                     <li class="nav-item">
-                        <a class="nav-link waves-effect"
-                           href="https://mdbootstrap.com/docs/jquery/getting-started/download/">
-                            Gestione prenotazioni
+                        <a class="nav-link waves-effect" href="/contatti">
+                            Contatti
                         </a>
                     </li>
                 </ul>
 
                 <!-- Right -->
                 <ul class="navbar-nav nav-flex-icons">
+                    <?php if(PermissionManager::getPermissions()->canGenerareReport()): ?>
+                        <li class="nav-item mr-2">
+                            <a href="/report"
+                               class="nav-link btn-amber waves-effect"
+                               target="_top">
+                                Report
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
                     <li class="nav-item">
                         <a href="/logout"
                            class="nav-link border border-light rounded waves-effect"

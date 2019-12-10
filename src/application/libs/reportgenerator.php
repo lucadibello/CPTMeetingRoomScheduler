@@ -36,11 +36,11 @@ class ReportGenerator
 
         // Create PDF object with custom header
         $pdf = new PDF("Report aula riunioni");
-
         // Add page to PDF
         $pdf->AddPage();
 
         $date = new DateTime();
+        $pdf->SetTitle("Report CPTMRS " . $date->format("d/m/Y H:i"));
 
         // Add info related to the report
         $pdf->SetFont('Arial','',18);
@@ -55,7 +55,7 @@ class ReportGenerator
         $pdf->Table(DB::get(),$this->_generate_query());
 
         // Show output
-        $pdf->Output();
+        $pdf->Output("I", $date->format("Y_m_d_H_i") . "_Report_CPTMRS");
     }
 
     private function _generate_query(): string
@@ -66,53 +66,56 @@ class ReportGenerator
                         TIME_FORMAT(ora_fine, '%H:%i') as 'Ora fine'
                         FROM riservazione";
 
+        $_order_by_date = " ORDER BY data, ora_inizio, ora_fine ASC";
+
         // Check report type
         switch ($this->report_type) {
             case ReportType::DAY:
                 // Report with daily bookings
                 if ($this->show_old_bookings) {
                     // Show all daily bookings
-                    return $_base_query . " WHERE date=CURRENT_DATE()";
+                    return $_base_query . " WHERE data=CURRENT_DATE()" . $_order_by_date;
                 } else {
                     // Show only queue bookings
-                    return $_base_query . " WHERE data=CURRENT_DATE() AND TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()";
+                    return $_base_query . " WHERE data=CURRENT_DATE() AND TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()". $_order_by_date;
                 }
                 break;
             case ReportType::WEEK:
                 // Report with weekly bookings
                 if ($this->show_old_bookings) {
                     // Show all weekly bookings
-                    return $_base_query . " WHERE yearweek(data) = yearweek(CURRENT_DATE())";
+                    return $_base_query . " WHERE yearweek(data) = yearweek(CURRENT_DATE())". $_order_by_date;
                 } else {
                     // Show only weekly bookings
-                    return $_base_query . " WHERE yearweek(data) = yearweek(CURRENT_DATE()) AND TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()";
+                    return $_base_query . " WHERE yearweek(data) = yearweek(CURRENT_DATE()) AND TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()". $_order_by_date;
                 }
                 break;
             case ReportType::MONTH:
                 // Report with monthly bookings
-                // TODO: FINISH THIS
                 if ($this->show_old_bookings) {
+                    return $_base_query . " WHERE MONTH(data) = MONTH(CURRENT_DATE())". $_order_by_date;
                 } else {
+                    return $_base_query . " WHERE MONTH(data) = MONTH(CURRENT_DATE()) AND TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()". $_order_by_date;
                 }
                 break;
             case ReportType::YEAR:
                 // Report with yearly bookings
                 if ($this->show_old_bookings) {
                     // Show all yearly bookings
-                    return $_base_query . " WHERE YEAR(data) = YEAR(CURRENT_DATE())";
+                    return $_base_query . " WHERE YEAR(data) = YEAR(CURRENT_DATE())". $_order_by_date;
                 } else {
                     // Show only yearly bookings
-                    return $_base_query . " WHERE YEAR(data) = YEAR(CURRENT_DATE()) AND TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()";
+                    return $_base_query . " WHERE YEAR(data) = YEAR(CURRENT_DATE()) AND TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()". $_order_by_date;
                 }
                 break;
             case ReportType::ALL:
                 // Report all the bookings
                 if ($this->show_old_bookings) {
                     // Show all bookings
-                    return $_base_query;
+                    return $_base_query . $_order_by_date;
                 } else {
                     // Show only queue bookings
-                    return $_base_query . " WHERE TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()";
+                    return $_base_query . " WHERE TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()" . $_order_by_date;
                 }
                 break;
             default:
@@ -138,6 +141,17 @@ class PDF_MySQL_Table extends \Fpdf\Fpdf
         if ($this->ProcessingTable)
             $this->TableHeader();
     }
+
+    function Footer()
+    {
+        // Go to 1.5 cm from bottom
+        $this->SetY($this->h - 10);
+        // Select Arial italic 8
+        $this->SetFont('Arial','I',8);
+        // Print centered page number
+        $this->Cell(0,5,'Pagina '.$this->PageNo(),0,0,'R');
+    }
+
 
     function TableHeader()
     {
@@ -197,8 +211,21 @@ class PDF_MySQL_Table extends \Fpdf\Fpdf
         $this->SetFont('Arial', '', 11);
         $this->ColorIndex = 0;
         $this->ProcessingTable = true;
-        while ($row = mysqli_fetch_array($res))
-            $this->Row($row);
+
+        // Check if there is data or not
+        if(mysqli_num_rows($res) > 0){
+            while ($row = mysqli_fetch_array($res))
+                $this->Row($row);
+        }
+        else{
+            $this->CustomTextRow
+            (
+                "Non sono state trovate prenotazioni che soddisfano la richiesta.",
+                $prop["width"],
+                20
+            );
+        }
+
         $this->ProcessingTable = false;
         $this->cMargin = $cMargin;
         $this->aCols = array();
@@ -246,6 +273,19 @@ class PDF_MySQL_Table extends \Fpdf\Fpdf
         $this->Ln();
         $this->ColorIndex = 1 - $ci;
     }
+
+    function CustomTextRow($text,$w,$h=5){
+        $this->SetX($this->TableX);
+        $ci = $this->ColorIndex;
+        $fill = !empty($this->RowColors[$ci]);
+        if ($fill)
+            $this->SetFillColor($this->RowColors[$ci][0], $this->RowColors[$ci][1], $this->RowColors[$ci][2]);
+
+        $this->Cell($w, $h, $text, 1, 0, 'C', $fill);
+        $this->Ln();
+
+        $this->ColorIndex = 1 - $ci;
+    }
 }
 
 // http://www.fpdf.org/en/script/script14.php
@@ -268,6 +308,11 @@ class PDF extends PDF_MySQL_Table {
         // Ensure table header is printed
         parent::Header();
     }
+    /*
+    function Footer(){
+        parent::Footer();
+    }
+    */
 }
 
 abstract class ReportType

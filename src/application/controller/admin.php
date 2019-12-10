@@ -18,6 +18,7 @@ class Admin
             $this->dashboard();
         }
         elseif($status == self::STATUS_BAD_PERMISSIONS){
+            // TODO: NEW NO PERMISSION PAGE
             echo "Non hai permessi necessari per accedere a questa funzionalità.";
         }
         elseif($status == self::STATUS_NOT_LOGGED){

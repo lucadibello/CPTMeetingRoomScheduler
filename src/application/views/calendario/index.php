@@ -16,40 +16,7 @@
         </div>
         <!-- Heading -->
 
-        <!-- Heading -->
-        <div class="card mb-4 wow fadeIn">
-            <!--Card content-->
-            <div class="card-body">
-
-                <form action="/api/booking/add" method="post">
-                    <input type="date" name="data" value="03/12/2019" id="">
-                    <input type="time" name="ora_inizio" value="11:30" id="">
-                    <input type="time" name="ora_fine" value="12:00" id="">
-                    <input type="text" name="osservazioni" id="">
-
-                    <button type="submit">INSERISCI11</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="row wow fadeIn">
-            <div class="col-md-12">
-                <br>
-                <div class="card" id="ultime-aggiunte">
-                    <div class="card-header"><h3 class="h3-responsive">TESTING <p class="font-weight-bold red-text">FOR DEVELOPEMENT ONLY</p></h3></div>
-                    <div class="card-body">
-                        <?php
-                        $range = BookingModel::getEventsFromRange(
-                            DateTime::createFromFormat("d/m/Y H:i:s", "29/11/2019 01:00:00"),
-                            DateTime::createFromFormat("d/m/Y H:i:s", "29/11/2019 02:00:00")
-                        );
-                        var_dump($range);
-                        ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- Calendar -->
         <div class="row mb-5">
             <div class="col-md-12">
                 <br>
@@ -61,6 +28,8 @@
                 </div>
             </div>
         </div>
+        <!-- Calendar -->
+
     </div>
 </main>
 

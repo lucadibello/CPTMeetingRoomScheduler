@@ -10,9 +10,7 @@
     ],
     "require": {
         "sergeytsalkov/meekrodb": "2.3",
-        "ext-json": "*",
-        "ext-ldap": "*",
         "fpdf/fpdf": "*",
-        "ext-mysqli": "*"
+        "phpmailer/phpmailer": "~6.1"
     }
 }

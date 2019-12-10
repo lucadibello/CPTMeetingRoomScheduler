@@ -17,13 +17,16 @@ class UserModel
     }
 
     /* WRAPPER METHOD */
-
     private function usrCngPassword($user, $new_psw): bool
     {
         return DB::update("utente", array(
             "password" => password_hash($new_psw, PSW_CRYPT_METHOD),
             "default_password_changed" => true
         ), "username=%s", $user);
+    }
+
+    public function sendNewUserPassword(){
+
     }
 
     public static function getUsers(): array
@@ -46,13 +49,20 @@ class UserModel
 
         // Check if user is admin
         if($perm_name == ADMIN_PERMISSION_GROUP){
-            if(self::countAdmins() > MINIMUM_ADMINS_ALLOWED){
-                // Calls delete internal function
-                return delete_user($username);
+            if($username != $_SESSION["username"]) {
+                if(self::countAdmins() > MINIMUM_ADMINS_ALLOWED){
+                    // Calls delete internal function
+                    return delete_user($username);
+                }
+                else{
+                    return array("Ci devono essere almeno " . MINIMUM_ADMINS_ALLOWED . " admin(s) nel sistema. Impossibile
+                    eliminare l'account");
+                }
             }
             else{
-                return array("Ci devono essere almeno " . MINIMUM_ADMINS_ALLOWED . " admin(s) nel sistema. Impossibile
-                    eliminare l'account");
+                // The user is trying to delete himself
+                return array("Non puoi eliminare l'account con cui sei loggato. Esegui il login con altro 
+                account autorizzato e riprova");
             }
         }
         else{
