@@ -18,6 +18,7 @@ class Admin
             $this->dashboard();
         }
         elseif($status == self::STATUS_BAD_PERMISSIONS){
+            // TODO: NEW NO PERMISSION PAGE
             echo "Non hai permessi necessari per accedere a questa funzionalità.";
         }
         elseif($status == self::STATUS_NOT_LOGGED){
@@ -40,8 +41,8 @@ class Admin
     // Load admin panel user management tool
     public function utenti(){
         if($this->is_user_valid() == self::STATUS_OK){
-
             if(PermissionManager::getPermissions()->canUserAction()){
+
                 $data = UserModel::getUsers();
                 // Load page
                 ViewLoader::load("admin/templates/header");

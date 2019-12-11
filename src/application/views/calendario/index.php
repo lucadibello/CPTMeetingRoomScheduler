@@ -16,6 +16,9 @@
         </div>
         <!-- Heading -->
 
+<<<<<<< HEAD
+        <!-- Calendar -->
+=======
         <!-- Heading -->
         <div class="card mb-4 wow fadeIn">
             <!--Card content-->
@@ -50,6 +53,7 @@
             </div>
         </div>
 
+>>>>>>> 08f0ebd52b95f9b71c5a878069276052f2330c58
         <div class="row mb-5">
             <div class="col-md-12">
                 <br>
@@ -61,6 +65,8 @@
                 </div>
             </div>
         </div>
+        <!-- Calendar -->
+
     </div>
 </main>
 

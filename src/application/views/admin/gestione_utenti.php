@@ -97,7 +97,7 @@
                                 </div>
 
                                 <!-- Add category button -->
-                                <button class="btn btn-success btn-block my-4" type="submit">Crea utente</button>
+                                <button class="btn btn-dark-green btn-block my-4" type="submit">Crea utente</button>
                                 <br>
                             </form>
                         </div>
@@ -133,10 +133,10 @@
                                 <?php foreach ($users as $user): ?>
                                     <tr id="<?php echo $user->getUsername();?>">
                                         <td class="username"><?php echo $user->getUsername(); ?></td>
-                                        <td class="email" partial-mail="<?php echo $user->getPartialEmailAddress();?>"><?php echo $user->getFullEmailAddress(); ?></td>
+                                        <td class="email" partial-mail="<?php echo $user->getPartialEmailAddress();?>"><?php echo $user->getEmailAddress(); ?></td>
                                         <td class="nome"><?php echo $user->getNome(); ?></td>
                                         <td class="cognome"><?php echo $user->getCognome(); ?></td>
-                                        <td class="permessi"><?php echo $user->getTipoUtente(); ?></td>
+                                        <td class="permessi"><?php echo $user->getUserPermissionType(); ?></td>
 
                                         <td id="psw-changed">
                                             <?php echo $user->isDefaultPasswordChanged() ? "Si" : "No"; ?>
@@ -297,8 +297,7 @@
                                 <!-- Category name -->
                                 <div class="md-form">
 
-                                    <input type="text" id="updateModalCurrentPermissions" class="form-control" name="categoryName"
-                                           readonly>
+                                    <input type="text" id="updateModalCurrentPermissions" class="form-control" readonly>
 
                                     <label for="nomeCategoriaModal">Permessi attuali</label>
 
