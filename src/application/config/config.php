@@ -19,7 +19,7 @@ ini_set("display_errors", 1);
 /**
  * Configurazione di : URL del progetto
  */
-define('URL', 'http://localhost:8123/');
+define('URL', 'http://10.20.143.210:8123/');
 define('APP_NAME', "CPT Meeting Room Scheduler");
 
 /* Configurazione per la connessione al database */

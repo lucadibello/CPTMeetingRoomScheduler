@@ -271,6 +271,9 @@ class Api
      */
     public function calendar()
     {
+        // Allow CORS
+        header("Access-Control-Allow-Origin: *");
+
         // Set json content
         header('Content-Type: application/json');
 

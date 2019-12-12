@@ -1,8 +1,0 @@
-[FETCHER] DEBUG -  2019-12-11 23:03:28,943: Config file loaded correctly
-[FETCHER] DEBUG -  2019-12-11 23:03:28,944: Scheduler created
-[FETCHER] INFO -  2019-12-11 23:03:28,944: Starting update process...
-[urllib3.connectionpool] DEBUG -  2019-12-11 23:03:28,951: Starting new HTTP connection (1): localhost:8123
-[urllib3.connectionpool] DEBUG -  2019-12-11 23:03:28,959: http://localhost:8123 "POST /api/calendar HTTP/1.1" 200 715
-[FETCHER] DEBUG -  2019-12-11 23:03:28,961: Read data: 715 bytes
-[FETCHER] INFO -  2019-12-11 23:03:28,961: Booking data saved locally
-[FETCHER] DEBUG -  2019-12-11 23:03:28,962: Set fetch schedule every 600 seconds
