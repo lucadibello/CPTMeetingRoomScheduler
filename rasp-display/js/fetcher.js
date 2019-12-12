@@ -3,7 +3,6 @@ var global_error_message = "c'è stato un errore durante l'aggiornamento dei dat
 
 // Set in runtime
 var config;
-var bookings;
 
 // Load config
 get_json_settings();
@@ -17,8 +16,8 @@ function read_bookings_json(config) {
             method: 'post',
             data: {token: config.api_token},
             success: function (json, status, xhr) {
-                console.log("[!] JSON data found");
-
+                console.log("[!] JSON data found:");
+                console.log(json);
                 // Check if apis returned an error json or bookings json
                 if (typeof json["code"] != 'undefined'){
                     console.log("[!] Detected API error");
@@ -31,10 +30,9 @@ function read_bookings_json(config) {
                 else
                 {
                     console.log("[!] Booking data found");
-                    console.log(json);
 
 
-                    // Hide error body and show data
+                    // Hide error and show data
                     $('#update-error-body').addClass("d-none");
                     $('#booking-data').removeClass("d-none");
 
@@ -44,44 +42,75 @@ function read_bookings_json(config) {
 
                     // Show first booking in the featured section
                     if(json.length > 0){
+                        console.log("[!] Found featured booking");
+
+                        // Show featured table
+                        $('#featured-booking').removeClass('d-none');
+
                         // Hide error
-                        $('#no-data-error').removeClass('d-none');
+                        $('#no-data-error').addClass('d-none');
+
 
                         let featured = json[0];
+
+                        // Get "note" value
+                        let note = config["osservazioni_default_value"];
+                        if(featured.note != null){
+                            note = featured.note.length > 0 ? featured.note : config["osservazioni_default_value"];
+                        }
+
                         show_featured(
                             featured.start,
                             featured.start,
                             featured.end,
                             featured.title,
-                            featured.note.length > 0 ? featured.note : "-"
+                            note
                         );
 
                         if(json.length > 1){
                             // Show table
-                            $('#booking-table-full').removeClass("d-none");
+                            $('#booking-table-container').removeClass("d-none");
 
                             // Clear table
-                            $('#booking-table-full').detach();
-                            $('#booking-table-full').append($('<tbody>'));
+                            $('#booking-table-body').empty();
+                            console.log("[!] Table cleared");
+
 
                             for(let i = 1; i < json.length && i < config["max_shown_booking"]; i++){
                                 console.log(json[i]);
+
+                                let note = config["osservazioni_default_value"];
+                                if(json[i].note != null){
+                                    note = json[i].note.length > 0 ? json[i].note : config["osservazioni_default_value"];
+                                }
+
                                 add_row(
                                     json[i].start,
                                     json[i].start,
                                     json[i].end,
                                     json[i].title,
-                                    json[i].note.length > 0 ? json[i].note : "-"
+                                    note
                                 );
                             }
                         }
                         else{
-                            add_error_row("Non ci sono dati da mostrare")
+                            // Clear table
+                            $('#booking-table-body').empty();
+                            console.log("[!] Table cleared");
+
+                            // Show table
+                            $('#booking-table-container').removeClass("d-none");
+                            // Add error
+                            add_error_row("Non ci sono altri dati da mostrare")
                         }
                     }
                     else{
                         // Hide featured table
                         $('#featured-booking').addClass('d-none');
+
+                        // Hide data table
+                        $('#booking-table-container').addClass('d-none');
+
                         // Show error message
                         $('#no-data-error').removeClass('d-none');
                     }
@@ -89,7 +118,7 @@ function read_bookings_json(config) {
             },
             error: function (jqXhr, textStatus, errorMessage) { // error callback
                 bookings = false;
-                console.log("[!] Error while fetching bookings");
+                console.log("[!] Error while fetching bookings: " + textStatus + " " + errorMessage);
 
                 // Show error
                 $('#update-error-body').removeClass("d-none");
@@ -100,8 +129,9 @@ function read_bookings_json(config) {
 }
 
 function add_error_row(msg){
-    table_body.append($('<tr>').append("" +
-        "<td style='column-span: 4; color:red;'>" + msg + "</td>"));
+    console.log("[!] Added error row to table");
+    $('#booking-table-body').append($('<tr>').append("" +
+        "<td colspan='4' style='color:red;'>" + msg + "</td>"));
 }
 
 function add_row(data, ora_inizio, ora_fine, utente, osservazioni){
@@ -143,3 +173,22 @@ function get_json_settings() {
         }
     });
 }
+
+/**
+ * This function is used to refresh/refetch all the events of the calendar
+ */
+function refreshAgenda() {
+    // Clear console
+    console.clear();
+
+    // Refresh config
+    get_json_settings();
+
+    // Refresh bookings
+    read_bookings_json(config);
+
+    console.log("[!] Agenda refreshed on " + moment().format("D/M/Y HH:mm:ss"));
+}
+
+// Set refresher interval
+setInterval(refreshAgenda, 1000 * 30); // Update agenda every 30 seconds

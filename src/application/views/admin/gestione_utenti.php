@@ -344,13 +344,13 @@
 </main>
 
 <!-- Load modalmanager.js for modal management -->
-<script src="/application/assets/js/admin/gestione_utenti/modalmanager.js"></script>
+<script src="<?php echo URL;?>application/assets/js/admin/gestione_utenti/modalmanager.js"></script>
 
 <!-- Load datatables.js -->
-<script src="/application/assets/mdb/js/addons/datatables.min.js"></script>
+<script src="<?php echo URL;?>application/assets/mdb/js/addons/datatables.min.js"></script>
 
 <!-- Popper.js for tooltips -->
-<script type="text/javascript" src="/application/assets/mdb/js/popper.min.js"></script>
+<script type="text/javascript" src="<?php echo URL;?>application/assets/mdb/js/popper.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#userTable').dataTable({

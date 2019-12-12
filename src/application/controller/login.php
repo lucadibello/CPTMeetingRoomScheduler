@@ -71,8 +71,11 @@ class Login
                         // Generate custom URL and save it to database
                         $model = new PasswordChangeModel();
                         if (($url = $model->generateUrl($_SESSION["user"]->getUsername())) && $url) {
+                            // TODO: SEND MAIL
+
                             // User have to change password
                             RedirectManager::redirect($url);
+
                         } else {
                             echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
                                 Contatta un'amministratore.</p>";
@@ -83,6 +86,9 @@ class Login
                 }
                 // User has all right
                 RedirectManager::redirect("");
+            }
+            else{
+                RedirectManager::redirect("login");
             }
         }
         else {

@@ -13,7 +13,7 @@ class BookingModel
 
     public static function getBookings(): array
     {
-        $result = DB::query("SELECT * FROM riservazione");
+        $result = DB::query("SELECT * FROM riservazione order by data, ora_inizio, ora_fine ");
         return self::parseBookingArrayData($result);
     }
 
@@ -44,7 +44,7 @@ class BookingModel
 
     public static function getBookingsAfterDateTime(DateTime $datetime): array
     {
-        $result = DB::query("SELECT * FROM riservazione WHERE TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW()");
+        $result = DB::query("SELECT * FROM riservazione WHERE TIMESTAMP(CONCAT(data,' ', ora_inizio)) > NOW() order by data,ora_inizio,ora_fine");
         return self::parseBookingArrayData($result);
     }
 

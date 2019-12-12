@@ -49,7 +49,7 @@ class UserModel
 
         // Check if user is admin
         if($perm_name == ADMIN_PERMISSION_GROUP){
-            if($username != $_SESSION["username"]) {
+            if($username != $_SESSION["user"]->getUsername()) {
                 if(self::countAdmins() > MINIMUM_ADMINS_ALLOWED){
                     // Calls delete internal function
                     return delete_user($username);

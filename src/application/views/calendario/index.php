@@ -111,7 +111,7 @@
             <div class="modal-body">
 
                 <!-- Default form register -->
-                <form class="text-center p-1" action="/api/booking/add" method="post">
+                <form class="text-center p-1" action="<?php echo URL;?>api/booking/add" method="post">
 
                     <div class="form-row mb-4">
                         <div class="col">
@@ -166,20 +166,20 @@
 
 
 <!-- FullCalendar Libs -->
-<script src='/application/assets/fullcalendar/packages/core/main.min.js'></script>
-<script src='/application/assets/fullcalendar/packages/interaction/main.min.js'></script>
-<script src='/application/assets/fullcalendar/packages/daygrid/main.min.js'></script>
-<script src='/application/assets/fullcalendar/packages/timegrid/main.min.js'></script>
-<script src='/application/assets/fullcalendar/packages/list/main.min.js'></script>
-<script src='/application/assets/fullcalendar/packages/bootstrap/main.min.js'></script>
-<script src='/application/assets/fullcalendar/packages/core/locales-all.min.js'></script>
-<script src='/application/assets/fullcalendar/packages/moment/main.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/core/main.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/interaction/main.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/daygrid/main.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/timegrid/main.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/list/main.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/bootstrap/main.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/core/locales-all.min.js'></script>
+<script src='<?php echo URL;?>application/assets/fullcalendar/packages/moment/main.min.js'></script>
 
 <!-- Moment js -->
-<script src="/application/assets/js/moment.min.js"></script>
+<script src="<?php echo URL;?>application/assets/js/moment.min.js"></script>
 
 <!-- Notify JS -->
-<script src="/application/assets/js/notify.min.js"></script>
+<script src="<?php echo URL;?>application/assets/js/notify.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -210,7 +210,7 @@
             },
             eventSources: [
                 {
-                    url: '/api/calendar',
+                    url: '<?php echo URL;?>api/calendar',
                     method: 'POST',
                     dataType: 'json',
                     extraParams: {
@@ -224,7 +224,7 @@
                     events: function (start, end, callback) {
                         $.ajax({
                             // Calls the calendar api
-                            url: '/api/calendar',
+                            url: '<?php echo URL;?>/api/calendar',
                             method: 'POST',
                             dataType: 'json',
                             data: {
@@ -284,7 +284,7 @@
                     console.log("[!] Sending delete request to apis");
                     $.ajax({
                         type: "POST",
-                        url: "/api/booking/delete/" + event.id,
+                        url: "<?php echo URL;?>api/booking/delete/" + event.id,
                         success: function (result) {
                             if (result["success"]) {
                                 console.log("[!] event deleted");
@@ -329,7 +329,7 @@
                     // Make requests
                     $.ajax({
                         type: "POST",
-                        url: "/api/booking/update/" + event.id,
+                        url: "<?php echo URL;?>api/booking/update/" + event.id,
                         data: {
                             "data": date.format('DD/MM/YYYY'),
                             "ora_inizio": startTime,
@@ -394,7 +394,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: "/api/booking/add",
+                            url: "<?php echo URL;?>api/booking/add",
                             data: {
                                 "data": date_str,
                                 "ora_inizio": startTime,
@@ -437,7 +437,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/api/booking/update/" + new_event.id,
+                    url: "<?php echo URL;?>api/booking/update/" + new_event.id,
                     data: {
                         "data": date,
                         "ora_inizio": start,
@@ -479,7 +479,7 @@
                 console.log("[!] Sending resize request");
                 $.ajax({
                     type: "POST",
-                    url: "/api/booking/update/" + new_event.id,
+                    url: "<?php echo URL;?>api/booking/update/" + new_event.id,
                     data: {
                         "data": date,
                         "ora_inizio": start,
@@ -539,6 +539,6 @@
             console.log("[!] Calendar refreshed");
         }
 
-        setInterval(refreshCalendar, 1000 * 60 * 10); // Update every 10 mins
+        setInterval(refreshCalendar, 1000 * 60 * 2); // Update every 2 mins
     });
 </script>

@@ -9,16 +9,16 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <!-- Bootstrap core CSS -->
-    <link href="/application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
-    <link href="/application/assets/mdb/css/mdb.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/mdb.min.css" rel="stylesheet">
     <!-- datatables css -->
-    <link href="/application/assets/mdb/css/addons/datatables.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/addons/datatables.css" rel="stylesheet">
     <!-- Your custom styles (optional) -->
-    <link href="/application/assets/mdb/css/style.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/style.min.css" rel="stylesheet">
 
     <!-- JQuery -->
-    <script type="text/javascript" src="/application/assets/mdb/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo URL;?>application/assets/mdb/js/jquery-3.4.1.min.js"></script>
 </head>
 
 <body class="grey lighten-3">
@@ -31,7 +31,7 @@
         <div class="container-fluid">
 
             <!-- Brand -->
-            <a class="navbar-brand waves-effect" href="/" target="_top">
+            <a class="navbar-brand waves-effect" href="<?php echo URL;?>" target="_top">
                 <strong class="blue-text"><?php echo APP_NAME ?></strong>
             </a>
 
@@ -48,14 +48,14 @@
                 <ul class="navbar-nav mr-auto">
                     <?php if(PermissionManager::getPermissions()->canVisionePrenotazioni()): ?>
                         <li class="nav-item">
-                            <a class="nav-link waves-effect" href="/calendario">
+                            <a class="nav-link waves-effect" href="<?php echo URL;?>/calendario">
                                 Calendario
                             </a>
                         </li>
                     <?php endif; ?>
 
                     <li class="nav-item">
-                        <a class="nav-link waves-effect active" href="/contatti">
+                        <a class="nav-link waves-effect active" href="<?php echo URL;?>/contatti">
                             Contatti
                         </a>
                     </li>
@@ -65,7 +65,7 @@
                 <ul class="navbar-nav nav-flex-icons">
                     <?php if(PermissionManager::getPermissions()->canGenerareReport()): ?>
                         <li class="nav-item mr-2">
-                            <a href="/report"
+                            <a href="<?php echo URL;?>/report"
                                class="nav-link btn-amber waves-effect"
                                target="_top">
                                 Report
@@ -74,7 +74,7 @@
                     <?php endif; ?>
 
                     <li class="nav-item">
-                        <a href="/logout"
+                        <a href="<?php echo URL;?>/logout"
                            class="nav-link border border-light rounded waves-effect"
                            target="_top">
                             <i class="fas fa-sign-out-alt mr-2"></i>Logout

@@ -8,3 +8,4 @@ src/.vs
 src/.vs/*
 
 src/application/config/config.php
+rasp-display/config.json

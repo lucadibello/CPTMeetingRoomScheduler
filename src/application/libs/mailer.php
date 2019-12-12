@@ -44,8 +44,5 @@ class Mailer
         $this->mailer->Subject($subject);
         $this->mailer->Body = $body;
         $this->mailer->send();
-
-        // TODO: "Useless" return value
-        return true;
     }
 }
