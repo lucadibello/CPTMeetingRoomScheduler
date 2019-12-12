@@ -71,7 +71,7 @@
                 <ul class="navbar-nav nav-flex-icons">
                     <?php if(PermissionManager::getPermissions()->canGenerareReport()): ?>
                         <li class="nav-item mr-2">
-                            <a href="/report"
+                            <a href="<?php echo URL;?>report"
                                class="nav-link btn-amber waves-effect"
                                target="_top">
                                 Report
@@ -80,7 +80,7 @@
                     <?php endif; ?>
 
                     <li class="nav-item">
-                        <a href="/logout"
+                        <a href="<?php echo URL;?>logout"
                            class="nav-link border border-light rounded waves-effect"
                            target="_top">
                             <i class="fas fa-sign-out-alt mr-2"></i>Logout

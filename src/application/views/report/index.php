@@ -69,7 +69,7 @@
                 <div class="card" id="report-container">
                     <div class="card-header"><h3 class="h3-responsive">Generazione report</h3></div>
                     <div class="card-body">
-                        <form action="/report/generate" method="post">
+                        <form action="<?php echo URL;?>report/generate" method="post">
                             <!-- Subject -->
                             <label>Tipo di report</label>
                             <select class="browser-default custom-select mb-4" name="type">

@@ -16,7 +16,7 @@ class ChangePassword
             // Check if id is saved into the database
             $change = new PasswordChangeModel();
 
-            if ($change->isIdRight($id, $_SESSION["user"])) {
+            if ($change->isIdRight($id, $_SESSION["user"]->getUsername())) {
                 // Save token for later verify
                 $_SESSION["change_password_token"] = $id;
                 ViewLoader::load("changepassword/index");
