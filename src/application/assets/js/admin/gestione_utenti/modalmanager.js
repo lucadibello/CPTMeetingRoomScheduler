@@ -8,7 +8,7 @@ $('.delete-user-button').on("click", function(){
     $('#modalEliminaMessaggio').text("Sei sicuro di voler eliminare l'utente '" + username + "'?");
 
     // change url. It will call the websites APIs
-    $("#eliminaButton").attr("href", '/api/user/delete/' + username);
+    $("#eliminaButton").attr("href", '../api/user/delete/' + username);
 
     // Show modal
     $('#modalConfirmDelete').modal('show');
@@ -36,7 +36,7 @@ $('.edit-user-button').on("click", function () {
     $('#editModalEmail').val(email).trigger("change");
 
     // Setup API call url
-    $("#editModalForm").attr("action", '/api/user/update/' + username);
+    $("#editModalForm").attr("action", '../api/user/update/' + username);
     $('#editModal').modal('show');
     
     $('#editModalSubmitButton').on("click", function () {
@@ -59,7 +59,7 @@ $('.promote-user-button').on("click", function(){
     //console.log("[!] Start opening promote modal for user: " + username);
 
     // change url. It will call the websites APIs
-    $("#updateModalForm").attr("action", '/api/user/promote/' + username);
+    $("#updateModalForm").attr("action", '../api/user/promote/' + username);
 
     // Show modal
     $('#updateModal').modal('show');

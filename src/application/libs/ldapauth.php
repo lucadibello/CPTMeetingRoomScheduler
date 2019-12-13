@@ -87,8 +87,9 @@ class LdapAuth
                 // No data found in AD
                 return false;
             }
-        } else {
-            // invalid name or password
+        }
+        else {
+            // invalid name or password / connection error
             return false;
         }
     }

@@ -27,7 +27,6 @@ class Mailer
 
         if(SMTP_AUTH){
             // If the SMTP auth is enabled, setup user and password
-
             $this->mailer->SMTPAuth   = true;               // Enable SMTP authentication
             $this->mailer->Username   = SMTP_USERNAME;      // SMTP username
             $this->mailer->Password   = SMTP_PASSWORD;      // SMTP password
@@ -41,11 +40,8 @@ class Mailer
         // !! Any exception handler !!
         $this->mailer->setFrom($from, $from_fullaname); // Setup who's the sender of the mail
         $this->mailer->addAddress($to, $to_fullname); // Setup mail reciever
-        $this->mailer->Subject($subject);
+        $this->mailer->Subject = $subject;
         $this->mailer->Body = $body;
         $this->mailer->send();
-
-        // TODO: "Useless" return value
-        return true;
     }
 }

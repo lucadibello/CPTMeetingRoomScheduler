@@ -16,16 +16,18 @@
 
     <!-- Header -->
     <div class="col text-center">
-        <h1 class="text-center mt-3">Prenotazioni</h1>
+        <h1 class="text-center mt-3">Prenotazioni <span class="small" id="current-data">00-00-00</span></h1>
         <p>Lista prenotazioni per l'aula <span class="text-primary font-weight-bold">A-4**</span></p>
     </div>
 
     <!-- Update info -->
     <div class="row">
+        <!--
         <div class="col-md-12">
             <h6>Ultimo aggiornamento: <span id="last-update-datetime"
-                                            class="text-secondary font-weight-bold">NEVER</span></h6>
+                                            class="text-secondary font-weight-bold">Mai</span></h6>
         </div>
+        -->
         <div class="col-md-12">
             <h6 class="d-none" id="update-error-body"><span class="text-danger font-weight-bold">Errore: </span><span
                     id="update-error-message"> UNKNOWN REASON</span></h6>
@@ -33,35 +35,9 @@
     </div>
     <hr>
 
-    <div id="booking-data" class="d-none">
+    <div id="booking-data">
 
-        <!-- No data error -->
-        <div id="no-data-error" class="d-none alert alert-danger" role="alert">
-            Non ci sono prenotazioni da visualizzare.
-        </div>
-
-        <div id="featured-booking">
-            <h2 class="mb-3">Utima prenotazione:</h2>
-            <!-- Incoming booking -->
-            <div class="col-md-12 p-4">
-                <div class="row">
-                    <div class="col-md-6"><h3>Data: <span id="featured-date" class="font-weight-bold">-</span></h3>
-                    </div>
-                    <div class="col-md-6"><h3>Docente: <span id="featured-professor"
-                                                             class="font-weight-bold">-</span></h3></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6"><h3>Ora: <span id="featured-time-start" class="font-weight-bold"></span> -
-                        <span id="featured-time-end" class="font-weight-bold"></span></h3></div>
-                    <div class="col-md-6"><h3>Osservazioni: <span id="featured-osservazioni"
-                                                                  class="font-weight-bold text-break">-</span>
-                    </h3></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-none booking-table-container">
-            <h2 class="mt-5">Lista prenotazioni:</h2>
+        <div id="booking-table-container">
             <!-- Bookings -->
             <div class="table-responsive">
                 <table class="table table-striped" id="booking-table-full">
@@ -69,8 +45,7 @@
                     <tr>
                         <th scope="col">Data</th>
                         <th scope="col">Orario</th>
-                        <th scope="col">Professore</th>
-                        <th scope="col">Osservazioni</th>
+                        <th scope="col">Docente</th>
                     </tr>
                     </thead>
                     <tbody id="booking-table-body">
@@ -83,14 +58,20 @@
 
 <!-- Footer -->
 <footer class="page-footer footer-copyright font-small blue fixed-bottom">
+
     <!-- Copyright -->
     <div class="text-center mt-2">© 2019 Copyright: <span
             class="text-white font-weight-bold">CPT Meeting Room Scheduler</span>
     </div>
-    <!-- Copyright -->
 
-    <div class=" text-center mt-1">
+    <!-- Copyright -->
+    <div class="text-center mt-1">
         Sviluppatore: <span class="text-white font-weight-bold">Luca Di Bello I4AC</span>
+    </div>
+
+    <div class="col-md-12">
+        <h6>Ultimo aggiornamento: <span id="last-update-datetime"
+                                        class="text-white font-weight-bold">Mai</span></h6>
     </div>
 </footer>
 <!-- Footer -->

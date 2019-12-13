@@ -269,7 +269,7 @@ class Api
     /**
      * HTTP API used by the Raspberry Pi to read all the booking related data stored in the database.
      */
-    public function calendar()
+    public function calendar($type=null)
     {
         // Allow CORS
         header("Access-Control-Allow-Origin: *");
@@ -280,7 +280,12 @@ class Api
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST["token"])) {
                 if ($_POST["token"] == API_TOKEN) {
-                    echo CalendarModel::fromBookingsToJson(BookingModel::getBookingsAfterDateTime(new DateTime()));
+                    if(is_null($type)){
+                        echo CalendarModel::fromBookingsToJson(BookingModel::getBookingsAfterDateTime(new DateTime()));
+                    }
+                    else{
+                        echo CalendarModel::fromBookingsToJson(BookingModel::getBookingsAfterDateTimeDay(new DateTime()));
+                    }
                 } else {
                     echo CalendarModel::generateJsonError("Wrong API token", HttpCode::UNAUTHORIZED);
                 }

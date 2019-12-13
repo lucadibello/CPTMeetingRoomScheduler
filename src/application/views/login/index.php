@@ -7,10 +7,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <!-- Bootstrap core CSS -->
-    <link href="./application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Material Design Bootstrap -->
-    <link href="./application/assets/mdb/css/mdb.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/mdb.min.css" rel="stylesheet">
 
     <!-- Animate CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css" rel="stylesheet">
@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
     <!-- Personal style file -->
-    <link href="./application/assets/css/style.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/css/style.css" rel="stylesheet">
 
     <!-- Page title -->
     <title>CPT MRS - Login</title>
@@ -43,8 +43,6 @@
                     <!-- Clear notifications -->
                     <?php $GLOBALS["NOTIFIER"]->clear(); ?>
                 <?php endif; ?>
-
-                <?php var_dump($_SESSION) ?>
 
                 <!-- Default form login -->
                 <form class="text-center p-5" action="login/auth" method="post">
@@ -102,10 +100,10 @@
 
 
     <!-- JQuery -->
-    <script src="/application/assets/js/jquery.min.js"></script>
-    <script src="/application/assets/mdb/js/bootstrap.js"></script>
-    <script src="/application/assets/mdb/js/mdb.js"></script>
-    <script src="/application/assets/mdb/js/popper.min.js"></script>
+    <script src="<?php echo URL;?>application/assets/js/jquery.min.js"></script>
+    <script src="<?php echo URL;?>application/assets/mdb/js/bootstrap.js"></script>
+    <script src="<?php echo URL;?>application/assets/mdb/js/mdb.js"></script>
+    <script src="<?php echo URL;?>application/assets/mdb/js/popper.min.js"></script>
 
     <script>
         <?php if(isset($_COOKIE["password_changed_successfully"]) && $_COOKIE["password_changed_successfully"] == '1'): ?>

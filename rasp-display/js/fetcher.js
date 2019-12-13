@@ -3,7 +3,6 @@ var global_error_message = "c'è stato un errore durante l'aggiornamento dei dat
 
 // Set in runtime
 var config;
-var bookings;
 
 // Load config
 get_json_settings();
@@ -12,99 +11,85 @@ get_json_settings();
 read_bookings_json(config);
 
 function read_bookings_json(config) {
+    // Update data
+    $("#current-data").text(moment().format("D/M/Y"));
+
+    // Request data
     $.ajax(config.api_url, {
-            dataType: 'json', // type of response data
-            method: 'post',
-            data: {token: config.api_token},
-            success: function (json, status, xhr) {
-                console.log("[!] JSON data found");
+        dataType: 'json', // type of response data
+        method: 'post',
+        data: {token: config.api_token},
+        success: function (json, status, xhr) {
+            console.log("[!] JSON data found:");
+            console.log(json);
+            // Check if apis returned an error json or bookings json
+            if (typeof json["code"] != 'undefined') {
+                console.log("[!] Detected API error");
 
-                // Check if apis returned an error json or bookings json
-                if (typeof json["code"] != 'undefined'){
-                    console.log("[!] Detected API error");
+                // Show api error
+                $('#update-error-body').removeClass("d-none");
+                $('#update-error-message').text(json["message"] + ". Codice: " + json["code"]);
+                $('#booking-data').addClass("d-none");
+            } else {
+                console.log("[!] Booking data found");
 
-                    // Show api error
-                    $('#update-error-body').removeClass("d-none");
-                    $('#update-error-message').text(json["message"] + ". Codice: " + json["code"]);
-                    $('#booking-data').addClass("d-none");
-                }
-                else
-                {
-                    console.log("[!] Booking data found");
-                    console.log(json);
+                // Update last update time
+                $("#last-update-datetime").text(moment().format("D/M/Y HH:mm"));
 
-
-                    // Hide error body and show data
+                if(json.length > 0){
+                    // Hide error and show data
                     $('#update-error-body').addClass("d-none");
                     $('#booking-data').removeClass("d-none");
 
-                    // Update last update time
-                    $("#last-update-datetime").text(moment().format("D/M/Y HH:mm"));
+                    // Show table
+                    $('#booking-table-container').removeClass("d-none");
 
+                    // Clear table
+                    $('#booking-table-body').empty();
+                    console.log("[!] Table cleared");
 
-                    // Show first booking in the featured section
-                    if(json.length > 0){
-                        // Hide error
-                        $('#no-data-error').removeClass('d-none');
+                    for (let i = 0; i < json.length && i < config["max_shown_booking"]; i++) {
+                        console.log(json[i]);
 
-                        let featured = json[0];
-                        show_featured(
-                            featured.start,
-                            featured.start,
-                            featured.end,
-                            featured.title,
-                            featured.note.length > 0 ? featured.note : "-"
+                        let note = config["osservazioni_default_value"];
+                        if (json[i].note != null) {
+                            note = json[i].note.length > 0 ? json[i].note : config["osservazioni_default_value"];
+                        }
+
+                        add_row(
+                            json[i].start,
+                            json[i].start,
+                            json[i].end,
+                            json[i].title
                         );
-
-                        if(json.length > 1){
-                            // Show table
-                            $('#booking-table-full').removeClass("d-none");
-
-                            // Clear table
-                            $('#booking-table-full').detach();
-                            $('#booking-table-full').append($('<tbody>'));
-
-                            for(let i = 1; i < json.length && i < config["max_shown_booking"]; i++){
-                                console.log(json[i]);
-                                add_row(
-                                    json[i].start,
-                                    json[i].start,
-                                    json[i].end,
-                                    json[i].title,
-                                    json[i].note.length > 0 ? json[i].note : "-"
-                                );
-                            }
-                        }
-                        else{
-                            add_error_row("Non ci sono dati da mostrare")
-                        }
-                    }
-                    else{
-                        // Hide featured table
-                        $('#featured-booking').addClass('d-none');
-                        // Show error message
-                        $('#no-data-error').removeClass('d-none');
                     }
                 }
-            },
-            error: function (jqXhr, textStatus, errorMessage) { // error callback
-                bookings = false;
-                console.log("[!] Error while fetching bookings");
+                else{
+                    // Clear table
+                    $('#booking-table-body').empty();
+                    console.log("[!] Table cleared");
 
-                // Show error
-                $('#update-error-body').removeClass("d-none");
-                $('#update-error-message').text(global_error_message);
+                    add_error_row("Non ci sono prenotazioni.");
+                }
             }
+        },
+        error: function (jqXhr, textStatus, errorMessage) { // error callback
+            console.log("[!] Error while fetching bookings: " + textStatus + " " + errorMessage);
+
+            // Show error
+            $('#update-error-body').removeClass("d-none");
+            $('#update-error-message').text(global_error_message);
         }
-    );
+    });
 }
 
-function add_error_row(msg){
-    table_body.append($('<tr>').append("" +
-        "<td style='column-span: 4; color:red;'>" + msg + "</td>"));
+function add_error_row(msg) {
+    console.log("[!] Added error row to table");
+    $('#booking-table-body').append($('<tr>').append("" +
+        "<td colspan='3' style='color:red;'>" + msg + "</td>"));
 }
 
-function add_row(data, ora_inizio, ora_fine, utente, osservazioni){
+function add_row(data, ora_inizio, ora_fine, utente) {
     let table_body = $('#booking-table-body');
 
     data = moment(data).format("D/M/Y");
@@ -114,11 +99,10 @@ function add_row(data, ora_inizio, ora_fine, utente, osservazioni){
     table_body.append($('<tr>').append("" +
         "<td>" + data + "</td>" +
         "<td>" + ora_inizio + " - " + ora_fine + "</td>" +
-        "<td>" + utente + "</td>" +
-        "<td>" + osservazioni + "</td>"));
+        "<td>" + utente + "</td>"));
 }
 
-function show_featured(data, ora_inizio, ora_fine, utente, osservazioni){
+function show_featured(data, ora_inizio, ora_fine, utente, osservazioni) {
     console.log(ora_inizio + " - " + ora_fine);
 
     data = moment(data).format("D/M/Y");
@@ -143,3 +127,23 @@ function get_json_settings() {
         }
     });
 }
+
+/**
+ * This function is used to refresh/refetch all the events of the calendar
+ */
+function refreshAgenda() {
+    // Clear console
+    console.clear();
+
+    // Refresh config
+    get_json_settings();
+
+    // Refresh bookings
+    read_bookings_json(config);
+
+
+    console.log("[!] Agenda refreshed on " + moment().format("D/M/Y HH:mm:ss"));
+}
+
+// Set refresher interval
+setInterval(refreshAgenda, 1000 * 30); // Update agenda every 30 seconds

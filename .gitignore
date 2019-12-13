@@ -8,3 +8,7 @@ src/.vs
 src/.vs/*
 
 src/application/config/config.php
+<<<<<<< HEAD
+=======
+rasp-display/config.json
+>>>>>>> 81bb505dbe2986a0e57a92ed58d9a086e2cce179

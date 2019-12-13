@@ -14,7 +14,7 @@ class Report
     public function index()
     {
         if (Auth::isAuthenticated()) {
-            if(PermissionManager::getPermissions()->canVisionePrenotazioni()){
+            if(PermissionManager::getPermissions()->canGenerareReport()){
                 // Load view
                 ViewLoader::load("report/templates/header");
                 ViewLoader::load("report/index", array("types" => $this->available_types));
@@ -23,7 +23,6 @@ class Report
             else{
                 // TODO: NEW NO PERMISSION PAGE
                 echo "Non hai i permessi per generare report";
-                ViewLoader::load("");
             }
         } else {
             RedirectManager::redirect("");

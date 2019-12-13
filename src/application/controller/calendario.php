@@ -15,4 +15,10 @@ class Calendario
             RedirectManager::redirect("login");
         }
     }
+
+    public function send(){
+        mail("luca6469@gmail.com","Yolotest","Provaprovina");
+        $mailer = new Mailer();
+        $mailer->sendMail("luca.dibello@samtrevano.ch","Luca Di Bello", "Prova","culo");
+    }
 }
