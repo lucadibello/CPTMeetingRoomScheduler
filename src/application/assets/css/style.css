@@ -1,0 +1,91 @@
+/*
+    Indian red: #C05E54
+    Light steel blue: #A8BFDD
+    Light steel blue: #C7D2E3
+    Dark slate grey: #2C3538
+    Light steel blue: #90A5C0
+*/
+
+@media only screen and (max-width: 1000px) {
+    #background-column {
+        display: none;
+    }
+
+    /* Calendar toolbar children spacing */
+    .fc-toolbar{
+        display: block !important;
+    }
+
+    /* Calendar toolbar children spacing */
+    .fc-toolbar > *{
+        margin-top: 1rem;
+    }
+
+    /* Calendar left button container*/
+    .fc-left{
+        display: block;
+    }
+
+    .fc-left .btn-group{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* Calendar right buttons container*/
+    .fc-right{
+        display: block;
+    }
+
+    /* Calendar right buttons group*/
+    .fc-right .btn-group{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* Calendar right buttons spacing*/
+    .fc-right .btn-group button{
+        margin: .2rem;
+    }
+}
+
+.light-title{
+    color: #FFF;
+}
+
+.button-login{
+    background-color: #C05E54 !important;
+}
+#left-column{
+    background-color: #2C3538;
+}
+
+#left-column form{
+    position: relative;
+    text-align: center;
+    top: 20%;
+}
+
+#main{
+    overflow: no-display;
+    overflow-x: hidden;
+}
+
+#background-column{
+    background-image: url('https://images.unsplash.com/photo-1530841344029-ec3ae0fa4cc4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#scene{
+    margin-top: -0.7em;
+    position: absolute;
+    width: 100%;
+    top: 30%;
+}
+
+#app_name{
+    font-size: 2em;
+    font-weight: bolder;
+    text-align: center;
+    color: #000;
+}

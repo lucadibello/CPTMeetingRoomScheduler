@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Bootstrap style -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mdb.min.css">
+
+    <!-- Set viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+
+    <title>RaspDisplay - CPTMRS</title>
+</head>
+<body>
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="col text-center">
+        <h1 class="text-center mt-3">Prenotazioni <span class="small" id="current-data">00-00-00</span></h1>
+        <p>Lista prenotazioni per l'aula <span class="text-primary font-weight-bold">A-4**</span></p>
+    </div>
+
+    <!-- Update info -->
+    <div class="row">
+        <!--
+        <div class="col-md-12">
+            <h6>Ultimo aggiornamento: <span id="last-update-datetime"
+                                            class="text-secondary font-weight-bold">Mai</span></h6>
+        </div>
+        -->
+        <div class="col-md-12">
+            <h6 class="d-none" id="update-error-body"><span class="text-danger font-weight-bold">Errore: </span><span
+                    id="update-error-message"> UNKNOWN REASON</span></h6>
+        </div>
+    </div>
+    <hr>
+
+    <div id="booking-data">
+
+        <div id="booking-table-container">
+            <!-- Bookings -->
+            <div class="table-responsive">
+                <table class="table table-striped" id="booking-table-full">
+                    <thead>
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Orario</th>
+                        <th scope="col">Docente</th>
+                    </tr>
+                    </thead>
+                    <tbody id="booking-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="page-footer footer-copyright font-small blue fixed-bottom">
+
+    <!-- Copyright -->
+    <div class="text-center mt-2">© 2019 Copyright: <span
+            class="text-white font-weight-bold">CPT Meeting Room Scheduler</span>
+    </div>
+
+    <!-- Copyright -->
+    <div class="text-center mt-1">
+        Sviluppatore: <span class="text-white font-weight-bold">Luca Di Bello I4AC</span>
+    </div>
+
+    <div class="col-md-12">
+        <h6>Ultimo aggiornamento: <span id="last-update-datetime"
+                                        class="text-white font-weight-bold">Mai</span></h6>
+    </div>
+</footer>
+<!-- Footer -->
+
+<!-- JQuery -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<!-- Boostrap core -->
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/mdb.min.js"></script>
+<!-- Moment.js -->
+<script type="application/javascript" src="js/moment.min.js"></script>
+<!-- Fetcher -->
+<script type="text/javascript" src="js/fetcher.js"></script>
+</body>
+</html>
