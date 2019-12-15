@@ -1,5 +1,7 @@
 src/.idea
 src/.idea/*
+src/.idea/php.xml
+src/.idea/workspace.xml
 
 src/.vscode
 src/.vscode/*
