@@ -12,37 +12,20 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mailer
 {
-    private $mailer;
 
-    // TODO: CONTINUE MAILER
-
-    public function __construct()
+    public static function sendMail($to, $to_fullname, $subject, $body, $is_html_body = true, $from = CPTMRS_MAIL_ADDRESS, $from_fullaname = CPTMRS_FULLNAME)
     {
-        $this->mailer = new PHPMailer(true);
-
-        // Setup mail server settings
-        $this->mailer->SMTPDebug  = 2;                      // Enable verbose debug output
-        $this->mailer->isSMTP();                            // Set mailer to use SMTP
-        $this->mailer->Host = MAIL_SERVER_HOST;             // Specify main and backup SMTP servers
-
-        if(SMTP_AUTH){
-            // If the SMTP auth is enabled, setup user and password
-
-            $this->mailer->SMTPAuth   = true;               // Enable SMTP authentication
-            $this->mailer->Username   = SMTP_USERNAME;      // SMTP username
-            $this->mailer->Password   = SMTP_PASSWORD;      // SMTP password
+        if ($is_html_body) {
+            // To send HTML mail, the Content-type header must be set
+            $headers[] = 'MIME-Version: 1.0';
+            $headers[] = 'Content-type: text/html; charset=iso-8859-1';
         }
 
-        $this->mailer->SMTPSecure = SMTP_SECURE_PROTOCOL;   // Enable TLS encryption, `ssl` also accepted
-        $this->mailer->Port       = MAIL_SERVER_PORT;       // TCP port to connect to
-    }
+        // Additional headers
+        $headers[] = "To: $to_fullname <$to>";
+        $headers[] = "From: $from_fullaname <$from>";
+        $headers[] = "X-Mailer: PHP/" . phpversion();
 
-    public function sendMail($to, $to_fullname, $subject, $body, $from=CPTMRS_MAIL_ADDRESS, $from_fullaname='') {
-        // !! Any exception handler !!
-        $this->mailer->setFrom($from, $from_fullaname); // Setup who's the sender of the mail
-        $this->mailer->addAddress($to, $to_fullname); // Setup mail reciever
-        $this->mailer->Subject($subject);
-        $this->mailer->Body = $body;
-        $this->mailer->send();
+        return mail($to, $subject, $body, implode("\r\n", $headers));
     }
 }

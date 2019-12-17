@@ -31,7 +31,7 @@ define('DATABASE_NAME', 'cptmrs');
 /* APPLICATION SETTINGS */
 define('PSW_CRYPT_METHOD', PASSWORD_DEFAULT);
 define('DEFAULT_USER_PERMISSION_GROUP', "user");
-define('ADMIN_PANEL_USER_PERMISSION_GROUP', "admin");
+define('ADMIN_PANEL_USER_PERMISSION_GROUPS', array("admin"));
 define('ADMIN_PERMISSION_GROUP', "admin");
 define('MINIMUM_ADMINS_ALLOWED', 1);
 define('PASSWORD_CHANGED_MESSAGE_COOKIE_ADD_LIFETIME', 60 * 60);
@@ -58,17 +58,8 @@ define('BOOKING_HIDDEN_DAYS', array(
     DaysOfWeek::Saturday
 ));
 
-
-
-
-/* API GET Encryption key */
-define("BOOKING_ENCRYPTION_KEY", "CPTmrs&1");
-define("BOOKING_ENCRYPTION_METHOD", "aes-128-gcm");
-
 // Setup default timezone
 date_default_timezone_set('Europe/Zurich');
-
-define('CONFIRMATION_MAIL_DELAY', 10);
 
 /* API TOKEN AUTHENTICATION */
 define("API_TOKEN", "058c24b04169e44528ff2be1ac83f5dd787aa2109ad64fdcf142538f4d8617b5832e532a7c4a004398c3a3b4f12d1eac47423680fd71c02105d33c77cae12d5d");
@@ -90,14 +81,9 @@ define('LDAP_USER_DN_GROUP', "DC=CPT,DC=local"); // DN dove si trovano gli utent
 //define('LDAP_AUTHORIZED_USER_GROUP',"docenti"); // gruppo a quale devono appartenere gli utenti ....
 define('LDAP_AUTHORIZED_USER_GROUP',"allievi"); // gruppo a quale devono appartenere gli utenti ....
 
-/* Mail server settings */
-define("MAIL_SERVER_HOST", "mail.infomaniak.com");
-define("SMTP_AUTH", true);
-define("SMTP_USERNAME", "luca.dibello@samtrevano.ch");
-define("SMTP_IDENTIFIER", "yolino");
-define("SMTP_SECURE_PROTOCOL", "tsl");
-define("MAIL_SERVER_PORT", 587);
+/* Mailer settings */
 define("CPTMRS_MAIL_ADDRESS", "noreply@riservazioni-cpt.ch");
+define("CPTMRS_FULLNAME", "Riservazioni Saletta");
 
 abstract class DaysOfWeek
 {

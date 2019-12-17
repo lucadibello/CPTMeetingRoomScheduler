@@ -19,29 +19,12 @@ class Api
         if (Auth::isAuthenticated()) {
             $GLOBALS["NOTIFIER"]->clear();
 
-            /*
-             * TODO: Check
-             * Action url: api/user/
-             * Permission needed: modifica_utenti
-             */
-            if (empty($action) && !is_null($username)) {
-                if (PermissionManager::getPermissions()->canModificareUtenti()) {
-                    // Sanitize POST data and promote user
-                    $result = UserModel::getUsers();
-
-                    echo json_encode($result);
-                    exit();
-                } else {
-                    $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per la promozione degli utenti");
-                }
-
-                RedirectManager::redirect("admin/utenti");
-            } /*
+             /*
              * Action url: api/user/delete/<username>
              * Permission needed: eliminazione_utenti
              * Extra data: none
              */
-            elseif ($action == "delete" && !is_null($username)) {
+            if ($action == "delete" && !is_null($username)) {
                 if (PermissionManager::getPermissions()->canEliminareUtenti()) {
                     $result = UserModel::delete($username);
 
@@ -65,6 +48,14 @@ class Api
                     // If it detects errors
                     if (is_array($result)) {
                         $GLOBALS["NOTIFIER"]->add_all($result);
+                    }
+                    else{
+                        // Got generated password
+                        $status = PasswordChangeModel::sendConfirmationMail($_POST["username"], $result);
+                        if(!$status){
+                            $GLOBALS["NOTIFIER"]->add("C'è stato un errore durante l'invio della 
+                                mail all'utente " . $_POST["username"]);
+                        }
                     }
                 } else {
                     $GLOBALS["NOTIFIER"]->add("Non hai i permessi necessari per la creazione degli utenti");

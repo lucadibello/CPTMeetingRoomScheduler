@@ -14,15 +14,23 @@ class Report
     public function index()
     {
         if (Auth::isAuthenticated()) {
-            if(PermissionManager::getPermissions()->canGenerareReport()){
-                // Load view
-                ViewLoader::load("report/templates/header");
-                ViewLoader::load("report/index", array("types" => $this->available_types));
-                ViewLoader::load("report/templates/footer");
+
+            if (Auth::getAuthType() == AuthType::AUTH_LOCAL && !$_SESSION["user"]->isDefaultPasswordChanged()) {
+                // Change password model
+                RedirectManager::redirect("changepassword");
             }
             else{
-                // TODO: NEW NO PERMISSION PAGE
-                echo "Non hai i permessi per generare report";
+                if(PermissionManager::getPermissions()->canGenerareReport()){
+                    // Load view
+                    ViewLoader::load("report/templates/header");
+                    ViewLoader::load("report/index", array("types" => $this->available_types));
+                    ViewLoader::load("report/templates/footer");
+                }
+                else{
+                    // Show error page
+                    ViewLoader::load("_templates/no_permission",
+                        array("msg" => "Non hai i permessi necessari per generare dei report. "));
+                }
             }
         } else {
             RedirectManager::redirect("");

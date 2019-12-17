@@ -6,10 +6,10 @@
     <title>CPTMeetingRoomScheduler - Resource not found</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Material Design Bootstrap -->
-    <link href="application/assets/mdb/css/mdb.min.css" rel="stylesheet">
+    <link href="<?php echo URL;?>application/assets/mdb/css/mdb.min.css" rel="stylesheet">
 
     <!-- Animate CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css" rel="stylesheet">
@@ -45,7 +45,7 @@
                         <h2 class="font-weight-bold mb-4">oops!</h2>
                         <p>la pagina che stai cercando non esiste.
                             Puoi utilizzare il pulsante sottostante per tornare alla home!</p>
-                        <a class="btn btn-danger mt-4" href="home">Homepage</a>
+                        <a class="btn btn-danger mt-4" href="<?php echo URL ?>">Homepage</a>
                     </div>
                 </div>
             </div>

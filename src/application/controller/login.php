@@ -12,25 +12,15 @@ class Login
     public function index()
     {
         if (Auth::isAuthenticated()) {
-
             // Check only for local user
-            if(Auth::getAuthType() == AuthType::AUTH_LOCAL && !$_SESSION["user"]->isDefaultPasswordChanged()){
-                // Generate custom URL and save it to database
-                $a = new PasswordChangeModel();
-                if (($url = $a->generateUrl($_SESSION["user"]->getUsername())) && $url) {
-                    // TODO: EMAIL NOT REDIRECT
-                    RedirectManager::redirect($url);
-                } else {
-                    echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
-                        Contatta un'amministratore.</p>";
-                }
-            }
-            else {
+            if (Auth::getAuthType() == AuthType::AUTH_LOCAL && !$_SESSION["user"]->isDefaultPasswordChanged()) {
+                // Change password model
+                RedirectManager::redirect("changepassword");
+            } else {
                 // If the user is logged in
-                RedirectManager::redirect("home");
+                RedirectManager::redirect("calendario");
             }
-        }
-        else {
+        } else {
             // If the user is not logged in the controller redirect him to the login page.
             ViewLoader::load("login/index");
         }
@@ -68,30 +58,21 @@ class Login
 
                     // Check for password change
                     if (!$_SESSION["user"]->isDefaultPasswordChanged()) {
-                        // Generate custom URL and save it to database
-                        $model = new PasswordChangeModel();
-                        if (($url = $model->generateUrl($_SESSION["user"]->getUsername())) && $url) {
-                            // TODO: SEND MAIL
-
-                            // User have to change password
-                            RedirectManager::redirect($url);
-
-                        } else {
-                            echo "<p>C'è stato un errore durante l'inserimento dei dati nel database. 
-                                Contatta un'amministratore.</p>";
-                        }
+                        // User have to change his password
+                        RedirectManager::redirect("changepassword");
                     }
-                } else {
+                }
+                else {
                     $_SESSION["permissions"] = (new PermissionModel($username))->getLdapPermissions();
                 }
-                // User has all right
+                // User has all rights: redirect to calendar page
                 RedirectManager::redirect("");
             }
-            else{
+            else {
+                // User not logged in: redirect to login page
                 RedirectManager::redirect("login");
             }
-        }
-        else {
+        } else {
             // Wrong method or data sent
             RedirectManager::redirect("login");
         }

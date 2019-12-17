@@ -11,9 +11,16 @@ class Contatti
     public function index()
     {
         if(Auth::isAuthenticated()){
-            ViewLoader::load("contatti/templates/header");
-            ViewLoader::load("contatti/index");
-            ViewLoader::load("contatti/templates/footer");
+            if (Auth::getAuthType() == AuthType::AUTH_LOCAL && !$_SESSION["user"]->isDefaultPasswordChanged()) {
+                // Change password model
+                RedirectManager::redirect("changepassword");
+            }
+            else{
+                ViewLoader::load("contatti/templates/header");
+                ViewLoader::load("contatti/index");
+                ViewLoader::load("contatti/templates/footer");
+            }
+
         }
         else{
             RedirectManager::redirect("/login");

@@ -25,10 +25,6 @@ class UserModel
         ), "username=%s", $user);
     }
 
-    public function sendNewUserPassword(){
-
-    }
-
     public static function getUsers(): array
     {
         return self::getUsersData();
@@ -72,7 +68,6 @@ class UserModel
     }
 
     public static function countAdmins(): int{
-        //TODO: Da utilizzare per l'eliminazione degli utenti: ci deve sempre essere almeno un amministratore
         DB::query("SELECT * FROM utente WHERE tipo_utente=%s", ADMIN_PERMISSION_GROUP);
         return DB::count();
     }
@@ -87,20 +82,18 @@ class UserModel
         }
     }
 
-    public static function getLdapUser($username){
-        // TODO: query AD database with LDAP and get user infos
-        // TODO: Chiedere a valsangiacomo di creare un utente LDAP di servizio che verrà utilizzato per la ricerca degli utenti all'interno di AD
-    }
-
     public static function add(array $data){
         // Complete email
         $partial_mail = $data["email"];
         $data["email"] = $data["email"] . "@" . EMAIL_ALLOWED_DOMAIN;
         // Validate data
         if(self::validateAllUserData($data)){
+            // Generate password
+            $password = User::generatePassword();
+            // add data to database
             $result = DB::insert("utente", array(
                 "username" => $data["username"],
-                "password" => User::generatePassword(),
+                "password" => $password,
                 "nome" => $data["nome"],
                 "cognome" => $data["cognome"],
                 "tipo_utente" => $data["tipo_utente"],
@@ -108,8 +101,9 @@ class UserModel
                 "email"=> $partial_mail
             ));
 
+            // Return error or the generated password
             return  (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
-                all'interno del database. Contattare un amministratore.") : true);
+                all'interno del database. Contattare un amministratore.") : $password);
         }
         else{
             $GLOBALS["NOTIFIER"]->add_all(self::$errors);

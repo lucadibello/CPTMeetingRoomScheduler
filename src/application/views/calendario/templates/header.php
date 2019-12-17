@@ -37,7 +37,7 @@
         <div class="container-fluid">
 
             <!-- Brand -->
-            <a class="navbar-brand waves-effect" href="/" target="_top">
+            <a class="navbar-brand waves-effect" href="<?php echo URL;?>" target="_top">
                 <strong class="blue-text"><?php echo APP_NAME ?></strong>
             </a>
 

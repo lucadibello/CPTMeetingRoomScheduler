@@ -18,29 +18,36 @@ class Admin
             $this->dashboard();
         }
         elseif($status == self::STATUS_BAD_PERMISSIONS){
-            // TODO: NEW NO PERMISSION PAGE
-            echo "Non hai permessi necessari per accedere a questa funzionalità.";
+            ViewLoader::load("_templates/no_permission",
+                array("msg" => "Non hai i permessi per accedere al pannello di amministrazione"));
         }
         elseif($status == self::STATUS_NOT_LOGGED){
-            RedirectManager::redirect("home");
+            // Return to login page
+            RedirectManager::redirect("login");
         }
     }
 
     // Load admin panel dashboard
     public function dashboard(){
-        if($this->is_user_valid() == self::STATUS_OK){
+        $status = $this->is_user_valid();
+        if($status == self::STATUS_OK){
             ViewLoader::load("admin/templates/header");
             ViewLoader::load("admin/index");
             ViewLoader::load("admin/templates/footer");
         }
-        else{
-            RedirectManager::redirect("admin");
+        elseif($status == self::STATUS_NOT_LOGGED){
+            RedirectManager::redirect("login");
+        }
+        elseif($status == self::STATUS_BAD_PERMISSIONS){
+            ViewLoader::load("_templates/no_permission",
+                array("msg" => "Non hai i permessi per accedere al pannello di amministrazione"));
         }
     }
 
     // Load admin panel user management tool
     public function utenti(){
-        if($this->is_user_valid() == self::STATUS_OK){
+        $status = $this->is_user_valid();
+        if($status == self::STATUS_OK){
             if(PermissionManager::getPermissions()->canUserAction()){
 
                 $data = UserModel::getUsers();
@@ -54,12 +61,16 @@ class Admin
                 ViewLoader::load("admin/templates/footer");
             }
             else{
-                //TODO: Change permission page
-                ViewLoader::load("admin/templates/no_permission");
+                ViewLoader::load("_templates/no_permission",
+                    array("msg" => "Non hai i permessi per accedere al pannello di gestione utenti"));
             }
         }
-        else{
-            RedirectManager::redirect("admin");
+        elseif($status == self::STATUS_NOT_LOGGED){
+            RedirectManager::redirect("login");
+        }
+        elseif($status == self::STATUS_BAD_PERMISSIONS){
+            ViewLoader::load("_templates/no_permission",
+                array("msg" => "Non hai i permessi per accedere al pannello di amministrazione"));
         }
     }
 
@@ -67,7 +78,7 @@ class Admin
     private function is_user_valid(): int{
         if(Auth::isAuthenticated()){
             $user_perms = PermissionManager::getPermissions();
-            if($user_perms instanceof Permissions && $user_perms->getPermissionName() == ADMIN_PANEL_USER_PERMISSION_GROUP){
+            if($user_perms instanceof Permissions && in_array($user_perms->getPermissionName(),ADMIN_PANEL_USER_PERMISSION_GROUPS)){
                 return self::STATUS_OK;
             }
             else{
