@@ -51,11 +51,6 @@ function read_bookings_json(config) {
                     for (let i = 0; i < json.length && i < config["max_shown_booking"]; i++) {
                         console.log(json[i]);
 
-                        let note = config["osservazioni_default_value"];
-                        if (json[i].note != null) {
-                            note = json[i].note.length > 0 ? json[i].note : config["osservazioni_default_value"];
-                        }
-
                         add_row(
                             json[i].start,
                             json[i].start,
@@ -86,7 +81,7 @@ function read_bookings_json(config) {
 function add_error_row(msg) {
     console.log("[!] Added error row to table");
     $('#booking-table-body').append($('<tr>').append("" +
-        "<td colspan='3' style='color:red;'>" + msg + "</td>"));
+        "<td colspan='3' style='color:black;font-weight:bolder;'>" + msg + "</td>"));
 }
 
 function add_row(data, ora_inizio, ora_fine, utente) {
