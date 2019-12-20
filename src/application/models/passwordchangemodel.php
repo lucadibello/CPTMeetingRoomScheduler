@@ -64,17 +64,8 @@ class PasswordChangeModel
                 </body>
                 </html>";
 
-            // TODO: Uncomment this sendMail statement
-            /*
             $result = Mailer::sendMail(
                 $user->getEmailAddress(),
-                $user->getNome() . " " . $user->getCognome(),
-                "Credenziali CPT MRS",
-                $body
-            );
-            */
-            $result = Mailer::sendMail(
-                "luca6469@gmail.com",
                 $user->getNome() . " " . $user->getCognome(),
                 "Credenziali CPT MRS",
                 $body

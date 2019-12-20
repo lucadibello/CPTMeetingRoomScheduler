@@ -51,7 +51,7 @@
                     <br class="h4">
 
                     <!-- Email -->
-                    <input type="text" name="username" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+                    <input type="text" name="username" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="Username">
 
                     <!-- Password -->
                     <input type="password" name="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
