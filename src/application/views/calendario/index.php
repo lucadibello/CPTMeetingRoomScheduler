@@ -199,13 +199,11 @@
             editable: true,
             slotDuration: '00:15:00',
             slotMinutes: 15,
-            eventLimit: 3,
             nowIndicator: true,
             hiddenDays: <?php echo "[" . implode(",", BOOKING_HIDDEN_DAYS) . "]" ?>,
             businessHours: {
                 // days of week. an array of zero-based day of week integers
                 daysOfWeek: <?php echo "[" . implode(",", CALENDAR_BUSINESS_DAYS) . "]" ?>,
-
                 startTime: '<?php echo CALENDAR_BUSINESS_TIME_START; ?>', // a start time
                 endTime: '<?php echo CALENDAR_BUSINESS_TIME_END; ?>', // an end time
             },
