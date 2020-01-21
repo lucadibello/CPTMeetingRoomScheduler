@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/Documentazione_Luca_DiBello.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rasp-display/js/fetcher.js" beforeDir="false" afterPath="$PROJECT_DIR$/../rasp-display/js/fetcher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../rasp-display/rasp-display.html" beforeDir="false" afterPath="$PROJECT_DIR$/../rasp-display/rasp-display.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pptx/Presentation_LucaDiBello.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../pptx/Presentation_LucaDiBello.pptx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_tester.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/api_tester.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/booking.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/booking.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/mailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/mailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/bookingmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/bookingmodel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/models/passwordchangemodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/passwordchangemodel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/calendario/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/report/templates/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/templates/header.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,11 +78,11 @@
     <property name="TODO_SCOPE" value="Project Files" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../rasp-display" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -176,6 +178,10 @@
       <workItem from="1576845091189" duration="984000" />
       <workItem from="1577122084163" duration="2485000" />
       <workItem from="1579177033713" duration="979000" />
+      <workItem from="1579267069755" duration="2247000" />
+      <workItem from="1579522963831" duration="44000" />
+      <workItem from="1579609203701" duration="613000" />
+      <workItem from="1579609886450" duration="9383000" />
     </task>
     <servers />
   </component>
@@ -217,11 +223,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="737" y="432" key="ComposerInitDialogKey/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576418321314" />
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579177410839">
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579523005365">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="743" y="281" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576420884587" />
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/0.25.1920.1055@0.25.1920.1055" timestamp="1579177410839" />
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/0.25.1920.1055@0.25.1920.1055" timestamp="1579523005365" />
     <state width="1878" height="280" key="GridCell.Tab.0.bottom" timestamp="1575979690038">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
@@ -279,20 +285,23 @@
     </state>
     <state x="777" y="447" width="356" height="155" key="NewPhpFileDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576432771836" />
     <state x="777" y="478" width="356" height="148" key="NewPhpFileDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1576153088099" />
-    <state x="296" y="323" key="SettingsEditor" timestamp="1576689082371">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="568" y="136" key="SettingsEditor" timestamp="1579609817770">
+      <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="296" y="323" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576689082371" />
+    <state x="1952" y="38" key="SettingsEditor/0.25.1920.1055/1920.0.1280.800@1920.0.1280.800" timestamp="1579269956280" />
+    <state x="568" y="136" key="SettingsEditor/0.25.1920.1055@0.25.1920.1055" timestamp="1579609817770" />
     <state x="640" y="371" width="640" height="362" key="XPathView.FindDialog.DIMENSION_SERVICE_KEY.SIMPLE" timestamp="1575984582450">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="640" y="371" width="640" height="362" key="XPathView.FindDialog.DIMENSION_SERVICE_KEY.SIMPLE/0.25.1920.1055@0.25.1920.1055" timestamp="1575984582450" />
-    <state x="639" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1579177033556">
+    <state x="639" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1579609888023">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="-1281" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1576685305120" />
     <state x="639" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576417217431" />
-    <state x="639" y="380" key="com.intellij.ide.util.TipDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1579177033556" />
+    <state x="639" y="380" key="com.intellij.ide.util.TipDialog/0.25.1920.1055/1920.0.1280.800@0.25.1920.1055" timestamp="1579267070319" />
+    <state x="639" y="380" key="com.intellij.ide.util.TipDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1579609888023" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576422791308">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -302,22 +311,26 @@
     </state>
     <state x="643" y="135" width="997" height="769" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576430307606" />
     <state x="643" y="162" width="997" height="780" key="find.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1575984883048" />
-    <state width="650" height="463" key="javadoc.popup.new" timestamp="1576422070671">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1300" height="470" key="javadoc.popup.new" timestamp="1579616489747">
+      <screen x="0" y="25" width="3840" height="1055" />
     </state>
     <state width="650" height="463" key="javadoc.popup.new/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576422070671" />
-    <state x="624" y="253" key="run.anything.popup" timestamp="1576159476447">
-      <screen x="0" y="25" width="1920" height="1055" />
+    <state width="650" height="470" key="javadoc.popup.new/0.25.1920.1055@0.25.1920.1055" timestamp="1579613888120" />
+    <state width="1300" height="470" key="javadoc.popup.new/0.25.3840.1055@0.25.3840.1055" timestamp="1579616489747" />
+    <state x="1248" y="253" key="run.anything.popup" timestamp="1579619355739">
+      <screen x="0" y="25" width="3840" height="1055" />
     </state>
     <state x="624" y="253" key="run.anything.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1576159476447" />
+    <state x="1248" y="253" key="run.anything.popup/0.25.3840.1055@0.25.3840.1055" timestamp="1579619355739" />
     <state x="552" y="177" key="scopes" timestamp="1576436413240">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="177" key="scopes/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576436413240" />
-    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1575984693460">
-      <screen x="0" y="25" width="1920" height="1055" />
+    <state x="1246" y="257" width="1344" height="678" key="search.everywhere.popup" timestamp="1579618581482">
+      <screen x="0" y="25" width="3840" height="1055" />
     </state>
     <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1575984693460" />
+    <state x="1246" y="257" width="1344" height="678" key="search.everywhere.popup/0.25.3840.1055@0.25.3840.1055" timestamp="1579618581482" />
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />
