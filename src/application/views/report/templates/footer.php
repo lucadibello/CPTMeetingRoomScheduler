@@ -1,7 +1,7 @@
 <!-- Footer -->
 <footer class="page-footer font-small blue">
     <!-- Copyright -->
-    <div class="text-center">© <?php echo date("Y");?> Copyright:
+    <div class="text-center">
         <a class="text-white font-weight-bold" href="<?php echo URL;?>"><?php echo APP_NAME ?></a>
     </div>
     <!-- Copyright -->

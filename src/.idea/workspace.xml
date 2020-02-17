@@ -2,15 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../pptx/Presentation_LucaDiBello.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/../pptx/Presentation_LucaDiBello.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/libs/EnDecrypt.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libs/booking.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/booking.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/libs/mailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/mailer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/bookingmodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/bookingmodel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/models/passwordchangemodel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/models/passwordchangemodel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/libs/ldapauth.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/libs/ldapauth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/calendario/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/report/templates/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/templates/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/calendario/templates/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/calendario/templates/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/contatti/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/contatti/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/contatti/templates/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/contatti/templates/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/report/templates/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/report/templates/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,23 +80,23 @@
     <property name="TODO_SCOPE" value="Project Files" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/libs" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/api" />
-      <recent name="$PROJECT_DIR$/application/assets" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/application/libs" />
       <recent name="$PROJECT_DIR$/application/assets/js/calendar" />
       <recent name="$PROJECT_DIR$/application/views/calendario" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\views\admin" />
       <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\models" />
-      <recent name="C:\Users\luca6\Google Drive\Repo\CPTMeetingRoomScheduler\src\application\controller" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/api" />
+      <recent name="$PROJECT_DIR$/application/assets" />
     </key>
   </component>
   <component name="RunManager">
@@ -182,6 +184,7 @@
       <workItem from="1579522963831" duration="44000" />
       <workItem from="1579609203701" duration="613000" />
       <workItem from="1579609886450" duration="9383000" />
+      <workItem from="1581686365878" duration="6393000" />
     </task>
     <servers />
   </component>
@@ -276,10 +279,10 @@
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state width="1878" height="280" key="GridCell.Tab.2.right/0.25.1920.1055@0.25.1920.1055" timestamp="1575979690040" />
-    <state x="592" y="369" width="725" height="366" key="NewPhpClassDialog" timestamp="1575983305712">
+    <state x="963" y="312" width="725" height="366" key="NewPhpClassDialog" timestamp="1581689275849">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
-    <state x="592" y="369" width="725" height="366" key="NewPhpClassDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1575983305712" />
+    <state x="963" y="312" width="725" height="366" key="NewPhpClassDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1581689275849" />
     <state x="777" y="447" width="356" height="155" key="NewPhpFileDialog" timestamp="1576432771836">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -311,11 +314,11 @@
     </state>
     <state x="643" y="135" width="997" height="769" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576430307606" />
     <state x="643" y="162" width="997" height="780" key="find.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1575984883048" />
-    <state width="1300" height="470" key="javadoc.popup.new" timestamp="1579616489747">
-      <screen x="0" y="25" width="3840" height="1055" />
+    <state width="650" height="470" key="javadoc.popup.new" timestamp="1581689413789">
+      <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state width="650" height="463" key="javadoc.popup.new/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576422070671" />
-    <state width="650" height="470" key="javadoc.popup.new/0.25.1920.1055@0.25.1920.1055" timestamp="1579613888120" />
+    <state width="650" height="470" key="javadoc.popup.new/0.25.1920.1055@0.25.1920.1055" timestamp="1581689413789" />
     <state width="1300" height="470" key="javadoc.popup.new/0.25.3840.1055@0.25.3840.1055" timestamp="1579616489747" />
     <state x="1248" y="253" key="run.anything.popup" timestamp="1579619355739">
       <screen x="0" y="25" width="3840" height="1055" />
@@ -326,10 +329,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="177" key="scopes/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576436413240" />
-    <state x="1246" y="257" width="1344" height="678" key="search.everywhere.popup" timestamp="1579618581482">
-      <screen x="0" y="25" width="3840" height="1055" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1581689259654">
+      <screen x="0" y="25" width="1920" height="1055" />
     </state>
-    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1575984693460" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1581689259654" />
     <state x="1246" y="257" width="1344" height="678" key="search.everywhere.popup/0.25.3840.1055@0.25.3840.1055" timestamp="1579618581482" />
   </component>
   <component name="XPathView.XPathProjectComponent">

@@ -16,7 +16,6 @@
         <div class="row">
             <div class="col-md-12 wow slideInLeft my-5 mb-5">
                 <h1 class="h1-responsive font-weight-bold">Luca Di Bello, Sviluppatore</h1>
-                <h4 class="h4-responsive"><a href="mailto:luca.dibello@samtrevano.ch">luca.dibello@samtrevano.ch</a></h4>
             </div>
 
             <div class="col-md-12 mb-5 wow slideInRight">

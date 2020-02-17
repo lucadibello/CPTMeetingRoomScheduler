@@ -60,7 +60,7 @@
                                                                                          title="La data può essere cambiata trascinando con il mouse la prenotazione su un giorno del calendario"></i>
                         </h3>
                         <h3 class="h3-responsive">Orario: <span id="event-time-start"></span> - <span
-                                id="event-time-end"></span></h3>
+                                    id="event-time-end"></span></h3>
                         <h3 class="h3-responsive">Professore: <span id="event_professor"></span></h3>
                     </div>
                 </div>
@@ -128,12 +128,14 @@
                     <div class="form-row mb-4">
                         <div class="col">
                             <!-- First name -->
-                            <input type="time" id="event-time-start" name="ora_inizio" min="<?php echo CALENDAR_BUSINESS_TIME_START?>" class="form-control">
+                            <input type="time" id="event-time-start" name="ora_inizio"
+                                   min="<?php echo CALENDAR_BUSINESS_TIME_START ?>" class="form-control">
                             <label for="event-time-start"> Tempo di inzio</label>
                         </div>
                         <div class="col">
                             <!-- Last name -->
-                            <input type="time" id="event-time-end" name="ora_fine" max="<?php echo CALENDAR_BUSINESS_TIME_END?>" class="form-control">
+                            <input type="time" id="event-time-end" name="ora_fine"
+                                   max="<?php echo CALENDAR_BUSINESS_TIME_END ?>" class="form-control">
                             <label for="event-time-end"> Tempo di fine</label>
                         </div>
                     </div>
@@ -368,80 +370,86 @@
                         dataType: "json"
                     });
 
-
                 });
             },
             dateClick: function (info) {
-                // process data
-                var now = moment();
-                var date = moment(info.dateStr);
-
-                if (date.diff(now) < 0) {
-                    // Show error
-                    $.notify("La data desirata è già passata", "warn");
+                // Check view
+                if (calendar.view.type == 'dayGridMonth') {
+                    // Change view
+                    calendar.changeView("timeGridDay");
                 } else {
-                    // Check if time is in chosen range
-                    let currentUnix = date.unix();
-                    let startRangeUnix = moment(date.format("YYYY-MM-DD") + ' ' + "<?php echo CALENDAR_BUSINESS_TIME_START?>", "YYYY-MM-DD HH:mm").unix();
-                    let endRangeUnix = moment(date.format("YYYY-MM-DD") + ' ' + "<?php echo CALENDAR_BUSINESS_TIME_END?>", "YYYY-MM-DD HH:mm").unix();
 
-                    if (currentUnix >= startRangeUnix && currentUnix < endRangeUnix) {
+                    // process data
+                    var now = moment();
+                    var date = moment(info.dateStr);
 
-
-                        // TODO: GET FIRST AVAILABLE TIME SLOT
-                        let startTime = date.format("HH:mm");
-                        let endTime = date.add(15, 'minutes').format("HH:mm");
-
-                        //modal
-                        var modal = $('#eventInsert');
-
-                        // insert data into modal
-                        modal.find('#event-date').val(date.format('DD/MM/YYYY'));
-                        modal.find('#event-time-start').val(startTime);
-                        modal.find('#event-time-end').val(endTime);
-
-                        $("#eventInsert").modal('show');
-
-                        $('#event-insert-submit').on("click", function () {
-                            startTime = modal.find('#event-time-start').val();
-                            endTime = modal.find('#event-time-end').val();
-                            let osservazioni = modal.find("#event-osservazioni").val();
-                            let date_str = date.format('DD/MM/YYYY');
-
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo URL;?>api/booking/add",
-                                data: {
-                                    "data": date_str,
-                                    "ora_inizio": startTime,
-                                    "ora_fine": endTime,
-                                    "osservazioni": osservazioni,
-                                },
-                                success: function (result) {
-                                    if (result["success"]) {
-                                        console.log("[!] event created");
-
-                                        calendar.refetchEvents();
-                                        $('#eventInsert').modal('hide');
-
-                                        // Notify success
-                                        $.notify("Evento creato con successo", "success");
-                                    } else {
-                                        console.log(result["errors"]);
-
-                                        result["errors"].forEach(function (item, index, arr) {
-                                            $.notify(item, "warn");
-                                        });
-
-                                        $('#eventInfo').modal('hide');
-                                    }
-
-                                },
-                                dataType: "json"
-                            });
-                        });
+                    if (date.diff(now) < 0) {
+                        // Show error
+                        $.notify("La data desirata è già passata", "warn");
                     } else {
-                        $.notify("L'orario non è valido. Orari autorizzati: <?php echo CALENDAR_BUSINESS_TIME_START . ' - ' . CALENDAR_BUSINESS_TIME_END?>", "error");
+                        // Check if time is in chosen range
+                        let currentUnix = date.unix();
+                        let startRangeUnix = moment(date.format("YYYY-MM-DD") + ' ' + "<?php echo CALENDAR_BUSINESS_TIME_START?>", "YYYY-MM-DD HH:mm").unix();
+                        let endRangeUnix = moment(date.format("YYYY-MM-DD") + ' ' + "<?php echo CALENDAR_BUSINESS_TIME_END?>", "YYYY-MM-DD HH:mm").unix();
+
+                        if (currentUnix >= startRangeUnix && currentUnix < endRangeUnix) {
+
+
+                            // TODO: GET FIRST AVAILABLE TIME SLOT
+                            let startTime = date.format("HH:mm");
+                            let endTime = date.add(15, 'minutes').format("HH:mm");
+
+                            //modal
+                            var modal = $('#eventInsert');
+
+                            // insert data into modal
+                            modal.find('#event-date').val(date.format('DD/MM/YYYY'));
+                            modal.find('#event-time-start').val(startTime);
+                            modal.find('#event-time-end').val(endTime);
+
+                            $("#eventInsert").modal('show');
+
+                            $('#event-insert-submit').on("click", function () {
+                                startTime = modal.find('#event-time-start').val();
+                                endTime = modal.find('#event-time-end').val();
+                                let osservazioni = modal.find("#event-osservazioni").val();
+                                let date_str = date.format('DD/MM/YYYY');
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo URL;?>api/booking/add",
+                                    data: {
+                                        "data": date_str,
+                                        "ora_inizio": startTime,
+                                        "ora_fine": endTime,
+                                        "osservazioni": osservazioni,
+                                    },
+                                    success: function (result) {
+                                        if (result["success"]) {
+                                            console.log("[!] event created");
+
+                                            calendar.refetchEvents();
+                                            $('#eventInsert').modal('hide');
+
+                                            // Notify success
+                                            $.notify("Evento creato con successo", "success");
+                                        } else {
+                                            console.log(result["errors"]);
+
+                                            result["errors"].forEach(function (item, index, arr) {
+                                                $.notify(item, "warn");
+                                            });
+
+                                            $('#eventInfo').modal('hide');
+                                        }
+
+                                    },
+                                    dataType: "json"
+                                });
+                            });
+                        } else {
+                            $.notify("L'orario non è valido. Orari autorizzati: <?php echo CALENDAR_BUSINESS_TIME_START . ' - ' . CALENDAR_BUSINESS_TIME_END?>", "error");
+                        }
                     }
                 }
             },
