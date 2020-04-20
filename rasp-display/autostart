@@ -1,0 +1,8 @@
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@xscreensaver -no-splash
+@unclutter -idle 0
+@xset s off
+@xset -dpms
+@xset s noblank
+@chromium-browser --start-fullscreen --incognito --noerrdialogs --disable-translate --no-first-run --fast --fast-start --disable-infobars --disable-features=TranslateUI --kiosk http://localhost:8080/rasp-display.html
