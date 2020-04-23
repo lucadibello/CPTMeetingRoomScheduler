@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="" />
+    <list default="true" id="b2a21755-4e04-4fa4-a1b3-a2cc6d1694af" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -165,6 +167,8 @@
       <workItem from="1576508916652" duration="3257000" />
       <workItem from="1576571401848" duration="6174000" />
       <workItem from="1576685288397" duration="6149000" />
+      <workItem from="1577716841453" duration="51000" />
+      <workItem from="1587644157740" duration="549000" />
     </task>
     <servers />
   </component>
@@ -206,10 +210,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="737" y="432" key="ComposerInitDialogKey/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576418321314" />
-    <state x="743" y="281" width="424" height="484" key="FileChooserDialogImpl" timestamp="1576420884587">
+    <state x="743" y="281" width="424" height="484" key="FileChooserDialogImpl" timestamp="1577716890436">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="743" y="281" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576420884587" />
+    <state x="743" y="281" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1577716890436" />
     <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/0.25.1920.1055@0.25.1920.1055" timestamp="1576153265094" />
     <state width="1878" height="280" key="GridCell.Tab.0.bottom" timestamp="1575979690038">
       <screen x="0" y="25" width="1920" height="1055" />
@@ -268,19 +272,19 @@
     </state>
     <state x="777" y="447" width="356" height="155" key="NewPhpFileDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576432771836" />
     <state x="777" y="478" width="356" height="148" key="NewPhpFileDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1576153088099" />
-    <state x="296" y="323" key="SettingsEditor" timestamp="1576689082371">
+    <state x="296" y="323" key="SettingsEditor" timestamp="1577716880552">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="296" y="323" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576689082371" />
+    <state x="296" y="323" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1577716880552" />
     <state x="640" y="371" width="640" height="362" key="XPathView.FindDialog.DIMENSION_SERVICE_KEY.SIMPLE" timestamp="1575984582450">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="640" y="371" width="640" height="362" key="XPathView.FindDialog.DIMENSION_SERVICE_KEY.SIMPLE/0.25.1920.1055@0.25.1920.1055" timestamp="1575984582450" />
-    <state x="-1281" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1576685305120">
-      <screen x="-1920" y="0" width="1920" height="1040" />
+    <state x="639" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1577716864059">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1281" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1576685305120" />
-    <state x="639" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1576417217431" />
+    <state x="639" y="349" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1577716864059" />
     <state x="639" y="379" key="com.intellij.ide.util.TipDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1576153025699" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576422791308">
       <screen x="0" y="0" width="1920" height="1040" />
