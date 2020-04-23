@@ -25,7 +25,7 @@ define('APP_NAME', "CPT Meeting Room Scheduler");
 /* Configurazione per la connessione al database */
 define('DATABASE_SERVER', 'localhost');
 define('DATABASE_USERNAME', 'root');
-define('DATABASE_PASSWORD', '');
+define('DATABASE_PASSWORD', 'root');
 define('DATABASE_NAME', 'cptmrs');
 
 /* APPLICATION SETTINGS */
@@ -49,7 +49,7 @@ define('CALENDAR_BUSINESS_DAYS', array(
     DaysOfWeek::Friday
 ));
 
-define('CALENDAR_BUSINESS_TIME_START', "7:00");
+define('CALENDAR_BUSINESS_TIME_START', "07:00");
 define('CALENDAR_BUSINESS_TIME_END', "21:00");
 
 /* BOOKING ALLOWED DAYS */
@@ -71,8 +71,6 @@ $autoload_directories = array(
 
 /* LDAP server and agent configuration */
 define('LDAP_HOST', "10.20.4.2"); // Server AD utilizzato per le richieste con LDAP (login + fetch delle informazioni degli utenti)
-define('LDAP_AGENT_USERNAME', "TODO"); // Username di servizio utilizzato per il fetch delle informazioni degli utenti
-define('LDAP_AGENT_PASSWORD', "TODO"); // Password dell'utente di servizio utilizzato per il fetch delle informazioni degli utenti
 
 /* LDAP authentication configuration */
 define('LDAP_USER_DOMAIN', "@cpt.local"); // dominio di AD utilizzato nelle query tramite LDAP

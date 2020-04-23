@@ -19,6 +19,8 @@ class PasswordChangeModel
             $body = "<!doctype html>
                 <html lang='en'>
                 <head>
+                    <meta charset='UTF-8'>
+
                     <style>
                         body{
                             font-family: arial, sans-serif;
@@ -64,24 +66,14 @@ class PasswordChangeModel
                 </body>
                 </html>";
 
-            // TODO: Uncomment this sendMail statement
-            /*
-            $result = Mailer::sendMail(
+            // Return true if the email was send correctly, otherwise false
+            return Mailer::sendMail(
                 $user->getEmailAddress(),
                 $user->getNome() . " " . $user->getCognome(),
                 "Credenziali CPT MRS",
-                $body
+                $body,
+                true
             );
-            */
-            $result = Mailer::sendMail(
-                "luca6469@gmail.com",
-                $user->getNome() . " " . $user->getCognome(),
-                "Credenziali CPT MRS",
-                $body
-            );
-
-            // Return true if the email was send correctly, otherwise false
-            return $result;
         } else {
             // Can't find user infos in the database
             $GLOBALS["NOTIFIER"]->add("Errore durante la lettura delle informazioni dell'utente. Invio mail non riuscito.");

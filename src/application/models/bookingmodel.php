@@ -110,6 +110,21 @@ class BookingModel
         $data_inizio = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_inizio"]);
         $data_fine = DateTime::createFromFormat("d/m/Y H:i", $data["data"] . " " . $data["ora_fine"]);
 
+        // Time range
+        $curr_date = $data_inizio->format("d/m/Y");
+        $range_start = DateTime::createFromFormat("d/m/Y H:i", $curr_date . " " . CALENDAR_BUSINESS_TIME_START);
+        $range_end = DateTime::createFromFormat("d/m/Y H:i", $curr_date . " " . CALENDAR_BUSINESS_TIME_END);
+
+        // Check if start time is in range
+        if(!BookingValidator::validateInRange($data_inizio, $range_start, $range_end)){
+            self::$errors[] = "La data di inizio non è valida. Orari validi: " . CALENDAR_BUSINESS_TIME_START . ' - ' . CALENDAR_BUSINESS_TIME_END;
+        }
+
+        // Check if end time is in range
+        if(!BookingValidator::validateInRange($data_fine, $range_start, $range_end)){
+            self::$errors[] = "La data di fine non è valida. Orari validi: " . CALENDAR_BUSINESS_TIME_START . ' - ' . CALENDAR_BUSINESS_TIME_END;
+        }
+
         if(!BookingValidator::validateTime($data_inizio, $data_fine)){
             self::$errors[] = "L'ora di inizio non può essere maggiore di quella di fine";
         }

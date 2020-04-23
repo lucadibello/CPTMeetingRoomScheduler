@@ -19,7 +19,7 @@
     <script type="text/javascript" src="<?php echo URL;?>application/assets/mdb/js/jquery-3.4.1.min.js"></script>
 </head>
 
-<body class="grey lighten-3" style="overflow: hidden !important;">
+<body class="grey lighten-3">
 
 <!--Main Navigation-->
 <header>

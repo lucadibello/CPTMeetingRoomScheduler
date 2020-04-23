@@ -10,14 +10,20 @@
     <meta charset="UTF-8">
 
     <title>RaspDisplay - CPTMRS</title>
+    <style>
+        td, th {
+            font-size: 2rem !important;
+            font-weight: bolder;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
 
     <!-- Header -->
     <div class="col text-center">
-        <h1 class="text-center mt-3">Prenotazioni <span class="small" id="current-data">00-00-00</span></h1>
-        <p>Lista prenotazioni per l'aula <span class="text-primary font-weight-bold">A-4**</span></p>
+        <h1 class="h1-responsive text-center mt-3">Prenotazioni <span class="small" id="current-data">00-00-00</span></h1>
+        <p class="h4-responsive">Lista prenotazioni per l'aula <span class="text-primary font-weight-bold">A-418</span></p>
     </div>
 
     <!-- Update info -->
@@ -59,19 +65,25 @@
 <!-- Footer -->
 <footer class="page-footer footer-copyright font-small blue fixed-bottom">
 
-    <!-- Copyright -->
-    <div class="text-center mt-2">© 2019 Copyright: <span
-            class="text-white font-weight-bold">CPT Meeting Room Scheduler</span>
-    </div>
-
-    <!-- Copyright -->
-    <div class="text-center mt-1">
-        Sviluppatore: <span class="text-white font-weight-bold">Luca Di Bello I4AC</span>
-    </div>
-
-    <div class="col-md-12">
-        <h6>Ultimo aggiornamento: <span id="last-update-datetime"
-                                        class="text-white font-weight-bold">Mai</span></h6>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="text-left m-2">
+                <h6>Ultimo aggiornamento: <span id="last-update-datetime"
+                                                class="text-white font-weight-bold">Mai</span></h6>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Copyright -->
+            <div class="text-center m-2">© 2019 Copyright: <span
+                    class="text-white font-weight-bold">CPT Meeting Room Scheduler</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Copyright -->
+            <div class="text-right m-2">
+                Sviluppatore: <span class="text-white font-weight-bold">Luca Di Bello I4AC</span>
+            </div>
+        </div>
     </div>
 </footer>
 <!-- Footer -->

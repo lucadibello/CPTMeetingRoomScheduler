@@ -129,13 +129,10 @@ function get_json_settings() {
 function refreshAgenda() {
     // Clear console
     console.clear();
-
     // Refresh config
     get_json_settings();
-
     // Refresh bookings
     read_bookings_json(config);
-
 
     console.log("[!] Agenda refreshed on " + moment().format("D/M/Y HH:mm:ss"));
 }

@@ -84,6 +84,16 @@ class BookingValidator{
         return $timeStart > new DateTime();
     }
 
+    public static function validateInRange(datetime $time, datetime $rangeStart, datetime $rangeEnd){
+        // Convert to timestamp
+        $currentTimeStamp = $time->getTimestamp();
+        $rangeStartTimeStamp = $rangeStart->getTimestamp();
+        $rangeEndTimeStamp = $rangeEnd->getTimestamp();
+
+        // Check that user date is between start & end
+        return $currentTimeStamp >= $rangeStartTimeStamp && $currentTimeStamp <= $rangeEndTimeStamp;
+    }
+
     public static function validateTime(datetime $timeStart, datetime $timeEnd){
         /* Check time */
         return $timeStart < $timeEnd;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62a473d6dc5cb7ff23e74761f08a8ec2",
+    "content-hash": "63210dee84f4e8f0d8872b3343d3e51d",
     "packages": [
         {
             "name": "fpdf/fpdf",
@@ -161,7 +161,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "ext-mysqli": "*"
+        "ext-mysqli": "*",
+        "ext-curl": "*"
     },
     "platform-dev": []
 }

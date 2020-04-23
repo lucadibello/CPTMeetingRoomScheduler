@@ -110,7 +110,7 @@
             <div class="modal-body">
 
                 <!-- Default form register -->
-                <form class="text-center p-1" action="<?php echo URL;?>api/booking/add" method="post">
+                <form class="text-center p-1" action="<?php echo URL; ?>api/booking/add" method="post">
 
                     <div class="form-row mb-4">
                         <div class="col">
@@ -128,12 +128,14 @@
                     <div class="form-row mb-4">
                         <div class="col">
                             <!-- First name -->
-                            <input type="time" id="event-time-start" name="ora_inizio" class="form-control">
+                            <input type="time" id="event-time-start" name="ora_inizio"
+                                   min="<?php echo CALENDAR_BUSINESS_TIME_START ?>" class="form-control">
                             <label for="event-time-start"> Tempo di inzio</label>
                         </div>
                         <div class="col">
                             <!-- Last name -->
-                            <input type="time" id="event-time-end" name="ora_fine" class="form-control">
+                            <input type="time" id="event-time-end" name="ora_fine"
+                                   max="<?php echo CALENDAR_BUSINESS_TIME_END ?>" class="form-control">
                             <label for="event-time-end"> Tempo di fine</label>
                         </div>
                     </div>
@@ -165,20 +167,20 @@
 
 
 <!-- FullCalendar Libs -->
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/core/main.min.js'></script>
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/interaction/main.min.js'></script>
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/daygrid/main.min.js'></script>
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/timegrid/main.min.js'></script>
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/list/main.min.js'></script>
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/bootstrap/main.min.js'></script>
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/core/locales-all.min.js'></script>
-<script src='<?php echo URL;?>application/assets/fullcalendar/packages/moment/main.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/core/main.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/interaction/main.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/daygrid/main.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/timegrid/main.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/list/main.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/bootstrap/main.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/core/locales-all.min.js'></script>
+<script src='<?php echo URL; ?>application/assets/fullcalendar/packages/moment/main.min.js'></script>
 
 <!-- Moment js -->
-<script src="<?php echo URL;?>application/assets/js/moment.min.js"></script>
+<script src="<?php echo URL; ?>application/assets/js/moment.min.js"></script>
 
 <!-- Notify JS -->
-<script src="<?php echo URL;?>application/assets/js/notify.min.js"></script>
+<script src="<?php echo URL; ?>application/assets/js/notify.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -199,13 +201,11 @@
             editable: true,
             slotDuration: '00:15:00',
             slotMinutes: 15,
-            eventLimit: 3,
             nowIndicator: true,
             hiddenDays: <?php echo "[" . implode(",", BOOKING_HIDDEN_DAYS) . "]" ?>,
             businessHours: {
                 // days of week. an array of zero-based day of week integers
                 daysOfWeek: <?php echo "[" . implode(",", CALENDAR_BUSINESS_DAYS) . "]" ?>,
-
                 startTime: '<?php echo CALENDAR_BUSINESS_TIME_START; ?>', // a start time
                 endTime: '<?php echo CALENDAR_BUSINESS_TIME_END; ?>', // an end time
             },
@@ -370,69 +370,87 @@
                         dataType: "json"
                     });
 
-
                 });
             },
             dateClick: function (info) {
-                // process data
-                var now = moment();
-                var date = moment(info.dateStr);
-
-                if (date.diff(now) < 0) {
-                    // Show error
-                    $.notify("La data desirata è già passata", "warn");
+                // Check view
+                if (calendar.view.type == 'dayGridMonth') {
+                    // Change view
+                    calendar.changeView("timeGridDay");
                 } else {
-                    let startTime = date.format("HH:mm");
-                    let endTime = date.add(15, 'minutes').format("HH:mm");
 
-                    //modal
-                    var modal = $('#eventInsert');
+                    // process data
+                    var now = moment();
+                    var date = moment(info.dateStr);
 
-                    // insert data into modal
-                    modal.find('#event-date').val(date.format('DD/MM/YYYY'));
-                    modal.find('#event-time-start').val(startTime);
-                    modal.find('#event-time-end').val(endTime);
+                    if (date.diff(now) < 0) {
+                        // Show error
+                        $.notify("La data desirata è già passata", "warn");
+                    } else {
+                        // Check if time is in chosen range
+                        let currentUnix = date.unix();
+                        let startRangeUnix = moment(date.format("YYYY-MM-DD") + ' ' + "<?php echo CALENDAR_BUSINESS_TIME_START?>", "YYYY-MM-DD HH:mm").unix();
+                        let endRangeUnix = moment(date.format("YYYY-MM-DD") + ' ' + "<?php echo CALENDAR_BUSINESS_TIME_END?>", "YYYY-MM-DD HH:mm").unix();
 
-                    $("#eventInsert").modal('show');
+                        if (currentUnix >= startRangeUnix && currentUnix < endRangeUnix) {
 
-                    $('#event-insert-submit').on("click", function () {
-                        startTime = modal.find('#event-time-start').val();
-                        endTime = modal.find('#event-time-end').val();
-                        let osservazioni = modal.find("#event-osservazioni").val();
-                        let date_str = date.format('DD/MM/YYYY');
 
-                        $.ajax({
-                            type: "POST",
-                            url: "<?php echo URL;?>api/booking/add",
-                            data: {
-                                "data": date_str,
-                                "ora_inizio": startTime,
-                                "ora_fine": endTime,
-                                "osservazioni": osservazioni,
-                            },
-                            success: function (result) {
-                                if (result["success"]) {
-                                    console.log("[!] event created");
+                            // TODO: GET FIRST AVAILABLE TIME SLOT
+                            let startTime = date.format("HH:mm");
+                            let endTime = date.add(15, 'minutes').format("HH:mm");
 
-                                    calendar.refetchEvents();
-                                    $('#eventInsert').modal('hide');
+                            //modal
+                            var modal = $('#eventInsert');
 
-                                    // Notify success
-                                    $.notify("Evento creato con successo", "success");
-                                } else {
-                                    console.log(result["errors"]);
+                            // insert data into modal
+                            modal.find('#event-date').val(date.format('DD/MM/YYYY'));
+                            modal.find('#event-time-start').val(startTime);
+                            modal.find('#event-time-end').val(endTime);
 
-                                    result["errors"].forEach(function (item, index, arr) {
-                                        $.notify(item, "warn");
-                                    });
+                            $("#eventInsert").modal('show');
 
-                                    $('#eventInfo').modal('hide');
-                                }
+                            $('#event-insert-submit').on("click", function () {
+                                startTime = modal.find('#event-time-start').val();
+                                endTime = modal.find('#event-time-end').val();
+                                let osservazioni = modal.find("#event-osservazioni").val();
+                                let date_str = date.format('DD/MM/YYYY');
 
-                            },
-                            dataType: "json"
-                        });
-                    });
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo URL;?>api/booking/add",
+                                    data: {
+                                        "data": date_str,
+                                        "ora_inizio": startTime,
+                                        "ora_fine": endTime,
+                                        "osservazioni": osservazioni,
+                                    },
+                                    success: function (result) {
+                                        if (result["success"]) {
+                                            console.log("[!] event created");
+
+                                            calendar.refetchEvents();
+                                            $('#eventInsert').modal('hide');
+
+                                            // Notify success
+                                            $.notify("Evento creato con successo", "success");
+                                        } else {
+                                            console.log(result["errors"]);
+
+                                            result["errors"].forEach(function (item, index, arr) {
+                                                $.notify(item, "warn");
+                                            });
+
+                                            $('#eventInfo').modal('hide');
+                                        }
+
+                                    },
+                                    dataType: "json"
+                                });
+                            });
+                        } else {
+                            $.notify("L'orario non è valido. Orari autorizzati: <?php echo CALENDAR_BUSINESS_TIME_START . ' - ' . CALENDAR_BUSINESS_TIME_END?>", "error");
+                        }
+                    }
                 }
             },
             eventDrop: function (info) {
@@ -519,15 +537,14 @@
 
                 console.log(start + " - " + end);
             },
-            windowResize: function(view){
+            windowResize: function (view) {
                 console.log("[!] Detected window resize");
 
                 // Check if is mobile or not
                 if ($(window).width() < 1000) {
                     // Mobile screen
                     this.setOption('height', 700);
-                }
-                else{
+                } else {
                     // Larger screen: height calculated from aspectRatio value
                     this.setOption('height', 'auto');
                 }
