@@ -25,9 +25,28 @@ class UserModel
         ), "username=%s", $user);
     }
 
+    public static function userExists($username): bool
+    {
+        // Check if the user is saved into the database
+        $data = DB::query("SELECT * FROM utente WHERE username=%s", $username);
+        return count($data) != 0;
+    }
+
     public static function getUsers(): array
     {
         return self::getUsersData();
+    }
+
+    public static function getLocalUsers(): array
+    {
+        // Return only local users
+        return self::getLocalUsersData();
+    }
+
+    public static function getLdapUsers() : array
+    {
+        // Return only ldap users
+        return self::getLdapUsersData();
     }
 
     /* API METHODS */
@@ -111,6 +130,24 @@ class UserModel
         }
     }
 
+    public static function add_ldap_user(LdapUser $ldap, $password){
+        // add data to database
+        $result = DB::insert("utente", array(
+            "username" => $ldap->getUsername(),
+            "password" => password_hash($password, PSW_CRYPT_METHOD),
+            "nome" => $ldap->getNome(),
+            "cognome" => $ldap->getCognome(),
+            "tipo_utente" => DEFAULT_USER_PERMISSION_GROUP,
+            "default_password_changed" => true,
+            "email"=> $ldap->getUsername(),
+            "is_ldap" => 1
+        ));
+
+        // Return error or the generated password
+        return  (!$result ? array("C'è stato un errore durante l'inserimento dei dati 
+                all'interno del database. Contattare un amministratore.") : true);
+    }
+
     public static function update(array $data, string $username){
         // Complete email
         $partial_mail = $data["email"];
@@ -152,10 +189,25 @@ class UserModel
     {
         // Read users data from database
         $result = DB::query("SELECT * FROM utente");
+        return self::parseUsersData($result);
+    }
 
+    private static function getLocalUsersData(){
+        // Read users data from database
+        $result = DB::query("SELECT * FROM utente WHERE is_ldap = 0");
+        return self::parseUsersData($result);
+    }
+
+    public static function getLdapUsersData(){
+        // Read users data from database
+        $result = DB::query("SELECT * FROM utente WHERE is_ldap = 1");
+        return self::parseUsersData($result);
+    }
+
+    private static function parseUsersData($users_data){
         // Parse user data from database
         $users = [];
-        foreach ($result as $row) {
+        foreach ($users_data as $row) {
             $users[] = self::parseUserData($row);
         }
 

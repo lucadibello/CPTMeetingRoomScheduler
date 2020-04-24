@@ -43,9 +43,24 @@ class Login
                 $_SESSION["user"] = UserModel::getUser($username);
             } // Try to login with ldap
             elseif (($status = $auth->ldapLogin()) && $status instanceof LdapUser) {
+                // Check if user exists in database (extra check)
+                if(!UserModel::userExists($status->getUsername())){
+                    // Add new ldap user to local db
+                    $result = UserModel::add_ldap_user($status, $password);
+
+                    if(is_array($result)){
+                        // Found errors
+                        $GLOBALS["NOTIFIER"]->add("L'accesso non è possibile in quanto c'è stato un problema
+                            durante il salvataggio dei dati nel database.");
+
+                        return false;
+                    }
+                }
+
                 // Save login type
                 $_SESSION["auth"] = true;
                 $_SESSION["user"] = $status;
+
             } // Cannot login
             else {
                 $GLOBALS["NOTIFIER"]->add("Email o password sbagliate. Controlla le credenziali.");

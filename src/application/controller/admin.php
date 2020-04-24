@@ -52,7 +52,8 @@ class Admin
         if($status == self::STATUS_OK){
             if(PermissionManager::getPermissions()->canUserAction()){
 
-                $data = UserModel::getUsers();
+                $data = UserModel::getLocalUsers();
+
                 // Load page
                 ViewLoader::load("admin/templates/header");
                 // Load page and pass user data

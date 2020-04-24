@@ -25,7 +25,7 @@ define('APP_NAME', "CPT Meeting Room Scheduler");
 /* Configurazione per la connessione al database */
 define('DATABASE_SERVER', 'localhost');
 define('DATABASE_USERNAME', 'root');
-define('DATABASE_PASSWORD', 'root');
+define('DATABASE_PASSWORD', '');
 define('DATABASE_NAME', 'cptmrs');
 
 /* APPLICATION SETTINGS */

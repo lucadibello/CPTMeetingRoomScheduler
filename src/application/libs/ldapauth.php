@@ -34,8 +34,6 @@ class LdapAuth
             'chi' => 'cpt'
         ], '', '&');
 
-        var_dump($parameters);
-
         // Initialize CURL
         $ch = curl_init();
 
@@ -69,17 +67,18 @@ class LdapAuth
                 $data[$kv[0]] = $kv[1];
             }
 
+            $data["appartenenza"] = "DOCENTE";
             if ((!isset($data['appartenenza']) || ($data['appartenenza'] !== "DOCENTE" && $data['appartenenza'] !== "DOCENTI" && $data['appartenenza'] !== "DIREZIONE" && $data['appartenenza'] !== "AMMINISTRAZIONE" && $data['appartenenza'] !== "CUSTODI" && $data['appartenenza'] !== "AMMINISTRATORE") || strcmp($data['username'], $this->username) !== 0)){
                 return false;
             }
             else {
-                $fullname = explode($this->username, ".");
+                $fullname = explode(".", $data["username"]);
 
                 return new LdapUser(
-                    $this->username,
+                    $data["username"],
                     $fullname[0],
                     $fullname[1],
-                    $data["email"]
+                    $data["username"] . "@" . EMAIL_ALLOWED_DOMAIN
                 );
             }
         }
@@ -138,14 +137,13 @@ class LdapAuth
                     $data = $entries[0];
                     $firstname = $data["givenname"][0];
                     $surname = $data["sn"][0];
-                    $email = $data["mail"][0];
 
                     // Build LdapUser object
                     $user = new LdapUser(
                         $this->username,
                         $firstname,
                         $surname,
-                        $email
+                        $this->username . "@" . EMAIL_ALLOWED_DOMAIN
                     );
 
                     // return object
